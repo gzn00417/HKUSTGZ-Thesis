@@ -1,0 +1,219 @@
+% Main Thesis File - HKUST-GZ PhD Thesis
+% Template: ustthesis.cls
+\documentclass[a4paper]{ustthesis}
+
+% ============================================================
+% ESSENTIAL PACKAGES (required for compilation)
+% ============================================================
+
+% XeLaTeX font support (required for Chinese/fonts)
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+
+% Mathematics
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}              % Bold math symbols
+
+% Tables and figures
+\usepackage{booktabs}       % Publication-quality tables
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{capt-of}
+
+% Load subfig last to override template's subfigure and provide \subfloat
+\usepackage[caption=false]{subfig}
+
+% Algorithm and code (required by appendices)
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\SetKwProg{Fn}{Function}{}{end}
+\SetKwFunction{CHIPANNS}{C-HiPANNS}
+\SetKwFunction{QHIPANNS}{Q-HiPANNS}
+
+\usepackage{listings}
+\lstdefinestyle{promptstyle}{
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    backgroundcolor=\color{prompt-bg},
+    frame=none,
+    numbers=none,
+    columns=fullflexible,
+    keepspaces=true,
+    showspaces=false,
+    showstringspaces=false,
+    tabsize=2,
+    escapeinside=||,
+    lineskip=-0.5pt
+}
+
+\usepackage[most]{tcolorbox}
+\definecolor{prompt-bg}{RGB}{250,250,255}
+\definecolor{prompt-border}{RGB}{70,90,140}
+
+\newtcolorbox{promptbox}[1]{
+    enhanced,
+    breakable,
+    arc=2pt,
+    boxrule=0.6pt,
+    colframe=prompt-border,
+    colback=prompt-bg,
+    title={\strut #1},
+    titlerule=0pt,
+    toptitle=2pt,
+    bottomtitle=1pt,
+    top=3pt,
+    bottom=3pt,
+    left=6pt,
+    right=5pt,
+    boxsep=0pt,
+    colbacktitle=prompt-border
+}
+
+% Bibliography and links
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,urlcolor=blue!55!black]{hyperref}
+
+% Formatting
+\usepackage{setspace}
+\usepackage{xspace}
+
+% ============================================================
+% CUSTOM COMMANDS
+% ============================================================
+
+% Chapter abstract environment
+\newenvironment{chapterabstract}
+{\begin{quote}\small\noindent\textbf{Chapter Abstract.}\ }
+{\end{quote}}
+
+% Arrow symbol (fix for XeLaTeX character issues)
+\DeclareRobustCommand{\arrow}{\textrightarrow}
+
+% Small caps command
+\DeclareRobustCommand{\SCP}{\sc}
+
+% Placeholder commands (fix undefined commands)
+\DeclareRobustCommand{\xia}{}
+
+% Thesis-specific commands
+\DeclareRobustCommand{\pyramid}{\SCP Modality Pyramid\xspace}
+\DeclareRobustCommand{\benchmarkname}{\SCP MG-LVR\xspace}
+
+% Latin abbreviations
+\newcommand{\eg}{\emph{e.g.}\@\xspace}
+\newcommand{\ie}{\emph{i.e.}\@\xspace}
+\DeclareRobustCommand{\etc}{\emph{etc.}\@\xspace}
+\DeclareRobustCommand{\etal}{\emph{et al.}\@\xspace}
+
+% Debug commands (safe to keep)
+\DeclareRobustCommand{\todo}[1]{\textit{\color{red}[TODO: #1]}}
+\DeclareRobustCommand{\TODO}[1]{{\color{red}TODO: #1}}
+\DeclareRobustCommand{\hao}[1]{{\color{blue}#1}}
+\DeclareRobustCommand{\Description}[1]{}
+\DeclareRobustCommand{\faRobot}{}
+
+% ============================================================
+% FORMATTING SETTINGS
+% ============================================================
+
+\graphicspath{{figures/gve/},{figures/mglvr/},{figures/gmpgr/}}
+
+\setlength{\parskip}{0.35em}
+\setlength{\parindent}{1.5em}
+\onehalfspacing
+\AtBeginEnvironment{table}{\singlespacing}
+\AtBeginEnvironment{figure}{\singlespacing}
+\emergencystretch=2em
+
+% Keep the template caption style, but mirror its 10pt space below captions.
+\makeatletter
+\long\def\@makecaption#1#2{%
+   \vskip 10pt
+   \setbox\@tempboxa\hbox{#1: #2}%
+   \ifdim \wd\@tempboxa >\hsize
+       \unhbox\@tempboxa\par
+     \else
+       \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
+   \fi
+   \vskip 10pt}
+\makeatother
+
+% ============================================================
+% THESIS METADATA
+% ============================================================
+
+\title{Towards Scalable and Generalizable Video Retrieval}
+\author{Zhuoning Guo}
+\degree{\PhD}
+\stage{\Thesis}
+\subject{Doctor of Philosophy in Artificial Intelligence}
+\department{Thrust of Artificial Intelligence}
+\advisor{Prof. Xiaowen Chu and Prof. Renjing Xu}
+% \member{Prof. XXX, Committee Member}
+% \member{Prof. YYY, Committee Member}
+\depthead{Prof. Xiaowen Chu}
+\defencedate{2026}{7}{29}
+
+% ============================================================
+% DOCUMENT BODY
+% ============================================================
+
+\begin{document}
+
+% Title page and signature page
+\maketitle
+
+% Acknowledgments
+\acknowledgments
+\input{chapters/00-acknowledgments}
+\endacknowledgments
+\newpage
+
+% Table of Contents
+\tableofcontents
+
+% List of Figures
+\listoffigures
+
+% List of Tables
+\listoftables
+
+% Abstract
+\abstract
+\input{chapters/00-abstract}
+\endabstract
+
+% ============================================================
+% MAIN CHAPTERS
+% ============================================================
+
+\chapters
+
+\input{chapters/01-introduction}
+\input{chapters/02-related-work}
+\input{chapters/03-universal-video-retrieval}
+\input{chapters/04-spatiotemporal-scaling}
+\input{chapters/05-scale-efficient-retrieval}
+\input{chapters/06-conclusion}
+\input{chapters/07-publications}
+
+% ============================================================
+% BIBLIOGRAPHY
+% ============================================================
+
+\bibliographystyle{IEEEtran}
+\bibliography{references/references}
+
+% ============================================================
+% APPENDICES
+% ============================================================
+
+\appendix
+
+\input{appendices/A-universal-video-retrieval}
+\input{appendices/B-spatiotemporal-scaling}
+\input{appendices/C-scale-efficient-retrieval}
+
+\end{document}

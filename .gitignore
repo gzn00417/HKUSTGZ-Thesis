@@ -1,0 +1,40 @@
+# ---- OS / IDE ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ---- LaTeX intermediate (XeLaTeX / LaTeX / PdfLaTeX) ----
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.bbl
+*.blg
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
+*.xdv
+*.dvi
+*-converted-to.*
+
+# ---- Bibliography auxiliary ----
+*.bcf
+*.run.xml
+*-blx.bib
+
+# ---- Beamer / presentations ----
+*.nav
+*.snm
+*.vrb
+
+# ---- Editor backups ----
+*~
+*.bak
+*.old
+*.orig

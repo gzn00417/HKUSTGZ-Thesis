@@ -1,0 +1,37 @@
+\chapter{Related Work}
+\label{ch:related-work}
+
+\section{Video Retrieval and Multimodal Embeddings}
+\label{sec:rw-video-retrieval}
+
+Text-video retrieval has long served as a central benchmark for video-language understanding. Early datasets such as MSR-VTT~\citep{xu2016msr} and DiDeMo~\citep{anne2017localizing} frame retrieval as matching natural-language descriptions to short video clips. Later datasets and tasks extend this setting toward denser temporal annotation, longer videos, and partially relevant matching~\citep{lei2020tvr,krishna2017dense,dong2022partially,cai2025lovr}. These benchmarks have driven progress in learning joint video-text representations, but they also expose a limitation: a single short-video benchmark usually measures only a narrow slice of retrieval capability.
+
+Modern video retrieval models are commonly built on contrastive representation learning. CLIP-style image-language pretraining~\citep{radford2021learning} established a scalable recipe for aligning visual and textual embeddings, and video-specific models such as CLIP4Clip~\citep{luo2022clip4clip}, X-CLIP~\citep{gorti2022x}, and InternVideo2~\citep{wang2024internvideo2} adapt this paradigm to temporal inputs. More recently, multimodal large language model-based embedders have expanded the representational space beyond fixed visual-text encoders, making it possible to support richer query formats and more complex semantic conditions~\citep{kong2025modality,meng2025vlm2vec}. This thesis builds on this line of work, but shifts the focus from isolated benchmark performance to generalizable retrieval capabilities across heterogeneous query types and semantic domains.
+
+\section{Capability-Oriented and Multi-Task Retrieval}
+\label{sec:rw-capability}
+
+Retrieval capability is broader than text-to-video matching under a single evaluation protocol. A useful video embedder should support coarse thematic queries, fine-grained spatial and temporal queries, visual queries, composed multimodal queries, partially relevant queries, and long-context matching. Existing general embedding evaluations in text and multimodal retrieval have shown that benchmark diversity is essential for understanding generalization~\citep{muennighoff2022mteb}. In video retrieval, however, evaluation is often fragmented across datasets with different preprocessing, sampling policies, corpus definitions, and metrics.
+
+Multi-task training offers one way to improve generalization, but naive task mixing can be unstable when tasks differ strongly in modality, granularity, and difficulty. Contrastive objectives such as InfoNCE~\citep{oord2018representation} provide a common optimization interface, while curriculum and data-mixture design determine whether heterogeneous supervision reinforces or suppresses emerging capabilities. Chapter~\ref{ch:universal-video-retrieval} follows this direction by using capability diagnosis to guide data synthesis and by applying a modality curriculum to organize training from simpler alignment tasks toward more complex video retrieval tasks.
+
+\section{Long-Video Retrieval and Sampling Density}
+\label{sec:rw-long-video}
+
+Long-video retrieval differs from short-clip retrieval because relevant evidence may occupy only a small fraction of the candidate video. Benchmarks such as TVR~\citep{lei2020tvr}, ActivityNet Captions~\citep{krishna2017dense}, and LoVR~\citep{cai2025lovr} expand retrieval beyond concise clips, while work on partially relevant retrieval highlights the gap between full-video matching and moment-level relevance~\citep{dong2022partially}. These settings make temporal coverage a first-order concern: a model cannot retrieve evidence that was never sampled into its input.
+
+Sampling also involves a spatial dimension. Video embedding models must decide not only how many frames to inspect, but also how many spatial tokens or how much resolution to retain per frame. Prior work on video representation and sampling has studied efficient video modeling and adaptive visual token selection~\citep{tong2022videomae,hu2022mmsampler}, but retrieval imposes a distinctive constraint: the representation must remain comparable across a large corpus and under practical inference budgets. Chapter~\ref{ch:spatiotemporal-scaling} studies this issue directly by analyzing how temporal frame count and spatial token density affect long-video retrieval across query granularities.
+
+\section{Approximate Nearest Neighbor Search and Graph Retrieval}
+\label{sec:rw-ann}
+
+As candidate corpora grow, exhaustive similarity computation becomes impractical. Approximate nearest neighbor (ANN) search therefore becomes a core component of large-scale retrieval. Graph-based ANN methods, including HNSW~\citep{malkov2018efficient}, DiskANN~\citep{jayaram2019diskann}, and GPU-oriented graph search systems such as CAGRA~\citep{ootomo2024cagra}, have become widely used because they can navigate high-dimensional spaces efficiently while preserving strong recall.
+
+For learned retrieval metrics, however, search efficiency depends not only on the index but also on the geometry of the learned space. A metric that improves relevance prediction may still be hard to search if it does not support stable local navigation. This motivates metric-search co-design, where representation learning, graph construction, traversal strategy, and hardware execution are considered together. Chapter~\ref{ch:scale-efficient-retrieval} studies this problem in an industrial retrieval setting and shows how graph traversal and neural metric computation can be jointly optimized.
+
+\section{Industrial Retrieval and Recommender Systems}
+\label{sec:rw-industrial}
+
+Large-scale recommender systems commonly use a multi-stage architecture in which retrieval first reduces a massive item catalog to a manageable candidate set, and ranking then applies more expensive models to the retrieved candidates~\citep{covington2016deep,cheng2016wide,he2017neural}. This architecture makes retrieval quality especially important: ranking can refine candidates, but it cannot recover relevant items that retrieval failed to return. Surveys of neural recommendation and ANN-based retrieval further show that effectiveness, latency, throughput, freshness, and hardware utilization must be optimized jointly in deployed systems~\citep{wang2021comprehensive,wu2022survey}.
+
+Although the semantic chapters of this thesis focus on video-language retrieval, the same system-level principles apply to large video platforms. A general-purpose video embedder is only useful at production scale if its embeddings can be indexed, searched, updated, and served efficiently. This is why the thesis includes \emph{GPU-accelerated Multi-relational Parallel Graph Retrieval for Web-scale Recommendations} as its third study: it connects representation learning with the practical constraints of web-scale retrieval.
