@@ -62,7 +62,7 @@ Video embedding models have evolved from the adaptation of image-centric ones, s
 
 
 
-\begin{figure}[t]
+\begin{figure}
     \centering
     \includegraphics[width=\linewidth]{figures/gve/v-synflow.pdf}
     \caption{V-SynFlow: a multi-stage synthesis workflow for diverse video retrieval data.}
@@ -134,66 +134,63 @@ The final stage assembles the unified training corpus, $\mathcal{D}_{\star}$. To
 To assess the quality of the automatically generated UVRD, human expert evaluation was conducted on a random sample of $100$ instances. Validation confirmed a 95\% factual accuracy rate. While this human-verified sample is a preliminary subset, it corroborates the efficacy of our automated multi-granular quality control pipeline, which serves as the primary scalable safeguard for the entire 1.55 million-pair corpus. Detailed analysis of the minor erroneous instances and the corresponding error taxonomy are in Appendix~\ref{gve:app:v-synflow_validation}.
 
 
-\begin{table}[!t]
-    \centering
-    \caption{Video retrieval performance for datasets of UVRB. The AVG values are averaged over $16$ datasets. For each column: highest score is \textbf{bolded}, second-highest is \underline{underlined}. Metrics: R@1 (Recall@1), R@10 (Recall@10), P@1 (Precision@1).}
-    \label{gve:tab:main_by_datasets}
-    \footnotesize
-    \begingroup
-    \setlength{\tabcolsep}{2.5pt}
-    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l|>{\columncolor{gray!15}}c|*{8}{c}@{}}
-        \toprule
-        \textbf{Model} & \textbf{AVG} & \textbf{MSRVTT} & \textbf{DiDeMo} & \textbf{CRB-G} & \textbf{CRB-S} & \textbf{VDC-O} & \textbf{CRB-T} & \textbf{CMRB} & \textbf{DREAM-E} \\
-        & & R@1 & R@1 & R@1 & R@1 & R@1 & R@1 & R@10 & R@1 \\
-        \midrule
-        CLIP4Clip & 0.390 & 0.333 & 0.297 & 0.511 & 0.497 & 0.620 & 0.289 & 0.280 & 0.191 \\
-        ViCLIP & 0.352 & 0.386 & 0.306 & 0.447 & 0.437 & 0.530 & 0.349 & 0.229 & 0.235 \\
-        VideoCLIP-XL & 0.491 & 0.443 & 0.403 & 0.828 & 0.839 & 0.735 & 0.487 & 0.274 & 0.263 \\
-        LanguageBind & 0.487 & \underline{0.479} & \underline{0.421} & 0.716 & 0.687 & 0.759 & 0.466 & 0.290 & 0.280 \\
-        InternVideo2-1B & 0.404 & 0.449 & 0.404 & 0.586 & 0.568 & 0.644 & 0.470 & 0.355 & 0.242 \\
-        InternVideo2-6B & 0.427 & \textbf{0.485} & 0.418 & 0.608 & 0.612 & 0.650 & 0.455 & 0.346 & 0.271 \\
-        GME-2B & 0.488 & 0.390 & 0.303 & 0.690 & 0.718 & 0.715 & 0.400 & 0.298 & 0.240 \\
-        Unite-2B & 0.480 & 0.367 & 0.298 & 0.699 & 0.723 & 0.727 & 0.409 & 0.284 & 0.223 \\
-        VLM2Vec-V2 & 0.508 & 0.330 & 0.299 & 0.828 & 0.843 & 0.775 & 0.410 & 0.286 & 0.228 \\
-        BGE-VL & 0.443 & 0.337 & 0.318 & 0.690 & 0.688 & 0.639 & 0.359 & 0.225 & 0.212 \\
-        UniME-7B & 0.521 & 0.351 & 0.335 & 0.815 & 0.827 & 0.743 & 0.476 & 0.317 & \underline{0.293} \\
-        B3-7B & 0.511 & 0.282 & 0.350 & 0.815 & 0.825 & 0.768 & 0.415 & 0.312 & 0.216 \\
-        GME-7B & 0.530 & 0.436 & 0.377 & 0.740 & 0.767 & 0.731 & 0.442 & 0.304 & 0.274 \\
-        Unite-7B & 0.538 & 0.439 & 0.386 & 0.798 & 0.804 & 0.753 & 0.472 & 0.351 & 0.279 \\
-        \midrule
-        GVE-3B & \underline{0.544} & 0.431 & 0.376 & \underline{0.850} & \underline{0.846} & \underline{0.786} & \underline{0.496} & \underline{0.363} & 0.280 \\
-        GVE-7B & \textbf{0.573} & 0.464 & \textbf{0.433} & \textbf{0.865} & \textbf{0.847} & \textbf{0.794} & \textbf{0.539} & \textbf{0.398} & \textbf{0.302} \\
-        \bottomrule
-    \end{tabular*}
 
-    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l|*{8}{c}@{}}
-        \toprule
-        \textbf{Model} & \textbf{LoVR-TH} & \textbf{PEV-K} & \textbf{LoVR-V} & \textbf{VDC-D} & \textbf{MS-TI} & \textbf{MS-TV} & \textbf{MSRVTT-I2V} & \textbf{LoVR-C2V} \\
-        & R@10 & R@1 & R@1 & R@1 & P@1 & P@1 & R@1 & R@1 \\
-        \midrule
-        CLIP4Clip & 0.338 & 0.179 & 0.360 & 0.566 & 0.173 & 0.183 & \textbf{0.924} & \underline{0.503} \\
-        ViCLIP & 0.202 & 0.075 & 0.230 & 0.395 & 0.283 & 0.243 & 0.846 & 0.433 \\
-        VideoCLIP-XL & 0.439 & 0.229 & 0.380 & 0.820 & 0.230 & 0.223 & 0.861 & 0.403 \\
-        LanguageBind & 0.425 & 0.303 & 0.540 & 0.679 & 0.228 & 0.233 & 0.827 & 0.463 \\
-        InternVideo2-1B & 0.298 & 0.026 & 0.280 & 0.485 & 0.265 & 0.230 & 0.794 & 0.368 \\
-        InternVideo2-6B & 0.302 & 0.086 & 0.330 & 0.516 & 0.235 & 0.205 & 0.868 & 0.452 \\
-        GME-2B & 0.446 & 0.354 & 0.530 & 0.839 & \textbf{0.350} & \textbf{0.340} & 0.827 & 0.366 \\
-        Unite-2B & 0.445 & 0.355 & 0.570 & 0.792 & 0.250 & 0.233 & 0.863 & 0.445 \\
-        VLM2Vec-V2 & 0.492 & 0.324 & 0.610 & 0.913 & 0.275 & 0.250 & 0.841 & 0.385 \\
-        BGE-VL & 0.387 & 0.184 & 0.550 & 0.722 & 0.303 & 0.233 & 0.779 & 0.465 \\
-        UniME-7B & 0.504 & 0.323 & 0.480 & 0.847 & 0.310 & 0.305 & 0.867 & \textbf{0.537} \\
-        B3-7B & 0.462 & 0.387 & 0.590 & 0.853 & 0.275 & 0.265 & 0.884 & 0.471 \\
-        GME-7B & 0.523 & 0.396 & \textbf{0.710} & 0.865 & \underline{0.348} & \underline{0.333} & 0.860 & 0.370 \\
-        Unite-7B & \textbf{0.555} & \textbf{0.440} & 0.620 & 0.871 & 0.278 & 0.230 & 0.883 & 0.448 \\
-        \midrule
-        GVE-3B & 0.522 & 0.330 & 0.610 & \underline{0.918} & 0.340 & 0.268 & 0.891 & 0.403 \\
-        GVE-7B & \underline{0.542} & \underline{0.413} & \underline{0.680} & \textbf{0.948} & 0.343 & 0.280 & \underline{0.899} & 0.415 \\
-        \bottomrule
-    \end{tabular*}
-    \endgroup
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{Video retrieval performance for datasets of UVRB. The AVG values are averaged over $16$ datasets. For each column: highest score is \textbf{bolded}, second-highest is \underline{underlined}. Metrics: R@1 (Recall@1), R@10 (Recall@10), P@1 (Precision@1).}
+\label{gve:tab:main_by_datasets}
+\begin{tabularx}{\linewidth}{X|>{\columncolor{gray!15}}c|*{8}{c}}
+\toprule
+\textbf{Model} & \textbf{AVG} & \textbf{MSRVTT} & \textbf{DiDeMo} & \textbf{CRB-G} & \textbf{CRB-S} & \textbf{VDC-O} & \textbf{CRB-T} & \textbf{CMRB} & \textbf{DREAM-E} \\
+& & R@1 & R@1 & R@1 & R@1 & R@1 & R@1 & R@10 & R@1 \\
+\midrule
+CLIP4Clip & 0.390 & 0.333 & 0.297 & 0.511 & 0.497 & 0.620 & 0.289 & 0.280 & 0.191 \\
+ViCLIP & 0.352 & 0.386 & 0.306 & 0.447 & 0.437 & 0.530 & 0.349 & 0.229 & 0.235 \\
+VideoCLIP-XL & 0.491 & 0.443 & 0.403 & 0.828 & 0.839 & 0.735 & 0.487 & 0.274 & 0.263 \\
+LanguageBind & 0.487 & \underline{0.479} & \underline{0.421} & 0.716 & 0.687 & 0.759 & 0.466 & 0.290 & 0.280 \\
+InternVideo2-1B & 0.404 & 0.449 & 0.404 & 0.586 & 0.568 & 0.644 & 0.470 & 0.355 & 0.242 \\
+InternVideo2-6B & 0.427 & \textbf{0.485} & 0.418 & 0.608 & 0.612 & 0.650 & 0.455 & 0.346 & 0.271 \\
+GME-2B & 0.488 & 0.390 & 0.303 & 0.690 & 0.718 & 0.715 & 0.400 & 0.298 & 0.240 \\
+Unite-2B & 0.480 & 0.367 & 0.298 & 0.699 & 0.723 & 0.727 & 0.409 & 0.284 & 0.223 \\
+VLM2Vec-V2 & 0.508 & 0.330 & 0.299 & 0.828 & 0.843 & 0.775 & 0.410 & 0.286 & 0.228 \\
+BGE-VL & 0.443 & 0.337 & 0.318 & 0.690 & 0.688 & 0.639 & 0.359 & 0.225 & 0.212 \\
+UniME-7B & 0.521 & 0.351 & 0.335 & 0.815 & 0.827 & 0.743 & 0.476 & 0.317 & \underline{0.293} \\
+B3-7B & 0.511 & 0.282 & 0.350 & 0.815 & 0.825 & 0.768 & 0.415 & 0.312 & 0.216 \\
+GME-7B & 0.530 & 0.436 & 0.377 & 0.740 & 0.767 & 0.731 & 0.442 & 0.304 & 0.274 \\
+Unite-7B & 0.538 & 0.439 & 0.386 & 0.798 & 0.804 & 0.753 & 0.472 & 0.351 & 0.279 \\
+\midrule
+GVE-3B & \underline{0.544} & 0.431 & 0.376 & \underline{0.850} & \underline{0.846} & \underline{0.786} & \underline{0.496} & \underline{0.363} & 0.280 \\
+GVE-7B & \textbf{0.573} & 0.464 & \textbf{0.433} & \textbf{0.865} & \textbf{0.847} & \textbf{0.794} & \textbf{0.539} & \textbf{0.398} & \textbf{0.302} \\
+\bottomrule
+\end{tabularx}
+
+\begin{tabularx}{\linewidth}{X|*{8}{c}}
+\toprule
+\textbf{Model} & \textbf{LoVR-TH} & \textbf{PEV-K} & \textbf{LoVR-V} & \textbf{VDC-D} & \textbf{MS-TI} & \textbf{MS-TV} & \textbf{MSRVTT-I2V} & \textbf{LoVR-C2V} \\
+& R@10 & R@1 & R@1 & R@1 & P@1 & P@1 & R@1 & R@1 \\
+\midrule
+CLIP4Clip & 0.338 & 0.179 & 0.360 & 0.566 & 0.173 & 0.183 & \textbf{0.924} & \underline{0.503} \\
+ViCLIP & 0.202 & 0.075 & 0.230 & 0.395 & 0.283 & 0.243 & 0.846 & 0.433 \\
+VideoCLIP-XL & 0.439 & 0.229 & 0.380 & 0.820 & 0.230 & 0.223 & 0.861 & 0.403 \\
+LanguageBind & 0.425 & 0.303 & 0.540 & 0.679 & 0.228 & 0.233 & 0.827 & 0.463 \\
+InternVideo2-1B & 0.298 & 0.026 & 0.280 & 0.485 & 0.265 & 0.230 & 0.794 & 0.368 \\
+InternVideo2-6B & 0.302 & 0.086 & 0.330 & 0.516 & 0.235 & 0.205 & 0.868 & 0.452 \\
+GME-2B & 0.446 & 0.354 & 0.530 & 0.839 & \textbf{0.350} & \textbf{0.340} & 0.827 & 0.366 \\
+Unite-2B & 0.445 & 0.355 & 0.570 & 0.792 & 0.250 & 0.233 & 0.863 & 0.445 \\
+VLM2Vec-V2 & 0.492 & 0.324 & 0.610 & 0.913 & 0.275 & 0.250 & 0.841 & 0.385 \\
+BGE-VL & 0.387 & 0.184 & 0.550 & 0.722 & 0.303 & 0.233 & 0.779 & 0.465 \\
+UniME-7B & 0.504 & 0.323 & 0.480 & 0.847 & 0.310 & 0.305 & 0.867 & \textbf{0.537} \\
+B3-7B & 0.462 & 0.387 & 0.590 & 0.853 & 0.275 & 0.265 & 0.884 & 0.471 \\
+GME-7B & 0.523 & 0.396 & \textbf{0.710} & 0.865 & \underline{0.348} & \underline{0.333} & 0.860 & 0.370 \\
+Unite-7B & \textbf{0.555} & \textbf{0.440} & 0.620 & 0.871 & 0.278 & 0.230 & 0.883 & 0.448 \\
+\midrule
+GVE-3B & 0.522 & 0.330 & 0.610 & \underline{0.918} & 0.340 & 0.268 & 0.891 & 0.403 \\
+GVE-7B & \underline{0.542} & \underline{0.413} & \underline{0.680} & \textbf{0.948} & 0.343 & 0.280 & \underline{0.899} & 0.415 \\
+\bottomrule
+\end{tabularx}
 
 \end{table}
-
 
 \subsection{Modality Pyramid: Customized Curriculum Contrastive Learning}
 \label{gve:sec:modality_pyramid}
@@ -229,38 +226,35 @@ where $s_{q \to v} = \cos(E_\theta(q), E_\theta(v))$ (with $q$ and $y$ denoting 
 
 
 \begin{table}[t]
-    \centering
-    \caption{Video retrieval performance by specific abilities~(tasks and domains) on UVRB. The AVG values are averaged over tasks~(textual~(TXT), composed~(CMP), visual~(VIS)) and domains~(coarse-grained~(CG), fine-grained~(FG), long-context~(LC)) video retrieval tasks. Besides, we provide sub-domain results, including spatial~(S), temporal~(T), partially~relevant~(PR). For each column: highest score is \textbf{bolded}, second-highest is \underline{underlined}.}
-    \label{gve:tab:main_by_abilities}
-    \footnotesize
-    \begingroup
-    \setlength{\tabcolsep}{2.5pt}
-    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l|>{\columncolor{gray!40}}c|ccc|ccc|ccc@{}}
-        \toprule
-        & & \multicolumn{3}{c|}{\textbf{Tasks}} & \multicolumn{3}{c|}{\textbf{Domains}} & \multicolumn{3}{c}{\textbf{Sub-domains}} \\
-        \midrule
-        \textbf{Model} & \textbf{AVG} & \textbf{TXT} & \textbf{CMP} & \textbf{VIS} & \textbf{CG} & \textbf{FG} & \textbf{LC} & \textbf{S} & \textbf{T} & \textbf{PR} \\
-        \midrule
-        CLIP4Clip        & 0.416 & 0.401 & 0.178 & \textbf{0.714} & 0.380 & 0.360 & 0.463 & 0.559 & 0.285 & 0.236 \\
-        ViCLIP           & 0.375 & 0.336 & 0.263 & 0.640 & 0.380 & 0.315 & 0.313 & 0.484 & 0.289 & 0.171 \\
-        VideoCLIP-XL     & 0.510 & 0.550 & 0.227 & 0.632 & \underline{0.558} & 0.493 & 0.600 & 0.787 & 0.381 & 0.310 \\
-        LanguageBind     & 0.508 & 0.543 & 0.231 & 0.645 & 0.539 & 0.479 & 0.610 & 0.723 & 0.378 & 0.336 \\
-        InternVideo2-1B  & 0.420 & 0.422 & 0.248 & 0.581 & 0.480 & 0.403 & 0.383 & 0.606 & 0.413 & 0.189 \\
-        InternVideo2-6B  & 0.445 & 0.448 & 0.220 & 0.660 & 0.504 & 0.417 & 0.423 & 0.631 & 0.400 & 0.220 \\
-        GME-2B           & 0.416 & 0.539 & \textbf{0.345} & 0.597 & 0.461 & 0.471 & 0.685 & 0.716 & 0.349 & 0.347 \\
-        Unite-2B         & 0.507 & 0.536 & 0.242 & 0.654 & 0.455 & 0.471 & 0.681 & 0.725 & 0.347 & 0.341 \\
-        VLM2Vec-V2       & 0.538 & 0.587 & 0.263 & 0.613 & 0.498 & 0.502 & 0.762 & 0.809 & 0.348 & 0.348 \\
-        BGE-VL           & 0.480 & 0.497 & 0.268 & 0.622 & 0.448 & 0.406 & 0.636 & 0.664 & 0.292 & 0.261 \\
-        UniME-7B         & 0.542 & 0.561 & 0.308 & \underline{0.702} & 0.500 & 0.518 & 0.664 & 0.785 & 0.396 & 0.373 \\
-        B3-7B            & 0.538 & 0.570 & 0.270 & 0.678 & 0.482 & 0.505 & 0.722 & 0.797 & 0.364 & 0.355 \\
-        GME-7B           & 0.562 & 0.604 & \underline{0.341} & 0.615 & 0.518 & 0.507 & \underline{0.788} & 0.749 & 0.373 & 0.398 \\
-        Unite-7B         & 0.559 & 0.609 & 0.254 & 0.666 & 0.541 & 0.539 & 0.746 & 0.779 & 0.412 & \textbf{0.425} \\
-        \midrule
-        GVE-3B           & \underline{0.571} & \underline{0.619} & 0.304 & 0.647 & 0.552 & \underline{0.541} & 0.764 & \underline{0.816} & \underline{0.430} & 0.377 \\
-        GVE-7B           & \textbf{0.600} & \textbf{0.657} & 0.312 & 0.657 & \textbf{0.587} & \textbf{0.570} & \textbf{0.814} & \textbf{0.821} & \textbf{0.469} & \underline{0.419} \\
-        \bottomrule
-    \end{tabular*}
-    \endgroup
+\centering
+\scriptsize
+\caption{Video retrieval performance by specific abilities~(tasks and domains) on UVRB. The AVG values are averaged over tasks~(textual~(TXT), composed~(CMP), visual~(VIS)) and domains~(coarse-grained~(CG), fine-grained~(FG), long-context~(LC)) video retrieval tasks. Besides, we provide sub-domain results, including spatial~(S), temporal~(T), partially~relevant~(PR). For each column: highest score is \textbf{bolded}, second-highest is \underline{underlined}.}
+\label{gve:tab:main_by_abilities}
+\begin{tabularx}{\linewidth}{X|>{\columncolor{gray!40}}c|ccc|ccc|ccc}
+\toprule
+& & \multicolumn{3}{c|}{\textbf{Tasks}} & \multicolumn{3}{c|}{\textbf{Domains}} & \multicolumn{3}{c}{\textbf{Sub-domains}} \\
+\midrule
+\textbf{Model} & \textbf{AVG} & \textbf{TXT} & \textbf{CMP} & \textbf{VIS} & \textbf{CG} & \textbf{FG} & \textbf{LC} & \textbf{S} & \textbf{T} & \textbf{PR} \\
+\midrule
+CLIP4Clip        & 0.416 & 0.401 & 0.178 & \textbf{0.714} & 0.380 & 0.360 & 0.463 & 0.559 & 0.285 & 0.236 \\
+ViCLIP           & 0.375 & 0.336 & 0.263 & 0.640 & 0.380 & 0.315 & 0.313 & 0.484 & 0.289 & 0.171 \\
+VideoCLIP-XL     & 0.510 & 0.550 & 0.227 & 0.632 & \underline{0.558} & 0.493 & 0.600 & 0.787 & 0.381 & 0.310 \\
+LanguageBind     & 0.508 & 0.543 & 0.231 & 0.645 & 0.539 & 0.479 & 0.610 & 0.723 & 0.378 & 0.336 \\
+InternVideo2-1B  & 0.420 & 0.422 & 0.248 & 0.581 & 0.480 & 0.403 & 0.383 & 0.606 & 0.413 & 0.189 \\
+InternVideo2-6B  & 0.445 & 0.448 & 0.220 & 0.660 & 0.504 & 0.417 & 0.423 & 0.631 & 0.400 & 0.220 \\
+GME-2B           & 0.416 & 0.539 & \textbf{0.345} & 0.597 & 0.461 & 0.471 & 0.685 & 0.716 & 0.349 & 0.347 \\
+Unite-2B         & 0.507 & 0.536 & 0.242 & 0.654 & 0.455 & 0.471 & 0.681 & 0.725 & 0.347 & 0.341 \\
+VLM2Vec-V2       & 0.538 & 0.587 & 0.263 & 0.613 & 0.498 & 0.502 & 0.762 & 0.809 & 0.348 & 0.348 \\
+BGE-VL           & 0.480 & 0.497 & 0.268 & 0.622 & 0.448 & 0.406 & 0.636 & 0.664 & 0.292 & 0.261 \\
+UniME-7B         & 0.542 & 0.561 & 0.308 & \underline{0.702} & 0.500 & 0.518 & 0.664 & 0.785 & 0.396 & 0.373 \\
+B3-7B            & 0.538 & 0.570 & 0.270 & 0.678 & 0.482 & 0.505 & 0.722 & 0.797 & 0.364 & 0.355 \\
+GME-7B           & 0.562 & 0.604 & \underline{0.341} & 0.615 & 0.518 & 0.507 & \underline{0.788} & 0.749 & 0.373 & 0.398 \\
+Unite-7B         & 0.559 & 0.609 & 0.254 & 0.666 & 0.541 & 0.539 & 0.746 & 0.779 & 0.412 & \textbf{0.425} \\
+\midrule
+GVE-3B           & \underline{0.571} & \underline{0.619} & 0.304 & 0.647 & 0.552 & \underline{0.541} & 0.764 & \underline{0.816} & \underline{0.430} & 0.377 \\
+GVE-7B           & \textbf{0.600} & \textbf{0.657} & 0.312 & 0.657 & \textbf{0.587} & \textbf{0.570} & \textbf{0.814} & \textbf{0.821} & \textbf{0.469} & \underline{0.419} \\
+\bottomrule
+\end{tabularx}
 \end{table}
 
 
@@ -284,28 +278,25 @@ All models are evaluated under the aforementioned unified protocol~(UVRB) to ens
 \paragraph{Others.} Extended implementation details, including prompt templates, architecture specifics, and supplementary baseline comparisons, are comprehensively provided in the Appendix.
 
 \begin{table}[t]
-    \centering
-    \caption{Ablation study for UVRD and \pyramid. \colorbox{gray!15}{\textbf{AVG of D}}: average across datasets, \colorbox{gray!40}{\textbf{AVG of A}}: average across abilities. For each column of each size of model~(3B or 7B): highest score is \textbf{bolded}, second-highest is \underline{underlined}.}
-    \label{gve:tab:ablation}
-    \footnotesize
-    \begingroup
-    \setlength{\tabcolsep}{2.5pt}
-    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l|>{\columncolor{gray!15}}c|>{\columncolor{gray!40}}c|ccc|ccc|ccc@{}}
-        \toprule
-        & \textbf{D} & \textbf{A} & \multicolumn{3}{c|}{\textbf{Tasks}} & \multicolumn{3}{c|}{\textbf{Domains}} & \multicolumn{3}{c}{\textbf{Sub-domains}} \\
-        \midrule
-        \textbf{Model} & \textbf{AVG} & \textbf{AVG} & \textbf{TXT} & \textbf{CMP} & \textbf{VIS} & \textbf{CG} & \textbf{FG} & \textbf{LC} & \textbf{S} & \textbf{T} & \textbf{PR} \\
-        \midrule
-        \texttt{GVE-i-3B} & 0.528 & 0.558 & \textbf{0.620} & 0.237 & \underline{0.632} & 0.532 & 0.521 & \textbf{0.808} & 0.781 & 0.402 & \textbf{0.379} \\
-        \texttt{GVE-s-3B} & \underline{0.537} & \underline{0.564} & 0.617 & \underline{0.301} & 0.617 & \underline{0.539} & \underline{0.536} & \underline{0.775} & \underline{0.811} & \underline{0.421} & \underline{0.377} \\
-        \texttt{GVE-3B} & \textbf{0.544} & \textbf{0.571} & \underline{0.619} & \textbf{0.304} & \textbf{0.647} & \textbf{0.552} & \textbf{0.541} & 0.764 & \textbf{0.816} & \textbf{0.430} & \underline{0.377} \\
-        \midrule
-        \texttt{GVE-i-7B} & 0.563 & 0.587 & 0.643 & 0.274 & \textbf{0.678} & 0.567 & \underline{0.566} & 0.795 & 0.812 & \underline{0.459} & \textbf{0.426} \\
-        \texttt{GVE-s-7B} & \underline{0.568} & \underline{0.594} & \underline{0.648} & \textbf{0.313} & \underline{0.662} & \underline{0.576} & 0.563 & \underline{0.804} & \underline{0.814} & 0.458 & 0.418 \\
-        \texttt{GVE-7B} & \textbf{0.573} & \textbf{0.600} & \textbf{0.657} & \underline{0.312} & 0.657 & \textbf{0.587} & \textbf{0.570} & \textbf{0.814} & \textbf{0.821} & \textbf{0.469} & \underline{0.419} \\
-        \bottomrule
-    \end{tabular*}
-    \endgroup
+\centering
+\scriptsize
+\caption{Ablation study for UVRD and \pyramid. \colorbox{gray!15}{\textbf{AVG of D}}: average across datasets, \colorbox{gray!40}{\textbf{AVG of A}}: average across abilities. For each column of each size of model~(3B or 7B): highest score is \textbf{bolded}, second-highest is \underline{underlined}.}
+\label{gve:tab:ablation}
+\begin{tabularx}{\linewidth}{X|>{\columncolor{gray!15}}c|>{\columncolor{gray!40}}c|ccc|ccc|ccc}
+\toprule
+& \textbf{D} & \textbf{A} & \multicolumn{3}{c|}{\textbf{Tasks}} & \multicolumn{3}{c|}{\textbf{Domains}} & \multicolumn{3}{c}{\textbf{Sub-domains}} \\
+\midrule
+\textbf{Model} & \textbf{AVG} & \textbf{AVG} & \textbf{TXT} & \textbf{CMP} & \textbf{VIS} & \textbf{CG} & \textbf{FG} & \textbf{LC} & \textbf{S} & \textbf{T} & \textbf{PR} \\
+\midrule
+\texttt{GVE-i-3B} & 0.528 & 0.558 & \textbf{0.620} & 0.237 & \underline{0.632} & 0.532 & 0.521 & \textbf{0.808} & 0.781 & 0.402 & \textbf{0.379} \\
+\texttt{GVE-s-3B} & \underline{0.537} & \underline{0.564} & 0.617 & \underline{0.301} & 0.617 & \underline{0.539} & \underline{0.536} & \underline{0.775} & \underline{0.811} & \underline{0.421} & \underline{0.377} \\
+\texttt{GVE-3B} & \textbf{0.544} & \textbf{0.571} & \underline{0.619} & \textbf{0.304} & \textbf{0.647} & \textbf{0.552} & \textbf{0.541} & 0.764 & \textbf{0.816} & \textbf{0.430} & \underline{0.377} \\
+\midrule
+\texttt{GVE-i-7B} & 0.563 & 0.587 & 0.643 & 0.274 & \textbf{0.678} & 0.567 & \underline{0.566} & 0.795 & 0.812 & \underline{0.459} & \textbf{0.426} \\
+\texttt{GVE-s-7B} & \underline{0.568} & \underline{0.594} & \underline{0.648} & \textbf{0.313} & \underline{0.662} & \underline{0.576} & 0.563 & \underline{0.804} & \underline{0.814} & 0.458 & 0.418 \\
+\texttt{GVE-7B} & \textbf{0.573} & \textbf{0.600} & \textbf{0.657} & \underline{0.312} & 0.657 & \textbf{0.587} & \textbf{0.570} & \textbf{0.814} & \textbf{0.821} & \textbf{0.469} & \underline{0.419} \\
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \subsection{Main Results}\label{gve:sec:main_results}

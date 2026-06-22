@@ -1,6 +1,6 @@
 # HKUST(GZ) Thesis: Towards Scalable and Generalizable Video Retrieval
 
-> **作者**: 郭卓宁 (Zhuoning Guo)  
+> **作者**: 郭茁宁 (Zhuoning Guo)  
 > **学位**: PhD (哲学博士)  
 > **专业**: Doctor of Philosophy in Artificial Intelligence  
 > **院系**: Thrust of Artificial Intelligence  
@@ -135,9 +135,9 @@ main.tex
 
 - 不修改模板文件 `ustthesis.cls` 和 `ustthesis.sty`。
 - Caption 使用模板默认字体大小；当前仅在 `main.tex` 局部补充 caption 下方 10pt 间距。
-- 正文表格/图片优先使用 `[t]` 放置；附录可按需要使用 `[htbp]` / `[ht]`。
-- 表格不使用 `tabularx`、`adjustbox`、`resizebox`、`wraptable`。
-- 宽表优先用 `tabular*{\linewidth}` 和局部列距控制；表格本体如需缩小只用 `\footnotesize`。
+- 正文浮动体优先使用 `[t]` 放置；附录可按需要使用 `[htbp]` / `[ht]`。
+- 宽表优先使用 `tabularx` 或 `tabular*{\linewidth}` 按页宽排版；如需整体缩小仅用 `\footnotesize` / `\scriptsize`。
+- 不使用 `resizebox`、`adjustbox`、`wraptable` 缩放表格。
 
 ---
 
