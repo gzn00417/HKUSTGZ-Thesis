@@ -5,7 +5,7 @@
 % \printcontents{}{1}{\subsection*{Content}}
 
 \section{Overview of Appendix}\label{gve:app:overview}
-This appendix provides supplementary material supporting the main paper, organized as follows:
+This appendix provides supplementary material supporting the main chapter, organized as follows:
 
 \paragraph{Methodology Supplementary.}
 \begin{itemize}
@@ -29,7 +29,7 @@ This appendix provides supplementary material supporting the main paper, organiz
     \item \textbf{Training Dynamics (Appendix~\ref{gve:app:training_dynamics}):} Visualizes training dynamics and metrics for the GVE-3B and GVE-7B models.
     \item \textbf{Additional Experiments}:
     \begin{itemize}
-        \item[(1)] \textbf{Training-time Scaling (Appendix~\ref{gve:app:data_scaling}):} Presents the impact of scaling training data on performance, complementing the analysis in the main paper.
+        \item[(1)] \textbf{Training-time Scaling (Appendix~\ref{gve:app:data_scaling}):} Presents the impact of scaling training data on performance, complementing the analysis in the main chapter.
         \item[(2)] \textbf{Test-time Scaling (Appendix~\ref{gve:app:scaling}):} Analyzes the effect of scaling test-time parameters (e.g., number of frames, resolution) on model performance.
         \item[(3)] \textbf{Data Quality Validation (Appendix~\ref{gve:app:v-synflow_validation}):} Details the human-in-the-loop evaluation conducted to validate the quality of our synthesized UVRD dataset.
         \item[(4)] \textbf{Curriculum Analysis (Appendix~\ref{gve:app:pyramid_validation}):} Provides in-depth experimental analysis to validate the design and effectiveness of the \pyramid.
@@ -298,7 +298,7 @@ Modality is a dynamic parameter. By overriding a single method, a dataset effort
 Complex tasks are composed of simpler ones. A text+image-to-video task inherits its base structure and extends the query schema. Variants are derived by overriding specific data-access methods, turning benchmark creation into a modular, hypothesis-driven workflow.
 
 \paragraph{Engineering for Scale and Integrity.}
-Scalability and data quality are first-class principles. Large datasets (e.g., InternVid-FLT) leverage chunked, parallel processing. Crucially, proactive curation is embedded: automated validators check video integrity (resolution, frame count), while repair mechanisms fix common errors using \texttt{ffmpeg}, ensuring failures reflect retrieval challenges, i.e, not data corruption.
+Scalability and data quality are first-class principles. Large datasets (e.g., InternVid-FLT) leverage chunked, parallel processing. Crucially, proactive curation is embedded: automated validators check video integrity (resolution, frame count), while repair mechanisms fix common errors using \texttt{ffmpeg}, ensuring failures reflect retrieval challenges, i.e., not data corruption.
 
 
 
@@ -923,4 +923,4 @@ We test the video embeddings for video classification by following the MMEB-V2~\
 Note that we do not train on these datasets for zero-shot evaluations, while other baselines may include them in optimization.
 Specifically, we evaluate video embedding models on five diverse classification benchmarks, including \textbf{Kinetics-700~(K700)}~\cite{carreira2019short}, \textbf{UCF101}~\cite{soomro2012ucf101}, \textbf{HMDB51}~\cite{kuehne2011hmdb}, \textbf{SomethingSomething-V2~(SSV2)}~\cite{goyal2017something}, and \textbf{Breakfast}~\cite{kuehne2014language}, covering fine-grained interactions, open-domain actions, and procedural activities. Each task is cast as video-to-text retrieval over the full label set, using standardized validation/test splits.
 The results are provided in Table~\ref{gve:tab:video_classification}.
-Our results show that \texttt{LanguageBind} achieves the highest mean accuracy ($0.553$), followed closely by \texttt{GVE-7B} ($0.526$) and \texttt{InternVideo2-6B} ($0.526$), demonstrating the efficacy of unified multimodal representations. However, performance remains suboptimal on temporally complex datasets such as Breakfast (best: $0.453$) and fine-grained SSV2 (best: $0.569$), revealing a critical bottleneck in modeling dynamic physical interactions.
+Our results show that \texttt{GVE-7B} and \texttt{InternVideo2-6B} achieve the highest mean accuracy ($0.526$), demonstrating the efficacy of unified multimodal representations. However, performance remains suboptimal on temporally complex datasets such as Breakfast (best: $0.453$) and fine-grained SSV2 (best: $0.569$), revealing a critical bottleneck in modeling dynamic physical interactions.

@@ -51,10 +51,10 @@ In Algorithm~\ref{gmpgr:alg:q_hipanns}, inter-query HiPANNS~(Q-HiPANNS) adaptive
                 Split $B_i$ as $B_i^{[1,\epsilon]}$ and $B_i^{[\epsilon+1,N_{B_i}]}$\;
                 Concentrate batch as $B_U = B_U \cap B_i^{[1,\epsilon]}$\;
                 Calculate $\delta_{B_i}$ on $U$\;
-                Set $B_U = B_i^{[\epsilon+1,N_{B_i}]}$ and $N^{\prime}_U = B_i - \epsilon$\;
+                Set $B_U = B_i^{[\epsilon+1,N_{B_i}]}$ and $N^{\prime}_U = N_{B_i} - \epsilon$\;
             }
         }
-        Concentrate $\delta_{B_i}$ if $B_i$ is splited\;
+        Concentrate $\delta_{B_i}$ if $B_i$ is split\;
         \Return{$\delta_{B_i}$}
     }
 \end{algorithm}

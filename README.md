@@ -11,11 +11,13 @@
 
 ## 当前状态
 
-- 编译状态：成功
-- 输出文件：[main.pdf](main.pdf)
-- 当前页数：157页
+- 编译状态：待验证（需本地编译环境）
+- 输出文件：[main.pdf](main.pdf)（上次编译: 157页）
+- 最近审查：2026-06-26 全面复查，确认 Ch2 清理完毕，发现 Ch4/Ch5/Ch6 及附录仍有 15 项待修复问题（详见 [TODO.md](TODO.md)）
+- 最近修复：2026-06-25 全文审查，修复拼写/语法、数据错误、LaTeX 标签适配、投稿模板残留等 23 项问题
+- 写作规范：已建立 [STYLE.md](STYLE.md)（写作风格指南）和 [AGENTS.md](AGENTS.md)（AI 助手指令），供后续编辑参考
 - 模板文件：`ustthesis.cls` / `ustthesis.sty` 保持与 `../Template-of-HKUST-GZ-Thesis` 一致
-- 最近格式更新：第三章 Table 3.1--3.3 已按 `\linewidth` 页宽排版；caption 字体保持模板默认大小
+- 格式更新：第三章 Table 3.1--3.3 已按 `\linewidth` 页宽排版；caption 字体保持模板默认大小
 
 ## 快速开始
 
@@ -87,6 +89,8 @@ HKUSTGZ-Thesis/
 │   └── references.bib       # 整合的参考文献
 ├── ustthesis.cls            # 论文模板类文件
 ├── ustthesis.sty            # 模板样式文件
+├── STYLE.md                 # 写作风格指南（编辑 .tex 前必读）
+├── AGENTS.md                # AI 助手指令
 ├── README.md                # 本文件
 └── TODO.md                  # 待解决问题清单
 ```
@@ -145,6 +149,8 @@ main.tex
 
 | 文件 | 说明 |
 |-----|------|
+| [STYLE.md](STYLE.md) | 写作风格指南，编辑任何 `.tex` 文件前必读 |
+| [AGENTS.md](AGENTS.md) | AI 助手指令，包含构建命令、项目结构和 LaTeX 约定 |
 | [TODO.md](TODO.md) | 待解决问题与潜在风险清单 |
 | [../Paper-LaTeX-Projects/](../Paper-LaTeX-Projects/) | 会议论文项目 |
 | [../Paper-PDFs/](../Paper-PDFs/) | 会议论文PDF版本 |
@@ -183,5 +189,9 @@ main.tex
 
 ## 更新日志
 
+- 2026-06-26: 全面复查，确认 Ch2 清理完毕；更新所有文档文件（README/AGENTS/TODO/STYLE），新增 STYLE.md 和 AGENTS.md 到项目结构
+- 2026-06-25: Ch2 内容扩展（5 类 video retrieval domain）、De-AI 润色、em dash/分号替换；创建 STYLE.md 和 AGENTS.md
+- 2026-06-25: 全文综合审查（逻辑/格式/内容/排版/代码/伪代码），新增 10+ 项问题到 TODO.md
+- 2026-06-25: 全文审查修复 23 项问题（拼写/语法、数据错误、LaTeX 标签、投稿模板残留等）
 - 2026-06-22: 同步当前编译状态、模板一致性与表格/caption格式说明
 - 2025-06-14: 重新编写README，简化为快速上手指南

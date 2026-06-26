@@ -3,23 +3,23 @@
 
 % ============================================================
 
-This document provides additional results and materials referenced in the main paper.
+This document provides additional results and materials referenced in the main chapter.
 Table~\ref{mglvr:supp:tab:toc} summarises the correspondence between supplementary sections
-and main-paper sections.
+and main-chapter sections.
 
 \begin{table}[htbp]
 \centering
-\caption{Section correspondence between the supplementary and the main paper.}
+\caption{Section correspondence between the supplementary and the main chapter.}
 \label{mglvr:supp:tab:toc}
 \footnotesize
 \begin{tabular}{lll}
 \toprule
 \textbf{Supp.\ Section} & \textbf{Content} & \textbf{Main Paper} \\
 \midrule
-\S\ref{mglvr:supp:sec:error}   & Error analysis \& case studies       & \S3.2 \\
-\S\ref{mglvr:supp:sec:32f}     & Baseline results at 32 frames        & \S4.2 \\
-\S\ref{mglvr:supp:sec:scaling} & Additional scaling analyses          & \S4.3-4.4 \\
-\S\ref{mglvr:supp:sec:prompts} & LLM prompts used in the pipeline     & \S3.2 \\
+\S\ref{mglvr:sec:construction} & Error analysis \& case studies       & \S\ref{mglvr:sec:benchmark} \\
+\S\ref{mglvr:supp:sec:32f}     & Baseline results at 32 frames        & \S\ref{mglvr:sec:baseline} \\
+\S\ref{mglvr:supp:sec:scaling} & Additional scaling analyses          & \S\ref{mglvr:sec:testtime}--\S\ref{mglvr:sec:trainingtime} \\
+\S\ref{mglvr:supp:sec:prompts} & LLM prompts used in the pipeline     & \S\ref{mglvr:sec:construction} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -29,7 +29,7 @@ and main-paper sections.
 \label{mglvr:supp:sec:error}
 % ============================================================
 
-Section~4 of the main paper describes three key failure modes. The corresponding visual case studies are provided below.
+Section~\ref{mglvr:sec:scaling} of the main chapter describes three key failure modes. The corresponding visual case studies are provided below.
 
 \paragraph{(1) Degradation on Long Continuous Temporal Segments.}
 As shown in Figure~\ref{mglvr:supp:fig:error1}, the model's performance degrades on long, continuous events. This is because our model, limited by a fixed-length context window (e.g., 16 frames), processes videos in short, independent clips during inference. This segmentation prevents it from capturing the full temporal scope of events that span across multiple clips.
@@ -66,7 +66,7 @@ As shown in Figure~\ref{mglvr:supp:fig:error3}, the model sometimes fails to mee
 \label{mglvr:supp:sec:32f}
 % ============================================================
 
-The main paper (\S3.2) notes that ``results at 32 frames are provided in the supplementary material.'' Table~\ref{mglvr:supp:tab:32f} fills this gap, complementing Table~1 (8\,F) and Table~2 (128\,F) of the main paper.
+The main chapter (\S\ref{mglvr:sec:baseline}) notes that ``results at 32 frames are provided in the supplementary material.'' Table~\ref{mglvr:supp:tab:32f} fills this gap, complementing Table~\ref{mglvr:tab:main_results_8f} (8\,F) and Table~\ref{mglvr:tab:main_results_128f} (128\,F) of the main chapter.
 
 \begin{table}[htbp]
 \centering
@@ -110,7 +110,7 @@ Qwen3-VL-Emb-8B  & \textbf{0.5290} & \textbf{0.6017} & \textbf{0.2641} & \textbf
 \subsection{Test-Time Spatial Scaling Across Temporal Densities}
 \label{mglvr:supp:sec:spatial_scaling}
 
-The caption of Figure~2 in the main paper (\S3.3) notes that ``sensitivity results under varying temporal densities are provided in the supplementary material.'' Figure~\ref{mglvr:supp:fig:spatial_scaling_1} extends Figure~2 by sweeping over $F \in \{8, 32, 128\}$ frames per video, whereas Figure~2 fixes $F = 32$.
+The caption of Figure~\ref{mglvr:fig:spatial_scaling_2} in the main chapter (\S\ref{mglvr:sec:testtime}) notes that ``sensitivity results under varying temporal densities are provided in the supplementary material.'' Figure~\ref{mglvr:supp:fig:spatial_scaling_1} extends Figure~\ref{mglvr:fig:spatial_scaling_2} by sweeping over $F \in \{8, 32, 128\}$ frames per video, whereas Figure~\ref{mglvr:fig:spatial_scaling_2} fixes $F = 32$.
 
 \begin{figure}[htbp]
   \centering
@@ -123,7 +123,7 @@ The caption of Figure~2 in the main paper (\S3.3) notes that ``sensitivity resul
 \subsection{Training-Time Spatial Scaling (Evaluated at 8 Test Frames)}
 \label{mglvr:supp:sec:train_spatial_8f}
 
-Table~3 of the main paper (\S3.4) reports training-time spatial scaling evaluated at 4 test frames. Table~\ref{mglvr:supp:tab:train_spatial_8f} provides the complementary results at 8 test frames, with $F_{\text{train}}=4$ and $T_{\text{train}} \in \{50, 100, 200, 400\}$.
+Table~3 of the main chapter (\S\ref{mglvr:sec:trainingtime}) reports training-time spatial scaling evaluated at 4 test frames. Table~\ref{mglvr:supp:tab:train_spatial_8f} provides the complementary results at 8 test frames, with $F_{\text{train}}=4$ and $T_{\text{train}} \in \{50, 100, 200, 400\}$.
 
 % The table has 12 columns: cc | cc | cc | cc | cc | cc
 % Row format: col1 & col2 & col3 & col4 & col5 & col6 & col7 & col8 & col9 & col10 & col11 & col12 \\
@@ -168,7 +168,7 @@ Temporal & Spatial & Temporal & Spatial & R@1 & MRR & R@1 & MRR & R@1 & MRR & R@
 \subsection{Training-Time Temporal Scaling (Evaluated at 100 Spatial Tokens)}
 \label{mglvr:supp:sec:train_temporal_100t}
 
-Table~4 of the main paper (\S3.4) reports training-time temporal scaling evaluated at $T_{\text{test}}=50$ spatial tokens. Table~\ref{mglvr:supp:tab:train_temporal_100t} provides the complementary results at $T_{\text{test}}=100$, with $T_{\text{train}}=50$ and $F_{\text{train}} \in \{4, 8, 16, 32\}$.
+Table~4 of the main chapter (\S\ref{mglvr:sec:trainingtime}) reports training-time temporal scaling evaluated at $T_{\text{test}}=50$ spatial tokens. Table~\ref{mglvr:supp:tab:train_temporal_100t} provides the complementary results at $T_{\text{test}}=100$, with $T_{\text{train}}=50$ and $F_{\text{train}} \in \{4, 8, 16, 32\}$.
 
 \begin{table}[htbp]
 \centering
@@ -230,7 +230,7 @@ Temporal & Spatial & Temporal & Spatial & R@1 & MRR & R@1 & MRR & R@1 & MRR & R@
 \label{mglvr:supp:sec:prompts}
 % ============================================================
 
-Section~2.3 of the main paper (Step~4: Retrieval Query Synthesis) uses two LLM prompts: one for generating retrieval queries from clip-level captions (\S\ref{mglvr:supp:sec:prompt_query}), and one for synthesising a consolidated visual description of each video (\S\ref{mglvr:supp:sec:prompt_caption}). Both prompts were executed with Qwen3-32B.
+Section~\ref{mglvr:sec:construction} of the main chapter (Step~4: Retrieval Query Synthesis) uses two LLM prompts: one for generating retrieval queries from clip-level captions (\S\ref{mglvr:supp:sec:prompt_query}), and one for synthesising a consolidated visual description of each video (\S\ref{mglvr:supp:sec:prompt_caption}). Both prompts were executed with Qwen3-32B.
 
 \subsection{Retrieval Query Synthesis}
 \label{mglvr:supp:sec:prompt_query}

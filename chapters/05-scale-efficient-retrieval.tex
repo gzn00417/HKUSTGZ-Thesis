@@ -33,7 +33,7 @@ For example, HNSW~\cite{malkov2018efficient} hierarchically establishes a multi-
 
 
 However, we confront three challenges in developing an accurate and efficient retrieval framework for web-scale recommendations.
-\textit{(1)~Unified modeling of multi-relational user-item relevance.} Baidu recommendation applications consist of dozens of distinct and related behaviors~(e.g., click, browse) that are typically modeled by a tailored metric for estimating relevance between users and items. However, the independent modeling of these user-item interactions fails to capture the semantic relations of diverse user behaviors, which are mutually beneficial between them~\cite{tan2020fast}. Besides, training multiple behavior-specific metrics incurs exponential efforts in system updates. Thus, the first challenge lies in cost-effectively multi-relational metric joint training for more accurate relevance estimation.
+\textit{(1)~Unified modeling of multi-relational user-item relevance.} Baidu recommendation applications consist of dozens of distinct and related behaviors~(e.g., click, browse) that are typically modeled by a tailored metric for estimating relevance between users and items. However, the independent modeling of these user-item interactions fails to capture the semantic relations of diverse user behaviors, which are mutually beneficial between them~\cite{tan2020fast}. Besides, training multiple behavior-specific metrics incurs exponential efforts in system updates. Thus, the first challenge lies in cost-effective multi-relational metric joint training for more accurate relevance estimation.
 \textit{(2)~Efficient search on large-scale graph item base.} Baidu devises Graph-based ANNS to traverse relevant candidate items from a graph item base. Practically, a trade-off problem arises that increasing the online retrieval throughput will restrict the search efforts, \ie the graph traversal steps. However, existing methods make delivering satisfactory items in limited steps difficult, especially for billion-scale graphs in web-scale recommender systems.
 On the one hand, neural relevance metrics often violate the triangle inequality, a property that ensures optimal pathfinding in graph traversal~\cite{chen2022approximate}. This violation forces the exploration of redundant edges, decreasing the possibility of reaching distant yet relevant candidates.
 On the other hand, graph-based ANNS usually search for relevant items greedily, which may be stuck in a narrow space after a short-length traversal among a large-scale graph.
@@ -56,10 +56,6 @@ The main contributions of our work are concluded as follows:
 (2)~We devise a DNN-based metric to estimate user-item relevance via capturing inter-dependency among complex user-item relations, which can also improve the search efficiency on a large-scale graph for shorter navigation.
 (3)~We design a GPU-accelerated parallel graph-based ANNS algorithm for highly concurrent retrieval by billion-scale breadth-depth balanced graph search and parallel irregular computations with adaptive aggregation.
 (4)~We conduct extensive experiments to demonstrate retrieval effectiveness and efficiency improvements in offline and online recommendations at Baidu.
-
-
-
-
 
 
 \section{Preliminaries}
@@ -135,7 +131,6 @@ The overall search process for the relevant item set $\hat{V}_u$ for user $u$ ca
 \end{equation}
 
 
-
 \section{GPU-accelerated Multi-relational Parallel Graph Retrieval Framework}
 
 This section introduces the GPU-accelerated Multi-relational Parallel Graph Retrieval~(GMP-GR) framework deployed at Baidu for web-scale recommendation.
@@ -144,11 +139,10 @@ In the training step, a multi-relational user-item relevance metric learning gen
 In the search step, a hierarchically parallel graph-based ANNS algorithm effectively delivers reliable search candidates in high concurrency, which explores a breadth-depth balanced search space and synchronizes large-scale irregular neural computations on GPUs.
 
 
-
 \subsection{Multi-relational User-item Relevance Metric Learning}\label{gmpgr:sec:metric}
 
 The training step aims to optimize the user and item embeddings with the DNN-based metric to model the relevance between users and items.
-However, existing DNN-based metrics either fail in insufficient understanding of nuance user preference due to partial incorporation of multi-dimensional behaviors on items, or do not satisfy the triangle inequality property necessitated by efficient navigation of graph-based ANNS.
+However, existing DNN-based metrics either fail in insufficient understanding of nuanced user preferences due to partial incorporation of multi-dimensional behaviors on items, or do not satisfy the triangle inequality property necessitated by efficient navigation of graph-based ANNS.
 Therefore, we propose a \textit{Multi-relational User-Item Relevance Metric Learning~(MUIRML)} algorithm to train a relevance metric that not only ensures elaborate multi-relational modeling, but also enhances navigating efficiency in the search step, ultimately improving the retrieval effectiveness.
 
 \textit{(1)~DNN-based Relevance computation.}
@@ -169,7 +163,7 @@ Specifically, we define the computation of the $m$-th layer MLP as
 \end{equation}
 where $h_{u,v}^{(m)}$ is the $m$-th layer joint representation of user $u$ and item $v$, and $\mathbf{W}^{(m)}$ and $b^{(m)}$ are the $m$-th layer learnable parameters.
 
-Then, we leverage an attention mechanism to weighted aggregate predicted interaction values for a joint understanding of diverse user behaviors.
+Then, we leverage an attention mechanism to aggregate predicted interaction values for a joint understanding of diverse user behaviors.
 Specifically, the attention vector $\mathbf{A}$ is multiplied on $\hat{Z}_{u,v}$ to produce the final user-item relevance value $\delta_{u,v}$ as
 $\delta_{u,v} = \mathbf{A} \cdot \hat{Z}_{u,v}$
 where $\mathbf{A}$ is initialized with $\frac{1}{|\mathbf{A}|}$ and can be hyper-tuned to achieve personalized behavior importance for different web recommendation scenarios.
@@ -195,9 +189,6 @@ Lastly, we design the multi-objective optimization to train the user and item em
 \end{equation}
 which will be optimized by gradient-based algorithms.
 In this way, we can simultaneously minimize the prediction error of multi-relational interaction behaviors and maximize the similarity of ranking regularity between our DNN-based metric and Euclidean distance for triangle inequality property, which can generate shorter paths in graph search for more efficient retrieval.
-
-
-
 
 
 \subsection{GPU-accelerated Hierarchically Parallel Approximate Nearest Neighbor Search}\label{gmpgr:sec:search}
@@ -294,12 +285,6 @@ Besides, we use a click trigger that activates updates of the item base to incor
 Fresh data is then cumulatively integrated with the original item base in a batched manner to ensure both responsiveness and efficiency in handling data updates.
 
 
-
-
-
-
-
-
 \section{Experiments}\label{gmpgr:sec:exp}
 
 % This section introduces the experiments of GMP-GR under offline and online settings. Our goal is to answer the following questions through the investigation of results.
@@ -329,8 +314,6 @@ We take the brute-force-sorted items as the ground truths of retrieval.
 Cov describes the percentage of retrieved items that rank in the top $100$ items of the ground truths.
 Rec@10 and Rec@100 measure the percentage of the top $10$ and $100$ items of the ground truths in the top $10$ and $100$ retrieved items, respectively.
 Moreover, we evaluate the speed by the number of items retrieved per second. For online testing, we collect query traffic, latency, and throughput of servers for different services across timestamps.
-
-
 
 
 \subsection{Offline Evaluation}
@@ -372,7 +355,7 @@ We first analyze the correlation between retrieval performance and time by scatt
 Intuitively, a method is considered more efficient if it achieves higher performance~(here we use Cov to evaluate) with lower time consumption. Results reveal that GMP-GR outperforms the four baseline methods in terms of efficiency, as evidenced by its proximity to the upper left quadrant in the scatter plots.
 Notably, C-NSW stands out for its minimal retrieval time, attributed to its reliance on the cosine similarity metric which is computationally lightweight than DNNs. However, C-NSW underperforms in retrieval accuracy due to the limitation that the simple metric is unable to capture complex user-item relationships.
 Then, we compare the retrieval speed in Table~\ref{gmpgr:tab:speed}, which reflects the number of nodes that methods traverse on HNSW per second. GMP-GR also exhibits the capability to search through more nodes~(\ie larger search space) than any DNN-based approach.
-In summary, GMP-GR successfully defeats all baseline methods, striking an optimal balance between retrieval efficiency and accuracy.
+In summary, GMP-GR consistently outperforms all baseline methods, striking an optimal balance between retrieval efficiency and accuracy.
 
 
 \begin{figure}[t]
@@ -391,7 +374,6 @@ This superiority can be attributed to two key factors. First, MUIRML significant
 In addition, GMP-GR also shows a notable advantage in retrieval speed that replacing HiPANNS with a standard HNSW search algorithm can result in a great degradation of retrieval speed. This observation underscores the pivotal role of HiPANNS in acceleration. Furthermore, a more effective user-item relevance metric not only enhances the accuracy but also reduces traversal steps to converge to optimal candidates.
 
 
-
 \begin{table}[t]
     \caption{Online user statistics for two services.}
     \label{gmpgr:tab:user_exp}
@@ -401,7 +383,7 @@ In addition, GMP-GR also shows a notable advantage in retrieval speed that repla
         & \multicolumn{2}{c|}{Time on Page} & \multicolumn{2}{c}{Daily Active Users} \\
         & \textit{Service 1} & \textit{Service 2} & \textit{Service 1} & \textit{Service 2} \\
         \midrule
-        GMP-GR & +1.13\% & 1.19\% & +0.23\% & +0.50\% \\
+        GMP-GR & +1.13\% & +1.19\% & +0.23\% & +0.50\% \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -480,7 +462,6 @@ NANN~\cite{chen2022approximate} extends SL2G by improving the DNN-based metric f
 In this work, we propose a parallel retrieval algorithm for web-scale recommendations with wider search space and better concurrent computational efficiency.
 
 
-
 \section{Conclusion}
 
 This work investigates the retrieval stage optimization for the web-scale recommendation. We propose a GMP-GR framework to enhance the retrieval accuracy and efficiency.
@@ -489,16 +470,3 @@ Second, we design a tailored parallel graph-based ANNS algorithm to distributedl
 Besides, we employ system optimization strategies to improve online recommendation performance.
 We conduct extensive experiments on offline datasets and online services to demonstrate the outperformance of GMP-GR.
 We have implemented GMP-GR in the recommender systems at Baidu, where it serves hundreds of millions of users and processes more than one hundred billion online requests per day.
-
-
-
-
-
-
-% Acknowledgments for this work are included in the thesis acknowledgments section
-% This work was supported by the National Natural Science Foundation of China (Grant No. 62572417, No.92370204), National Key R\&D Program of China (Grant No.2023YFF0725004), the Guangzhou Basic and Applied Basic Research Program under Grant No. 2024A04J3279.
-
-%%
-%% The next two lines define the bibliography style to be used, and
-%% the bibliography file.
-\clearpage

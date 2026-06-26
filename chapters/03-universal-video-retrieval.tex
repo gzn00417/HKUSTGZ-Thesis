@@ -7,9 +7,9 @@ The prevailing video retrieval evaluation suffers from fragmented benchmarks tha
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=\linewidth]{figures/gve/uvr.pdf}
+    \includegraphics[width=\linewidth]{uvr.pdf}
     \caption{Universal Video Retrieval organizes heterogeneous retrieval settings into a unified capability space.}
-    \label{gve:fig:uvr}
+    \label{fig:uvr}
 \end{figure}
 
 \section{Introduction}
@@ -17,7 +17,7 @@ The prevailing video retrieval evaluation suffers from fragmented benchmarks tha
 Video retrieval is a critical and challenging task for modern search engines and recommendation systems, requiring effective video embedding models~\cite{zhu2023deep}. Early efforts extended Contrastive Language-Image Pretraining (CLIP)~\cite{radford2021learning} to video~\cite{ma2022x}. Currently, Multimodal Large Language Models (MLLMs) are rapidly displacing CLIP due to the superior language understanding and visual generalization capabilities of these models~\cite{kong2025modality}.  
 Current practices involve training these models on massive datasets with simple and noisy text annotations (e.g., WebVid~\cite{bain2021frozen}), which yields strong results for coarse-grained text-to-video retrieval on standard benchmarks (e.g., MSRVTT~\cite{xu2016msr}).  
 
-However, these models struggle with the complexity of diverse real-world video retrieval scenarios~(Figure~\ref{gve:fig:uvr}). First, a narrow semantic distribution renders these models less effective in fine-grained queries required to understand spatial relations or temporal dynamics~\cite{xu2025carebench}, as well as in long-context retrieval within lengthy videos~\cite{cai2025lovr}. Second, the scope of applicable tasks is restricted, with limited support for diverse query formats, such as composed retrieval using text-and-image pairs. Furthermore, these capability gaps are often obscured by the fragmented evaluation landscape, where models are optimized and tested on isolated benchmarks, preventing a clear understanding of comprehensive generalization.
+However, these models struggle with the complexity of diverse real-world video retrieval scenarios~(Figure~\ref{fig:uvr}). First, a narrow semantic distribution renders these models less effective in fine-grained queries required to understand spatial relations or temporal dynamics~\cite{xu2025carebench}, as well as in long-context retrieval within lengthy videos~\cite{cai2025lovr}. Second, the scope of applicable tasks is restricted, with limited support for diverse query formats, such as composed retrieval using text-and-image pairs. Furthermore, these capability gaps are often obscured by the fragmented evaluation landscape, where models are optimized and tested on isolated benchmarks, preventing a clear understanding of comprehensive generalization.
 
 \begin{figure}[t]
     \centering
@@ -43,7 +43,6 @@ The main contributions of this work are summarized as follows:
 (3)~\textbf{Analysis}:~Rather than proposing a novel benchmark, we establish a unified evaluation protocol across $16$ existing datasets. This standardized assessment systematically diagnoses model universality and offers new empirical insights beyond traditional evaluation paradigms.
 
 
-
 \section{Related Works}
 
 \paragraph{Video Retrieval.}
@@ -51,15 +50,6 @@ Text-to-video retrieval has progressed from matching coarse phrases to parsing f
 
 \paragraph{Video Embedding Models.}
 Video embedding models have evolved from the adaptation of image-centric ones, such as CLIP~\cite{radford2021learning}, to powerful, larger language-based encoders. Early methods such as CLIP4Clip~\cite{luo2022clip4clip} and InternVideo2~\cite{wang2024internvideo2} added temporal modules to CLIP but inherited its limitations in complex language understanding and long-context processing~\cite{wang2025internvideo2,li2025improving}. To overcome these issues, recent work leverages Multimodal Large Language Models (MLLMs) as video embedders. Models like LLaVE~\cite{lan2025llave}, UNITE~\cite{kong2025modality}, and VLM2Vec-V2~\cite{meng2025vlm2vec} achieve strong performance on benchmarks by training on text-image and text-video data. However, this data has so far been limited for learning generalizable embeddings, and these video embedding models have not been systematically evaluated on more complex video retrieval tasks and across diverse video domains.
-
-
-
-
-
-
-
-
-
 
 
 \begin{figure}
@@ -79,7 +69,7 @@ To bridge the persistent gap of fragmented evaluation protocols, we formulate th
     Given a matching pair comprising a query $q$ and a video $v$, UVR aims to learn a $\theta$-parameterized model $E_\theta(\cdot)$ to compute a relevance score $s_{q \to v} = \cos(E_\theta(q), E_\theta(v))$. This score must be consistently higher than the similarity scores of irrelevant pairs across any query format or data domain.
     Specifically, this paradigm categorizes the retrieval space into two primary dimensions:
     \textbf{(1)~Query Format} incorporates Textual~(TXT, e.g., natural language), Composed~(CMP, combinations such as text and image or text and video), and Visual~(VIS, pure image or video queries).
-    \textbf{(2)~Data Domain} incorporates Coarse-grained~(CG, high-level semantics), Fine-grained categories including Spatial~(S, object), Temporal~(T, dynamics), and Partially Relevant~(PR, parital information), alongside Long-context~(LC, lengthy inputs).
+    \textbf{(2)~Data Domain} incorporates Coarse-grained~(CG, high-level semantics), Fine-grained categories including Spatial~(S, object), Temporal~(T, dynamics), and Partially Relevant~(PR, partial information), alongside Long-context~(LC, lengthy inputs).
 \end{definition}
 
 This formalization integrates isolated retrieval tasks into a comprehensive taxonomy, delineating the full spectrum of capabilities required for a truly universal video retrieval system.
@@ -93,15 +83,12 @@ To guarantee an objective assessment, all datasets undergo identical preprocessi
 This comprehensive diagnostic framework~(detailed in Appendix~\ref{gve:app:uvrb}) exposes systemic capability deficiencies across current models, directly motivating the necessity and design of our targeted data synthesis pipeline and heterogeneous task curriculum in the subsequent methodology.
 
 
-
-
-
 \begin{figure}[t]
     \centering
     \begin{minipage}[b]{0.7\textwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/gve/model.pdf}
-        \captionof{figure}{The architecture of GVE, a MLLM-based embedding model. We only fine-tune the LLM part. GVE inputs compositional multimodal elements and outputs a high-dimensional vector as an embedding. Details are in Appendix~\ref{gve:app:arch}.}
+        \captionof{figure}{The architecture of GVE, an MLLM-based embedding model. We only fine-tune the LLM part. GVE inputs compositional multimodal elements and outputs a high-dimensional vector as an embedding. Details are in Appendix~\ref{gve:app:arch}.}
         \label{gve:fig:model}
     \end{minipage}
     \hfill
@@ -115,7 +102,7 @@ This comprehensive diagnostic framework~(detailed in Appendix~\ref{gve:app:uvrb}
 
 \section{Methodology}
 
-This section introduces a co-designed framework for universal video retrieval. Guided by UVR, we first propose V-SynFlow. This workflow synthesizes the Universal Video Retrieval Dataset~(UVRD), comprising $1.55$ million targeted video-text pairs to explicitly supplement general retrieval data. Subsequently, we introduce the \pyramid curriculum, an strategy designed to stabilize the optimization of the General Video Embedder~(GVE) by leveraging inherent task hierarchies across heterogeneous modalities.
+This section introduces a co-designed framework for universal video retrieval. Guided by UVR, we first propose V-SynFlow. This workflow synthesizes the Universal Video Retrieval Dataset~(UVRD), comprising $1.55$ million targeted video-text pairs to explicitly supplement general retrieval data. Subsequently, we introduce the \pyramid curriculum, a strategy designed to stabilize the optimization of the General Video Embedder~(GVE) by leveraging inherent task hierarchies across heterogeneous modalities.
 
 \subsection{Scalable Synthesis of Cross-Domain Multi-Task Video Retrieval Data}\label{gve:sec:data_synthesis}
 Training a universal video embedder is fundamentally impeded by a deficiency of high-quality supervision for divergent tasks. Guided by the concrete capability gaps identified in the preliminary diagnostics, such as severe shortcomings in fine-grained temporal reasoning and composed retrieval, we introduce \textbf{V-SynFlow}~(Figure~\ref{gve:fig:v-synflow}). This pipeline transforms weakly annotated web videos from raw datasets~(e.g., PVD~\cite{bolya2025perception}, InternVid-FLT~\cite{wang2023internvid}, and WebVid~\cite{bain2021frozen}) into structured, high-fidelity, and gap-targeted multi-task training instances. Through this targeted approach, we construct the \textbf{Universal Video Retrieval Dataset~(UVRD)}, containing over $1.55$ million descriptive pairs tailored for multidimensional training enhancement~(detailed in Appendix~\ref{gve:app:training_data}).
@@ -132,7 +119,6 @@ The final stage assembles the unified training corpus, $\mathcal{D}_{\star}$. To
 
 \subsubsection{Human Validation}
 To assess the quality of the automatically generated UVRD, human expert evaluation was conducted on a random sample of $100$ instances. Validation confirmed a 95\% factual accuracy rate. While this human-verified sample is a preliminary subset, it corroborates the efficacy of our automated multi-granular quality control pipeline, which serves as the primary scalable safeguard for the entire 1.55 million-pair corpus. Detailed analysis of the minor erroneous instances and the corresponding error taxonomy are in Appendix~\ref{gve:app:v-synflow_validation}.
-
 
 
 \begin{table}[t]
@@ -217,14 +203,6 @@ The similarity is computed as $s_{q \to v} = \cos(E_\theta(q), E_\theta(v))$, an
 where $s_{q \to v} = \cos(E_\theta(q), E_\theta(v))$ (with $q$ and $y$ denoting the query and target modalities, respectively), and $\tau_l$ represents a pre-defined temperature. The total loss constitutes the symmetric sum $\mathcal{L}_i = \frac{1}{2}(\mathcal{L}_i^{(q \to y)} + \mathcal{L}_i^{(y \to q)})$.
 
 
-
-
-
-
-
-
-
-
 \begin{table}[t]
 \centering
 \scriptsize
@@ -256,7 +234,6 @@ GVE-7B           & \textbf{0.600} & \textbf{0.657} & 0.312 & 0.657 & \textbf{0.5
 \bottomrule
 \end{tabularx}
 \end{table}
-
 
 
 \section{Experiments}\label{gve:sec:exp}
@@ -309,13 +286,6 @@ Furthermore, we evaluated GVE on video classification benchmarks in Appendix~\re
 While the foundational backbone (Qwen2.5-VL) underwent large-scale pre-training, our GVE training strictly excludes any samples from the UVRB training and test sets, and the retrieval is performed in a model-agnostic, zero-shot manner without task-specific fine-tuning on the target domains.
 
 
-
-
-
-
-
-
-
 \paragraph{Ablation Studies.}\label{gve:sec:ablation}
 To dissect the individual contributions of UVRD and \pyramid, we conduct a series of ablation studies.
 First, we analyze their impact in Table~\ref{gve:tab:ablation}.
@@ -342,9 +312,6 @@ As the results show, integrating UVRD (\texttt{GVE-s} vs. \texttt{GVE-i}) yields
 Second, to specifically validate the hierarchical design of the curriculum, we compare our full model (\texttt{GVE}) against several variants with different training strategies according to their average scores across datasets, presented in Table~\ref{gve:tab:curriculum_ablation_main}. These variants include random scheduling (\texttt{GVE-s}), a reverse top-down curriculum (\texttt{GVE-r}), and models trained on only video (\texttt{GVE-ov}) or non-video (\texttt{GVE-nv}) data. The performance ranking is that \texttt{GVE} $>$ \texttt{GVE-s} $>$ \texttt{GVE-ov} $>$ \texttt{GVE-r} $>$ \texttt{GVE-nv}. The order offers two key insights. (1)~\textit{The learning sequence is critical:} Our structured curriculum (\texttt{GVE}) significantly outperforms both random (\texttt{GVE-s}) and reversed (\texttt{GVE-r}) scheduling. (2)~\textit{A synergy exists between modalities:} The full model (\texttt{GVE}) also surpasses training on uni-modal data sources alone (\texttt{GVE-ov} and \texttt{GVE-nv}). These findings confirm that a hierarchical integration of diverse data modalities is essential for optimal performance.
 
 
-
-
-
 \begin{figure}[t]
     \centering
     \includegraphics[width=\linewidth]{figures/gve/scaling_avg.pdf}
@@ -359,16 +326,6 @@ On average across datasets~(abilities), \texttt{GVE-3B} improves by $+7.4\%$~($+
 While \texttt{GVE-3B} exhibits higher scaling efficiency in relative terms, \texttt{GVE-7B} starts from a higher baseline, suggesting a trade-off between scaling slope and absolute capability.
 This result highlights the potential for scaling a more powerful video embedding model with training data at a larger scale.
 In addition, we also explore the test-time scaling of spatial and temporal density~(the frame number and resolution) in Appendix~\ref{gve:app:scaling} as a dimension of generalization.
-
-
-
-
-
-
-
-
-
-
 
 
 \begin{figure}[t]
@@ -406,16 +363,3 @@ Parameter scaling improves high-level semantic coherence, but yields negligible 
 \section{Conclusion}
 
 This work advances the paradigm of universal video retrieval by shifting from isolated task optimization to a holistic, capability-driven framework. Guided by our standardized diagnostic protocol across existing benchmarks, we demonstrated that overcoming inherent model bottlenecks requires tightly coupling quality-controlled data synthesis with structured multi-task learning. Specifically, our V-SynFlow pipeline systematically bridges semantic gaps via a million-pair UVRD dataset, while the \pyramid curriculum stabilizes heterogeneous modality training for video embeddings. Consequently, our GVE achieves robust and leading generalization under zero-shot settings. Besides, our statistically rigorous evaluation provides the community with actionable empirical insights. To ensure full reproducibility, our evaluation codes, synthesized dataset, and pre-trained weights will be publicly released, establishing a principled and scalable pathway toward more robust multimodal retrieval systems.
-
-%%
-%% The acknowledgments section is defined using the "acks" environment
-%% (and NOT an unnumbered section). This ensures the proper
-%% identification of the section in the article metadata, and the
-%% consistent spelling of the heading.
-% \begin{acks}
-% \end{acks}
-
-%%
-%% The next two lines define the bibliography style to be used, and
-%% the bibliography file.
-\newpage

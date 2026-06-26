@@ -59,8 +59,6 @@ Early text-video retrieval benchmarks such as MSR-VTT~\cite{xu2016msr} and DiDeM
 Video-language embedding models have evolved from frame-level temporal aggregation~\cite{luo2022clip4clip} to dedicated spatiotemporal encoders, dividing into two families. CLIP-based models extend contrastive image-text pretraining to video, with representative examples including InternVideo2~\cite{wang2024internvideo2} and X-CLIP~\cite{gorti2022x}. MLLM-based models repurpose large multimodal language models for embedding extraction, as exemplified by GVE~\cite{guo2025gve}, Qwen3-VL-Embedding~\cite{qwen3vlembedding}, and other modality-unified approaches~\cite{kong2025modality}. Scaling-law studies in this domain have primarily examined model size and training data volume; a recent complementary effort~\cite{zhu2025dynamic} establishes power-law scaling with respect to frame count and caption density on short clips. The present work differs by evaluating end-to-end multimodal embedding models on long-form video, decomposing sampling into orthogonal spatial and temporal axes, and introducing query granularity as a first-class variable. Building on the resulting scaling principles, we further propose VEterfall, a progressive dense-to-sparse self-distillation framework distinguished from conventional knowledge distillation by its cascaded, density-descending regime.
 
 
-
-
 \section{Rethinking Text-Video Retrieval Evaluation}
 \label{mglvr:sec:benchmark}
 
@@ -124,15 +122,6 @@ Each query-video pair is assigned to a granularity level (FN, MD, or CR) based o
 
 \paragraph{Human Validation.}
 To ensure retrieval uniqueness, a cross-modal collision check is applied: queries exhibiting high semantic similarity to non-target clips within the same video are pruned. Human validation confirms a $96\%$ accuracy rate over $50$ query-video pairs, with failure cases detailed in the supplementary material.
-
-
-
-
-
-
-
-
-
 
 
 \begin{table}[t]
@@ -248,9 +237,6 @@ Retrieval performance is measured using Recall@1 (R@1) and Mean Reciprocal Rank 
 All twenty-three models are evaluated under two configurations (8 and 128 frames; results at 32 frames are provided in the supplementary material). As shown in Table~\ref{mglvr:tab:main_results_8f} and Table~\ref{mglvr:tab:main_results_128f}, performance degrades consistently from CR to FN across all architectures, regardless of model family, parameter scale, or training data composition. For Qwen3-VL-Emb-8B, R@1 drops from $0.8557$ on CR to $0.2102$ on FN at 8 frames, a relative decline of over 75\%. Even at 128 frames, FN R@1 improves only modestly to $0.2871$, a gain of less than 8 percentage points despite a $16\times$ increase in temporal sampling density. This pronounced granularity gradient indicates that simply increasing the number of frames yields strongly diminishing returns on fine-grained retrieval.
 
 
-
-
-
 \begin{figure}[t]
     \centering
     \includegraphics[width=\linewidth]{figures/mglvr/mglvr_testtime_spatial_scaling_2.pdf}
@@ -273,6 +259,7 @@ All twenty-three models are evaluated under two configurations (8 and 128 frames
 \end{figure}
 
 \subsection{Test-Time Scaling}
+\label{mglvr:sec:testtime}
 \label{mglvr:sec:test_time}
 
 We examine how varying spatiotemporal sampling density at inference time affects retrieval performance, isolating spatial and temporal effects by fixing one dimension while varying the other.
@@ -285,10 +272,6 @@ Varying $F$ from 4 to 512 frames reveals a divergence in scaling behavior across
 
 \paragraph{Spatiotemporal Trade-off.}
 When $N_{\text{total}}$ is held constant, the optimal allocation between $F$ and $T$ depends on query granularity (Figure~\ref{mglvr:fig:tradeoff}). CR queries favor high-resolution, low-frame-count configurations, while FN queries favor more frames at lower spatial resolution. Reducing spatial tokens primarily discards fine-grained texture while preserving semantic content, whereas reducing the number of frames risks eliminating visual evidence of brief events entirely.
-
-
-
-
 
 
 \begin{table}[t]
@@ -329,6 +312,7 @@ Temporal & Spatial & Temporal & Spatial & R@1   & MRR   & R@1   & MRR   & R@1   
 \end{table}
 
 \subsection{Training-Time Scaling}
+\label{mglvr:sec:trainingtime}
 
 Following the protocol of an existing work~\cite{guo2025gve}, we post-train Qwen2.5-VL-Instruct-3B~\cite{bai2025qwen25vl} with InfoNCE loss~\cite{oord2018representation} on 500K instances to examine how the training density $(F_{\text{train}}, T_{\text{train}})$ shapes the learned embedding space.
 
@@ -388,24 +372,8 @@ Temporal & Spatial & Temporal & Spatial & R@1   & MRR   & R@1   & MRR   & R@1   
 Unlike spatial representations, temporal representations are tightly coupled to the frame count seen during training, a phenomenon we term \textit{frame-count anchoring}. A mismatch between $F_{\text{train}}$ and $F_{\text{test}}$ consistently degrades performance in both directions, but the degradation is asymmetric. When $F_{\text{train}} \gg F_{\text{test}}$, the performance drop is more severe: a model trained at $F_{\text{train}} = 32$ and evaluated at $F_{\text{test}} = 4$ drops $0.0104$ in Fine R@1 relative to the matched $F_{\text{train}} = 4$ baseline (Group~1 in Table~\ref{mglvr:tab:train_temporal_scaling_internvid_50t}). In the inverse direction, a model trained at $F_{\text{train}} = 4$ and evaluated at $F_{\text{test}} = 32$ drops $0.0083$ in Fine R@1 relative to the matched $F_{\text{train}} = 32$ baseline (Group~4 in Table~\ref{mglvr:tab:train_temporal_scaling_internvid_50t}). Although these gaps are measured against different absolute performance levels and should be interpreted accordingly, the consistent pattern across groups suggests that low-frame-count training better preserves fine-grained discriminability under temporal mismatch than high-frame-count training does.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \section{VEterfall: Channeling Scaling Potential for Self-Enhancement of Video Embedding Models}
+\label{mglvr:sec:veterfall}
 
 Our analysis reveals a key asymmetry: spatial embeddings tolerate token compression well, whereas temporal ones are governed by frame-count anchoring, i.e., models evaluated with high frame-density inputs degrade when the frame count is reduced at inference time. This suggests that the knowledge required for low-density inference is already latent within representations produced under high-density input sampling, but is not automatically transferred when the sampling configuration changes. We therefore propose \textbf{Video Embedding Waterfall (VEterfall)}, a progressive dense-to-sparse self-distillation framework that explicitly propagates this knowledge along the sampling-density axis, from high- to low-density configurations stage by stage, analogous to water descending through successive levels of a waterfall as shown in Figure~\ref{mglvr:fig:veterfall}.
 
@@ -534,49 +502,6 @@ As shown in Table \ref{mglvr:tab:token_eff}, where we fix $F{=}8$ and vary $T$, 
 Table \ref{mglvr:tab:lambda} illustrates the impact of the loss weight $\lambda$. Setting $\lambda{=}0$ already yields competitive performance, and adding the InfoNCE term provides marginal but consistent gains. These results confirm that the primary source of improvement is the embedding distillation objective rather than the contrastive learning term.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \section{Conclusion}
 
 We introduced \benchmarkname, a benchmark for the controlled study of spatiotemporal sampling across query granularity levels in long-video retrieval. Evaluating $23$ models revealed a fundamental asymmetry between spatial and temporal scaling: spatial representations are resolution-robust, whereas temporal representations exhibit frame-count anchoring that is most pronounced on fine-grained queries. Under a fixed token budget, the optimal allocation between spatial and temporal tokens depends on query granularity. Building on these findings, we proposed VEterfall, a progressive dense-to-sparse self-distillation framework in which the high-density representations of a model are used to improve its own low-density embeddings without requiring external supervision, achieving up to ${\sim}20\%$ relative R@1 gains on fine-grained queries under sparse sampling. An important direction for future work is to develop architectures and training strategies that generalize robustly across spatiotemporal sampling configurations.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% \section*{Acknowledgements}
-
-% ---- Bibliography ----
-%
-% BibTeX users should specify bibliography style 'splncs04'.
-% References will then be sorted and formatted in the correct style.
-%
-\newpage
