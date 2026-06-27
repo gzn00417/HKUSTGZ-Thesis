@@ -11,10 +11,10 @@
 
 ## 当前状态
 
-- 编译状态：待验证（需本地编译环境）
-- 输出文件：[main.pdf](main.pdf)（上次编译: 157页）
-- 最近审查：2026-06-26 全面复查，确认 Ch2 清理完毕，发现 Ch4/Ch5/Ch6 及附录仍有 15 项待修复问题（详见 [TODO.md](TODO.md)）
-- 最近修复：2026-06-25 全文审查，修复拼写/语法、数据错误、LaTeX 标签适配、投稿模板残留等 23 项问题
+- 编译状态：已验证 (TeX Live 2026, XeLaTeX)
+- 输出文件：[main.pdf](main.pdf)（167页, 2026-06-27 编译）
+- 最近审查：2026-06-27 Overclaim 风险降低 + 全文 claim scope 统一
+- 最近修复：2026-06-27 移除 "naive scaling" slogan，替换为 scoped proposition；Conclusion 新增三种 generalization 段落；所有 thesis-level claim 加 scope qualifier
 - 写作规范：已建立 [STYLE.md](STYLE.md)（写作风格指南）和 [AGENTS.md](AGENTS.md)（AI 助手指令），供后续编辑参考
 - 模板文件：`ustthesis.cls` / `ustthesis.sty` 保持与 `../Template-of-HKUST-GZ-Thesis` 一致
 - 格式更新：第三章 Table 3.1--3.3 已按 `\linewidth` 页宽排版；caption 字体保持模板默认大小
@@ -54,13 +54,15 @@ latexmk -c
 
 ## 论文概述
 
-本论文研究视频检索的可扩展性和泛化性问题，从三个相互关联的维度展开：
+本论文将视频检索视为一个沿 retrieval pipeline 的 scaling 问题，从三个递进的阶段展开：
 
-| 研究维度 | 核心问题 | 对应章节 |
-|---------|---------|---------|
-| **语义尺度** | 如何学习支持多样化查询的通用检索表示 | Chapter 3 |
-| **观测尺度** | 视频采样密度如何影响检索质量 | Chapter 4 |
-| **搜索尺度** | 如何在大规模候选集合中高效执行检索 | Chapter 5 |
+| 研究阶段 | Scaling 挑战 | 核心问题 | 对应章节 |
+|---------|-------------|---------|---------|
+| **Semantic Scaling** | 表示学习 | 如何学习支持多样化查询的通用检索表示 | Chapter 3 |
+| **Observational Scaling** | 视觉观测 | 视频采样密度如何影响不同粒度的检索质量 | Chapter 4 |
+| **Search Scaling** | 大规模搜索 | 如何在大规模候选集合中高效执行检索 | Chapter 5 |
+
+核心洞察：Scalable video retrieval requires structure-aware scaling across semantic capability, visual observation, and search execution. 在本文研究的三个阶段中，单独扩大模型容量、观测密度或度量精度均不足以产生更广泛的检索泛化能力。Generalizability 作为 empirical criterion 用于评估 scaling 是否以 structure-aware 的方式完成。
 
 ---
 
@@ -189,6 +191,8 @@ main.tex
 
 ## 更新日志
 
+- 2026-06-27: Overclaim 风险降低：移除 "naive scaling" slogan，替换为 scoped proposition；Conclusion 新增三种 generalization 段落；全文 claim 统一为 empirical/operational 表述；编译验证 167 页无错误
+- 2026-06-27: Introduction 完整重写（7段 + Organization，34个引用）；Abstract/Conclusion 与 intro scaling 叙事对齐；全文跨章一致性验证；编译验证 167 页无错误
 - 2026-06-26: 全面复查，确认 Ch2 清理完毕；更新所有文档文件（README/AGENTS/TODO/STYLE），新增 STYLE.md 和 AGENTS.md 到项目结构
 - 2026-06-25: Ch2 内容扩展（5 类 video retrieval domain）、De-AI 润色、em dash/分号替换；创建 STYLE.md 和 AGENTS.md
 - 2026-06-25: 全文综合审查（逻辑/格式/内容/排版/代码/伪代码），新增 10+ 项问题到 TODO.md

@@ -72,6 +72,14 @@ Do not rephrase, restructure, or rewrite sentences in these chapters for style a
 - Standard academic written English throughout.
 - Use universally understandable vocabulary. Reject flowery or obscure word choices.
 
+## Overclaim Avoidoidance
+
+- Avoid absolute or universal claims ("cannot", "no amount of", "fundamental", "must") where the evidence only supports an empirical tendency.
+- Thesis-level claims should be scoped: use "within the scope of this thesis", "across the three stages studied", or similar qualifiers.
+- Prefer empirical/operational formulations over definitional/philosophical ones. For example, "generalizability serves as an empirical criterion" rather than "generalizability is the validation".
+- Do not use memorable slogans as thesis claims. Let the argument speak through its logic and evidence.
+- When describing findings, use "consistent" rather than "fundamental", "is not eliminated" rather than "cannot be resolved", "alone is insufficient" rather than "no amount of X can compensate for".
+
 ## LaTeX Integrity
 
 - Strictly preserve all LaTeX commands (`\cite{}`, `\ref{}`, `\eg`, `\ie`, etc.), mathematical formulas, and special characters (properly escape `%`, `_`, `&`).
