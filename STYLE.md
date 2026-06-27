@@ -72,7 +72,7 @@ Do not rephrase, restructure, or rewrite sentences in these chapters for style a
 - Standard academic written English throughout.
 - Use universally understandable vocabulary. Reject flowery or obscure word choices.
 
-## Overclaim Avoidoidance
+## Overclaim Avoidance
 
 - Avoid absolute or universal claims ("cannot", "no amount of", "fundamental", "must") where the evidence only supports an empirical tendency.
 - Thesis-level claims should be scoped: use "within the scope of this thesis", "across the three stages studied", or similar qualifiers.

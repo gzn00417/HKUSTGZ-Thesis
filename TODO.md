@@ -1,6 +1,6 @@
 # TODO: 论文待解决问题与潜在风险
 
-> **最后更新**: 2026-06-27
+> **最后更新**: 2026-06-28
 > **编译状态**: 已验证 (TeX Live 2026, XeLaTeX)
 > **审查范围**: 全文综合审查（逻辑、格式、内容、排版、代码、伪代码、跨章一致性）
 
@@ -9,14 +9,14 @@
 ## 当前状态
 
 - **编译**: 已验证 (`latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex`)
-- **PDF**: [main.pdf](main.pdf) (167页, 2026-06-27 编译)
+- **PDF**: [main.pdf](main.pdf) (163页, 2026-06-28 编译)
 - **致命错误**: 无
 - **未定义引用/引用**: 无
 - **Introduction**: 已完整重写（7段 + Organization），叙事围绕 semantic/observational/search scaling 展开；已完成 overclaim 风险降低（移除绝对化表述，所有 thesis-level claim 加 scope qualifier）
 - **Abstract**: 已修改，与 intro 的 scaling 叙事对齐；使用 scoped proposition 替代 slogan
-- **Conclusion**: 已修改，开头段加厚（2段），Unified Methodology 段含三种 generalization 区分，所有 claim 加 scope qualifier
+- **Conclusion**: 已重写，Future Directions 替换为四个前沿方向（Retrieval-Native Foundation Models / Agentic Visual Memory / Self-Evolving Data / Continuous Generative Representations），篇幅压缩约 50%
 - **Ch2 状态**: 已清理完毕（无残留 em dash、分号、不必要 `\textbf{}`、AI 特征词）
-- **跨章一致性**: 已验证（2026-06-27），无实质性矛盾，发现 3 处轻微不对称（见高优先级）
+- **跨章一致性**: 已验证（2026-06-28），无实质性矛盾，发现 3 处轻微不对称（见高优先级）
 - **Ch3/Ch4/Ch5 编辑限制**: 这三章源自已发表/投稿的会议论文，**禁止修改内容**，仅允许修复格式、事实性错误、语法错误（详见 `STYLE.md` 和 `AGENTS.md`）
 - **模板文件**: `ustthesis.cls` / `ustthesis.sty` 与 `../Template-of-HKUST-GZ-Thesis` 一致
 - **图表状态**: 正文浮动体使用页顶放置；Chapter 3 表格使用 `tabular*`/`tabularx` 按页宽排版
@@ -37,9 +37,9 @@
 | **Ch2 taxonomy 与 Ch3 UVR 定义不对齐** | `chapters/02` + `chapters/03` | Ch2 §1.1 列出 5 个 semantic domain（含 long-video），但 Ch3 Definition 1 只列 4 个（不含 long-video）。读者可能质疑为何 "universal" evaluation 未覆盖 long-video。建议在 Ch2 §1.1 或 Ch3 Preliminary 中加一句说明 |
 | **Ch2 与 Ch4 措辞重复** | `chapters/02` + `chapters/04` | ~~Ch2 L93 与 Ch4 L19 措辞几乎完全重复~~ **已修复**：Ch2 已改写为 "No existing evaluation setting provides the combination of..."，与 Ch4 原文区分 |
 | **Ch2 对三章贡献预览详细度不对称** | `chapters/02` | Ch2 §2.2 明确提到 VEterfall 的名字和技术描述，但 Ch2 §2.3 未提及 GMP-GR、HiPANNS、MUIRML 的名字。建议 Ch2 §2.3 也提及 GMP-GR 和 HiPANNS 以保持一致 |
-| **Ch6 em dash** | `chapters/06-conclusion.tex` | L7、L15 各一处 em dash (`---`)，需替换为逗号、括号或从句 |
+| **Ch6 em dash** | `chapters/06-conclusion.tex` | ~~L7、L15 各一处 em dash (`---`)~~ **已修复**（2026-06-28）：替换为逗号和从句 |
 | **Ch4 "Importantly," 过渡词** | `chapters/04-spatiotemporal-scaling.tex` | L21 `Importantly, the benchmark allows...`，需移除过渡词并自然衔接 |
-| **Ch5 吞吐量数据矛盾** | `chapters/05-scale-efficient-retrieval.tex` | Abstract/Conclusion 写 "one hundred million requests per second"（≈86亿/天），但 Ch5 L52/L491 写 "one hundred billion requests per day"（≈116万/秒），两者相差约 86 倍，需核实原始数据 |
+| **Ch5 吞吐量数据矛盾** | `chapters/05-scale-efficient-retrieval.tex` + `chapters/06-conclusion.tex` | ~~Abstract/Conclusion 写 "one hundred million requests per second"（≈86亿/天），但 Ch5 L52/L491 写 "one hundred billion requests per day"（≈116万/秒），两者相差约 86 倍~~ **已修复**（2026-06-28）：Ch6 改为 "validated under production-scale serving traffic"，避免混用不同层面的数字 |
 | **Ch5 Related Works 位置不当** | `chapters/05-scale-efficient-retrieval.tex` | Related Works (L436-462) 放在 Experiments 和 Conclusion **之后**，应移至 Methodology 之前或至少 Experiments 之前 |
 | **Ch5 Label 拼写错误** | `chapters/05-scale-efficient-retrieval.tex` + `appendices/C-scale-efficient-retrieval.tex` | `effciency` 缺字母 `i`，共 4 处：`gmpgr:fig:effciency_video`、`gmpgr:fig:effciency_explore`、`gmpgr:fig:effciency_mvideo`、`gmpgr:fig:fig:effciency_fresh`（最后一个还有双重 `fig:` 前缀）|
 | **Ch3 `\captionof` 在 `figure` 环境内** | `chapters/03-universal-video-retrieval.tex` | L91、L98 在 `figure` 环境的 `minipage` 内使用 `\captionof{figure}`，应改为 `\caption`（当前会跳过 figure 计数器，导致编号异常）|
@@ -78,6 +78,42 @@
 ---
 
 ## 已修复问题
+
+### 2026-06-28 修复（第四轮：Future Directions 重写 + 全文审查）
+
+#### Future Directions 重写
+| 修复内容 | 文件 |
+|---------|------|
+| Future Directions 完全重写：从 4 个增量扩展方向替换为 4 个前沿方向（Retrieval-Native Foundation Models / Agentic Visual Memory / Self-Evolving Data / Continuous Generative Representations） | `chapters/06-conclusion.tex` |
+| Future Directions 篇幅压缩约 50%（4 subsection 各 1 段 + closing paragraph） | `chapters/06-conclusion.tex` |
+| Conclusions 段落精简：删除冗余组织概述段落 | `chapters/06-conclusion.tex` |
+
+#### 格式与元数据修复
+| 修复内容 | 文件 |
+|---------|------|
+| `\subject{Doctor of Philosophy in Artificial Intelligence}` → `\subject{Artificial Intelligence}`（修复封面 degree 重复） | `main.tex` |
+| "time of page" → "time on page" | `chapters/06-conclusion.tex` |
+| "Conclusions and Future Directions" → "Conclusion and Future Directions" | `chapters/06-conclusion.tex` |
+| Ch6 em dash `---` → ", where" | `chapters/06-conclusion.tex` |
+| Ch6 吞吐量数据 "throughput exceeding one hundred million requests per second" → "validated under production-scale serving traffic" | `chapters/06-conclusion.tex` |
+| STYLE.md "Avoidoidance" → "Avoidance" | `STYLE.md` |
+
+#### Defensive language 修复
+| 修复内容 | 文件 |
+|---------|------|
+| Intro P7 "form a coherent trajectory" → "address successive bottlenecks" | `chapters/01-introduction.tex` |
+| Ch6 "each depends on the conclusions of the preceding one" → "each addresses the scaling bottleneck at its respective stage" | `chapters/06-conclusion.tex` |
+| Ch6 "form a coherent methodology that extends from..." → "address successive stages of the retrieval pipeline" | `chapters/06-conclusion.tex` |
+
+#### Overclaim 修复
+| 修复内容 | 文件 |
+|---------|------|
+| Ch2 §2.1.4 "is fundamentally a video retrieval problem" → "instantiates the same infrastructure problem faced by deployment-scale video retrieval" | `chapters/02-related-work.tex` |
+
+#### 分号修复
+| 修复内容 | 文件 |
+|---------|------|
+| Ch6 Conclusions 段落中 2 处分号拆分为独立句子 | `chapters/06-conclusion.tex` |
 
 ### 2026-06-27 修复（第三轮：Overclaim 风险降低）
 
@@ -298,7 +334,7 @@ HKUSTGZ-Thesis/
 | 第 3 章 | `chapters/03-universal-video-retrieval.tex` | UVRB、V-SynFlow、Modality Pyramid、GVE |
 | 第 4 章 | `chapters/04-spatiotemporal-scaling.tex` | MG-LVR、时空缩放规律、VEterfall |
 | 第 5 章 | `chapters/05-scale-efficient-retrieval.tex` | GMP-GR、MUIRML、HiPANNS、百度在线部署 |
-| 第 6 章 | `chapters/06-conclusion.tex` | 贡献总结（与 intro scaling 叙事对齐）与未来方向 |
+| 第 6 章 | `chapters/06-conclusion.tex` | 贡献总结与四个前沿方向（Retrieval-Native Foundation Models / Agentic Visual Memory / Self-Evolving Data / Continuous Generative Representations） |
 | 第 7 章 | `chapters/07-publications.tex` | 三篇相关论文列表 |
 | 附录 A | `appendices/A-universal-video-retrieval.tex` | GVE 实验细节、prompt、训练参数 |
 | 附录 B | `appendices/B-spatiotemporal-scaling.tex` | MG-LVR 错误分析、补充表格、prompt |
@@ -310,6 +346,7 @@ HKUSTGZ-Thesis/
 
 | 日期 | 更新内容 |
 |-----|---------|
+| 2026-06-28 | 第四轮修改（Future Directions 重写 + 全文审查）：Future Directions 完全重写为 4 个前沿方向并压缩 50%；修复封面 degree 重复、Ch6 em dash、吞吐量数据矛盾、defensive language（3 处）、Ch2 overclaim、Ch6 分号（2 处）；全文 style check（无残留 em dash/分号/AI 词）；编译验证 163 页无错误 |
 | 2026-06-27 | 第三轮修改（Overclaim 风险降低）：移除 "naive scaling does not produce generalization" 金句，替换为 scoped proposition；Abstract/Intro/Conclusion 全文统一为 empirical/operational claim；"no amount of" → "alone cannot"；"fundamental" → "consistent"；"cannot be resolved" → "is not eliminated"；Conclusion 新增三种 generalization 段落（semantic/observational/deployment）；编译验证 167 页无错误 |
 | 2026-06-27 | 第二轮修改（基于教授反馈）：Future Works → Future Directions；naive scaling 表述变体（保留 Intro P7 金句，Abstract/Intro P3/Conclusion 改写）；消除 Intro P4 和 Ch2 与 Ch4 的措辞重复；Conclusion 开头段加厚（1段→2段）；Generalization claim 加 scope qualifier；编译验证 167 页无错误 |
 | 2026-06-27 | Introduction 完整重写（7段 + Organization，1482词，34个引用）；Abstract/Conclusion 与 intro scaling 叙事对齐；Ch2/Ch7 术语一致性修复（dimensions → scaling challenges）；`\graphicspath` 语法修复；全文跨章一致性验证（无实质性矛盾，3 处轻微不对称已记录）；完整编译验证（166页，无错误） |

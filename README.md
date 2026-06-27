@@ -12,9 +12,9 @@
 ## 当前状态
 
 - 编译状态：已验证 (TeX Live 2026, XeLaTeX)
-- 输出文件：[main.pdf](main.pdf)（167页, 2026-06-27 编译）
-- 最近审查：2026-06-27 Overclaim 风险降低 + 全文 claim scope 统一
-- 最近修复：2026-06-27 移除 "naive scaling" slogan，替换为 scoped proposition；Conclusion 新增三种 generalization 段落；所有 thesis-level claim 加 scope qualifier
+- 输出文件：[main.pdf](main.pdf)（163页, 2026-06-28 编译）
+- 最近审查：2026-06-28 Future Directions 重写 + 全文审查
+- 最近修复：2026-06-28 Future Directions 重写为四个前沿方向并压缩 50%；修复封面 degree 重复、em dash、分号、defensive language、overclaim；全文 style check 通过
 - 写作规范：已建立 [STYLE.md](STYLE.md)（写作风格指南）和 [AGENTS.md](AGENTS.md)（AI 助手指令），供后续编辑参考
 - 模板文件：`ustthesis.cls` / `ustthesis.sty` 保持与 `../Template-of-HKUST-GZ-Thesis` 一致
 - 格式更新：第三章 Table 3.1--3.3 已按 `\linewidth` 页宽排版；caption 字体保持模板默认大小
@@ -191,6 +191,7 @@ main.tex
 
 ## 更新日志
 
+- 2026-06-28: Future Directions 重写为四个前沿方向（Retrieval-Native Foundation Models / Agentic Visual Memory / Self-Evolving Data / Continuous Generative Representations），篇幅压缩 50%；修复封面 degree 重复、Ch6 em dash、吞吐量数据矛盾、defensive language（3处）、Ch2 overclaim、Ch6 分号（2处）；全文 style check 通过；编译验证 163 页无错误
 - 2026-06-27: Overclaim 风险降低：移除 "naive scaling" slogan，替换为 scoped proposition；Conclusion 新增三种 generalization 段落；全文 claim 统一为 empirical/operational 表述；编译验证 167 页无错误
 - 2026-06-27: Introduction 完整重写（7段 + Organization，34个引用）；Abstract/Conclusion 与 intro scaling 叙事对齐；全文跨章一致性验证；编译验证 167 页无错误
 - 2026-06-26: 全面复查，确认 Ch2 清理完毕；更新所有文档文件（README/AGENTS/TODO/STYLE），新增 STYLE.md 和 AGENTS.md 到项目结构
