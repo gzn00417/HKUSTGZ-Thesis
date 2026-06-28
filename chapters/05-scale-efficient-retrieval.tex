@@ -65,18 +65,11 @@ The recommendation framework has served hundreds of millions of online recommend
 Next, we detail the retrieval framework for Baidu recommendations, including the retrieval problem and the retrieval pipeline.
 
 \subsection{Online Retrieval at Baidu}
-%Most industrial recommender systems follow a framework comprising two stages: retrieval and ranking~\cite{cheng2016wide,covington2016deep}.
 Given $N_u$ users $\{u_1,u_2,\cdots,u_{N_u}\}$ and $N_v$ items $\{v_1,v_2,\cdots,v_{N_v}\}$. Consider a query from a user $u$ with raw feature $x_{u}$, the objective of the retrieval stage is to recommend the top-$K$ items that are most relevant to $u$ in order.
 Specifically, we define the retrieval problem as a function $\mathcal{F}(\cdot;\cdot)$ generates a set $V_{u}$ based on the user features. $V_u$ contains the $K$ most similar items $V_{u} = \{v_{u,1},v_{u,2},\cdots,v_{u,K}\}$ as
 \begin{equation}
     V_{u} = \mathcal{F}(x_{u};\{v_1,v_2,\cdots,v_{N_v}\}).
 \end{equation}
-
-% \textit{Stage 2: Ranking.} Second, a function $\mathcal{S}(\cdot;\cdot)$ sorts items in $V_u$ based on the user features as
-% \begin{equation}
-%     v_{u,i_1}, v_{u,i_2}, \cdots, v_{u,i_K} = \mathcal{S}(x_u;V_u),
-% \end{equation}
-% where $\{i_1,i_2,\cdots,i_K\} \rightarrow \{1,2,\cdots,K\}$ is a bijection.
 
 \subsection{Retrieval Pipeline at Baidu}
 
@@ -96,7 +89,6 @@ Then, we pre-define a user and an item projector, $\mathcal{H}_u(\cdot)$ and $\m
 
 \textit{(3)~User-item relevance metric definition.}
 After that, we devise a DNN-based learnable metric~\cite{dehghani2017neural,tay2018latent} to estimate the relevance between a user and an item by a high-dimensional calculation of their embeddings.
-%Traditionally, relevance is measured by mathematical calculations between user and item embeddings, which resort to cosine similarity, inner product, or Euclidean distance. However, the manually defined metrics are too simple to retain sufficient information~\cite{lang2021architecture}. Recent works attempt to leverage DNN as a learnable metric for more accurate relational prediction supervised by interactive values~\cite{dehghani2017neural,tay2018latent}.
 Hence, we aim to obtain a metric $\Delta(\cdot,\cdot)$ to quantify the relevance value given a user embedding and an item embedding as
 $\delta_{u,v} = \Delta(h_{u},h_{v})$.
 
@@ -106,8 +98,6 @@ Next, we optimize the user embeddings, item embeddings, and the relevance metric
     \{h_u\}, \{h_v\}, \Delta(\cdot,\cdot) = \mathcal{F}_t(\{x_u\}, \{x_v\}, \{D^z_{u,v}\}).
 \end{equation}
 The learned embeddings and the relevance metric are used in the online search stage to measure user-item relevance. 
-%To achieve effective retrieval, the metric is required to be capable of navigating the approximate nearest neighbors.
-
 
 \begin{figure}[t]
     \centering
@@ -201,7 +191,6 @@ These limitations collectively degrade the retrieval throughput for real-time re
 To this end, we propose a \textit{Hierarchically Parallel Approximate Nearest Neighbor Search~(HiPANNS)} algorithm to efficiently answer highly concurrent retrieval queries.
 Specifically, HiPANNS consists of two sub-algorithms, \ie inter-candidate HiPANNS and inter-query HiPANNS.
 
-%\textit{(1)~C-HiPANNS: candidate-wise parallelized traversal for search space expansion.}
 Inter-candidate HiPANNS~(C-HiPANNS) allows parallel search within the large-scale graph item base to broaden the global search space for more comprehensive retrieval.
 For each query $u$, we aim to execute $k$ parallel search processes with different initial seeds $S$.
 Each search process traverses the graph item base by visiting the most relevant neighbors.
@@ -209,7 +198,6 @@ We jointly maintain candidates by a shared max heap $\Phi_u$ that ranks $k$ curr
 In this work, we carry out the multi-processing at each layer of the HNSW graph, seeded with top-$k$ candidates ranked by $\Phi_u$ of the last layer.
 The parallelized traversal achieves a $k$-fold expansion of the search space, which yields more effective retrieval results.
 
-%\textit{(2)~Q-HiPANNS: synchronizing irregular query-wise processes for concurrent computation acceleration.}
 Inter-query HiPANNS~(Q-HiPANNS) adaptively aggregates irregular neural computations for more efficient GPU-accelerated retrieval against launch bound from extreme concurrency.
 We adaptively synchronize the irregular user-item relevance evaluation by a queuing aggregation scheme and parallelize batched neural computation on GPU for acceleration.
 First, we initialize a queue $\Psi$ to persistently listen to neural computations. $\Psi$ will record the computations orderly for the following sequential batching, \ie the element received first will be batched first. Each element in $\Psi$ is produced from C-HiPANNS as a group of $(u,v)$ pairs for measuring neighbor embedding similarity. We dynamically generate batches for parallel computing the GPU cluster $U$.
@@ -287,13 +275,6 @@ Fresh data is then cumulatively integrated with the original item base in a batc
 
 \section{Experiments}\label{gmpgr:sec:exp}
 
-% This section introduces the experiments of GMP-GR under offline and online settings. Our goal is to answer the following questions through the investigation of results.
-% Specifically, for offline experiments,
-% (1)~How accurate is GMP-GR in retrieving precisely relevant items?
-% (2)~How does the efficiency of GMP-GR compare to baseline retrieval frameworks?
-% (3)~What is the effectiveness of MUIRML and HiPANNS within GMP-GR?
-% For online experiments, how does GMP-GR affect real-world recommendation statistics?
-
 \subsection{Experimental Setup}
 
 We present datasets, baselines, and metrics in our offline and online experiments. Besides, implementation details are provided in Appendix~\ref{gmpgr:sec:appendix_implementation}.
@@ -304,7 +285,7 @@ We collect real-world video resources from Baidu applications and construct four
 \paragraph{Baselines.}
 We adopt four retrieval baselines in offline experiments, including
 (1)~C-NSW: a basic retrieval framework with cosine function as the relevance metric based on NSW~\cite{malkov2014approximate};
-(2)~D-NSW: a DNN-based retrieval framework based on NSW, supervised by single user-item interaction;
+(2)~D-NSW: a DNN-based retrieval framework based on NSW, supervised by a single user-item interaction;
 (3)~SL2G~\cite{tan2020fast}: a DNN-based retrieval framework based on HNSW~\cite{malkov2018efficient};
 and (4)~NANN~\cite{chen2022approximate}: an industrial retrieval framework improved on SL2G with adversarial training and more efficient ANNS.
 
@@ -321,13 +302,13 @@ Moreover, we evaluate the speed by the number of items retrieved per second. For
 We evaluate the retrieval performance and efficiency of GMP-GR and baseline frameworks on four datasets in an offline environment.
 
 \paragraph{Retrieval Performance.}
-Overall, GMP-GR consistently outperformed the baseline methods across all settings. For instance, GMP-GR demonstrated improvements of at least $20.94\%$, $22.66\%$, and $21.36\%$ in terms of Cov, Rec@10, and Rec@100, respectively, on the Video dataset. Notably, significant improvements are also evident on other datasets.
-Specifically, compared to SL2G and NANN, two typical industrial retrieval frameworks consistently based on HNSW, GMP-GR produces more accurate retrieved results. GMP-GR achieved performance improvements of $20.37\%$, $24.86\%$, and $12.66\%$ over SL2G and NANN on Cov on MVideo, Explore, and Fresh, respectively. The potential reasons are that~(1)~GMP-GR overcomes the shortage of SL2G that the neural metric may harm graph search efficiency due to the unsatisfaction of triangle inequality, and (2)~GMP-GR incorporates valuable insights from dimensional interactive information in metric learning and leverages a broader search space for higher possibility of effective retrieval.
+Overall, GMP-GR consistently outperforms the baseline methods across all settings. For instance, GMP-GR demonstrates improvements of at least $20.94\%$, $22.66\%$, and $21.36\%$ in terms of Cov, Rec@10, and Rec@100, respectively, on the Video dataset. Notably, significant improvements are also evident on other datasets.
+Specifically, compared to SL2G and NANN, two typical industrial retrieval frameworks consistently based on HNSW, GMP-GR produces more accurate retrieved results. GMP-GR achieves performance improvements of $20.37\%$, $24.86\%$, and $12.66\%$ over SL2G and NANN on Cov on MVideo, Explore, and Fresh, respectively. The potential reasons are that~(1)~GMP-GR overcomes the shortage of SL2G that the neural metric may harm graph search efficiency due to the unsatisfaction of triangle inequality, and (2)~GMP-GR incorporates valuable insights from dimensional interactive information in metric learning and leverages a broader search space for higher possibility of effective retrieval.
 
 \begin{figure}[t]
     \centering
-    \subfloat[Video]{\includegraphics[width=0.48\linewidth]{figures/gmpgr/efficiency_Video.pdf}\label{gmpgr:fig:effciency_video}}
-    \subfloat[Explore]{\includegraphics[width=0.48\linewidth]{figures/gmpgr/efficiency_Explore.pdf}\label{gmpgr:fig:effciency_explore}}
+    \subfloat[Video]{\includegraphics[width=0.48\linewidth]{figures/gmpgr/efficiency_Video.pdf}\label{gmpgr:fig:efficiency_video}}
+    \subfloat[Explore]{\includegraphics[width=0.48\linewidth]{figures/gmpgr/efficiency_Explore.pdf}\label{gmpgr:fig:efficiency_explore}}
     \caption{Analysis of correlations between retrieval performance and efficiency on Video and Explore datasets. Methods close to the left~top~($\nwarrow$) have better retrieval performance, \ie Cov~($\uparrow$), with less time costs~($\leftarrow$).}
     \label{gmpgr:fig:efficiency}
 \end{figure}
@@ -440,7 +421,6 @@ This section reviews related works, including DNN-based recommender systems and 
 \paragraph{Deep Neural Network-based Recommender Systems}
 Deep Neural Network~(DNN) has become a popular tool for recommendation systems due to its ability to capture intricate user-item interaction patterns through nonlinear transformations~\cite{zhang2019deep}.
 For example, \cite{zhang2017hashtag} leverages convolutional and recurrent neural networks for recommendations to learn text features from tweets.
-% IRGAN~\cite{wang2017irgan} is the first model that applies generative adversarial networks for information retrieval, where the authors demonstrate its capability in web search, item recommendation, and question answering.
 Recently, neural collaborative filtering has been increasingly adopted, where a Multi-layer Perceptron~(MLP) is deployed to approximate the interaction function and has significant performance gains over traditional methods~\cite{he2017neural}.
 Along with the idea, two-tower architectures have become popular in DNN-based recommender systems~\cite{yang2020mixed}. They train dual encoders for users and items, respectively, which generate user and item representations for downstream operations such as relevance evaluation.
 With two sets of high-dimensional embeddings, the DNN-based system can provide recommendations in user-based or item-based paradigms~\cite{ko2022survey}.
@@ -456,7 +436,6 @@ As research progressed, hashing-based methods emerged as a powerful alternative 
 More recently, graph-based methods have gained popularity for their effectiveness in handling high-dimensional ANNS~\cite{wang2021comprehensive}. The idea is to construct a graph where nodes represent the dataset points, and edges connect points close to each other. Navigating this graph allows for efficient ANN searches.
 Notably, the Navigable Small World~(NSW)~\cite{malkov2014approximate} and its improved variant, Hierarchical Navigable Small World (HNSW)~\cite{malkov2018efficient}, have shown remarkable performance, significantly outperforming previous methods on large-scale datasets.
 Besides, instead of Delaunay graphs, other graph-based approaches choose K-nearest neighbor graph~\cite{fu2016efanna} and relative neighborhood graph~\cite{jayaram2019diskann} for index construction.
-% Some works such as Deep Product Quantization~\cite{babenko2016efficient} combine deep learning with traditional ANNS algorithms for enhancing performance by encoding high-dimensional data efficiently.
 In industrial applications, SL2G~\cite{tan2020fast} first leverages DNN as the relevance metric for graph-based ANNS in real-world recommendations.
 NANN~\cite{chen2022approximate} extends SL2G by improving the DNN-based metric for better accuracy and adaptivity and working ANNS with controllable costs for industrial requirements.
 In this work, we propose a parallel retrieval algorithm for web-scale recommendations with wider search space and better concurrent computational efficiency.

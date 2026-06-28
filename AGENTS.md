@@ -17,7 +17,7 @@ Compiler: XeLaTeX only. Template files `ustthesis.cls` / `ustthesis.sty` must no
 
 - `main.tex` — main thesis (chapters 1–6, publications, bibliography; no appendices)
 - `supplementary.tex` — supplementary material (appendices A–C + own bibliography)
-- `chapters/*.tex` — one file per chapter (00-abstract through 07-publications)
+- `chapters/*.tex` — one file per chapter (00-abstract through 07-publications); `00-acknowledgments-zh.tex` is a Chinese reference draft (not \input{} by main.tex)
 - `appendices/*.tex` — appendix chapters (loaded by `supplementary.tex`, not `main.tex`)
 - `figures/{gve,mglvr,gmpgr}/` — figures for Ch3, Ch4, Ch5 respectively
 - `references/references.bib` — single consolidated bibliography

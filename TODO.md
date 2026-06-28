@@ -1,6 +1,6 @@
 # TODO: 论文待解决问题与潜在风险
 
-> **最后更新**: 2026-06-28
+> **最后更新**: 2026-06-29
 > **编译状态**: 已验证 (TeX Live 2026, XeLaTeX)
 > **审查范围**: 全文综合审查（逻辑、格式、内容、排版、代码、伪代码、跨章一致性）
 
@@ -9,7 +9,7 @@
 ## 当前状态
 
 - **编译**: 已验证 (`latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex` + `supplementary.tex`)
-- **PDF**: [main.pdf](main.pdf) (117页) + [supplementary.pdf](supplementary.pdf) (51页), 2026-06-28 编译
+- **PDF**: [main.pdf](main.pdf) (118页) + [supplementary.pdf](supplementary.pdf) (47页), 2026-06-29 编译
 - **交叉引用**: 已通过 `xr-hyper` 双向验证（main 引用 appendix labels，supplementary 引用 chapter labels），零未解析引用
 - **致命错误**: 无
 - **未定义引用/引用**: 无
@@ -17,6 +17,7 @@
 - **Abstract**: 已修改，与 intro 的 scaling 叙事对齐；使用 scoped proposition 替代 slogan
 - **Conclusion**: 已重写，Future Directions 替换为四个前沿方向（Retrieval-Native Foundation Models / Agentic Visual Memory / Self-Evolving Data / Continuous Generative Representations），篇幅压缩约 50%
 - **Ch2 状态**: 已清理完毕（无残留 em dash、分号、不必要 `\textbf{}`、AI 特征词）
+- **Acknowledgments**: 已完成个性化撰写（含三位导师、其他教授、工业界合作者、论文合作者、同学、家人、委员会、学校感谢）；英文版已完成，中文版参考稿已创建
 - **跨章一致性**: 已验证（2026-06-28），无实质性矛盾，发现 3 处轻微不对称（见高优先级）
 - **Ch3/Ch4/Ch5 编辑限制**: 这三章源自已发表/投稿的会议论文，**禁止修改内容**，仅允许修复格式、事实性错误、语法错误（详见 `STYLE.md` 和 `AGENTS.md`）
 - **模板文件**: `ustthesis.cls` / `ustthesis.sty` 与 `../Template-of-HKUST-GZ-Thesis` 一致
@@ -35,16 +36,8 @@
 | 缺少中文摘要 | `chapters/00-abstract.tex` / 模板 | HKUST(GZ) 博士论文通常要求中英文摘要；当前仅含英文摘要，需确认研究生院要求并补充 |
 | 封面元数据确认 | `main.tex` | 答辩日期 `2026/7/29`、系主任 `Prof. Xiaowen Chu`、导师姓名等需最终确认 |
 | 模板官方认可 | - | 建议联系研究生院确认当前 `ustthesis` 模板版本是否被正式接受 |
-| **Ch2 taxonomy 与 Ch3 UVR 定义不对齐** | `chapters/02` + `chapters/03` | Ch2 §1.1 列出 5 个 semantic domain（含 long-video），但 Ch3 Definition 1 只列 4 个（不含 long-video）。读者可能质疑为何 "universal" evaluation 未覆盖 long-video。建议在 Ch2 §1.1 或 Ch3 Preliminary 中加一句说明 |
-| **Ch2 与 Ch4 措辞重复** | `chapters/02` + `chapters/04` | ~~Ch2 L93 与 Ch4 L19 措辞几乎完全重复~~ **已修复**：Ch2 已改写为 "No existing evaluation setting provides the combination of..."，与 Ch4 原文区分 |
-| **Ch2 对三章贡献预览详细度不对称** | `chapters/02` | Ch2 §2.2 明确提到 VEterfall 的名字和技术描述，但 Ch2 §2.3 未提及 GMP-GR、HiPANNS、MUIRML 的名字。建议 Ch2 §2.3 也提及 GMP-GR 和 HiPANNS 以保持一致 |
-| **Ch6 em dash** | `chapters/06-conclusion.tex` | ~~L7、L15 各一处 em dash (`---`)~~ **已修复**（2026-06-28）：替换为逗号和从句 |
 | **Ch4 "Importantly," 过渡词** | `chapters/04-spatiotemporal-scaling.tex` | L21 `Importantly, the benchmark allows...`，需移除过渡词并自然衔接 |
-| **Ch5 吞吐量数据矛盾** | `chapters/05-scale-efficient-retrieval.tex` + `chapters/06-conclusion.tex` | ~~Abstract/Conclusion 写 "one hundred million requests per second"（≈86亿/天），但 Ch5 L52/L491 写 "one hundred billion requests per day"（≈116万/秒），两者相差约 86 倍~~ **已修复**（2026-06-28）：Ch6 改为 "validated under production-scale serving traffic"，避免混用不同层面的数字 |
-| **Ch5 Related Works 位置不当** | `chapters/05-scale-efficient-retrieval.tex` | Related Works (L436-462) 放在 Experiments 和 Conclusion **之后**，应移至 Methodology 之前或至少 Experiments 之前 |
-| **Ch5 Label 拼写错误** | `chapters/05-scale-efficient-retrieval.tex` + `appendices/C-scale-efficient-retrieval.tex` | `effciency` 缺字母 `i`，共 4 处：`gmpgr:fig:effciency_video`、`gmpgr:fig:effciency_explore`、`gmpgr:fig:effciency_mvideo`、`gmpgr:fig:fig:effciency_fresh`（最后一个还有双重 `fig:` 前缀）|
-| **Ch3 `\captionof` 在 `figure` 环境内** | `chapters/03-universal-video-retrieval.tex` | L91、L98 在 `figure` 环境的 `minipage` 内使用 `\captionof{figure}`，应改为 `\caption`（当前会跳过 figure 计数器，导致编号异常）|
-| **Ch4 重复 label** | `chapters/04-spatiotemporal-scaling.tex` | L263-264 连续两行 `\label{mglvr:sec:testtime}` 和 `\label{mglvr:sec:test_time}`，后者覆盖前者，导致引用指向错误 |
+| **Ch5 Related Works 位置不当** | `chapters/05-scale-efficient-retrieval.tex` | Related Works 放在 Experiments 和 Conclusion **之后**，应移至 Methodology 之前或至少 Experiments 之前（Ch5 源自已发表论文，结构修改需谨慎）|
 
 ### 中优先级
 
@@ -52,16 +45,12 @@
 |-----|------|------------|
 | **Ch5 Self Covariant Loss 公式** | `chapters/05-scale-efficient-retrieval.tex` | 公式中 `VAR(x) = \sqrt{\sum(x-\bar{x})^2}` 实际计算的是未归一化的标准差（缺少 $\frac{1}{N_l}$ 因子），命名为 `VAR` 容易与方差混淆；需确认是否为有意设计 |
 | **Ch5 $\mathcal{F}$ 符号重载** | `chapters/05-scale-efficient-retrieval.tex` | 公式(1)中 $\mathcal{F}$ 是检索函数，公式(7)中 $\mathcal{F}_t$ 是训练优化函数，同一章内符号含义不同 |
-| **Ch3/Ch4/Ch5 Related Works 重复** | 各章 | 各章保留独立的 Related Works section，与 Ch2 (Background and Literature Review) 存在大量内容重叠（如 HNSW、CLIP-based/MLLM-based models、工业检索系统等） |
+| **Ch3/Ch4/Ch5 Related Works 重复** | 各章 | 各章保留独立的 Related Works section，与 Ch2 (Background and Literature Review) 存在大量内容重叠（如 HNSW、CLIP-based/MLLM-based models、工业检索系统等）|
 | **Ch3/Ch4/Ch5 Conclusion 重复** | 各章 | 各章保留独立的 Conclusion section，与 Ch6 (Conclusions and Future Works) 存在重复 |
-| 未引用参考文献 | `references/references.bib` | `babenko2016efficient`、`lang2021architecture`、`wang2017irgan` 三篇未被正文引用，建议删除 |
+| 未引用参考文献 | `references/references.bib` | `babenko2016efficient`、`lang2021architecture`、`wang2017irgan` 三篇无任何引用（注释已清理），建议删除bib条目 |
 | 参考文献字段补全 | `references/references.bib` | 109 条中：41 条 inproceedings/article 缺 `pages`；38 条 inproceedings 缺 `publisher`/`organization`；107 条缺 `DOI`；建议从出版源补全 |
 | 出版物状态更新 | `chapters/07-publications.tex` | 第 1、2 篇标注为 Submitted to MM'26 / ECCV 2026，第 3 篇为 WWW'26 已发表；需根据实际审稿状态更新 |
-| 致谢内容 | `chapters/00-acknowledgments.tex` | 当前为通用模板式内容，建议根据个人经历补充具体合作者、项目基金等信息 |
-| **Ch5 注释残留代码** | `chapters/05-scale-efficient-retrieval.tex` | L68、L99、L109、L248、L264、L290-295、L443、L459 共 8 处论文投稿注释行未清理，建议删除或转为正式内容 |
-| **Ch5 伪代码集合运算符错误** | `appendices/C-scale-efficient-retrieval.tex` | L48 `B_U = B_U ∩ B_i` 使用交集符号 ∩ 表示拼接，语义错误；应为 `B_U = B_U ∪ B_i` 或改为文字描述 |
 | **Q-HiPANNS 返回值模糊** | `appendices/C-scale-efficient-retrieval.tex` | L58 `Return δ_{B_i}` 返回的是函数参数 `B_i` 而非累积结果，语义不清 |
-| **Ch5 语法错误** | `chapters/05-scale-efficient-retrieval.tex` | L307 `supervised by single` → `supervised by a single`；L325 `consistently outperformed`（过去时）与上下文现在时不统一 |
 
 ### 低优先级（可忽略）
 
@@ -79,6 +68,29 @@
 ---
 
 ## 已修复问题
+
+### 2026-06-29 修复（第七轮：全文确定性错误修复 + 提交前整理）
+
+| 修复内容 | 文件 |
+|---------|------|
+| Ch3 `\captionof{figure}` → `\caption`：修复 figure 环境内使用 `\captionof` 导致的编号异常 | `chapters/03-universal-video-retrieval.tex` |
+| Ch4 删除重复 `\label{mglvr:sec:test_time}`，保留 `\label{mglvr:sec:testtime}` 统一引用 | `chapters/04-spatiotemporal-scaling.tex` |
+| Ch5 修正拼写 `effciency` → `efficiency`（3处 label），同步正文 label 引用 | `chapters/05-scale-efficient-retrieval.tex` |
+| Appendix C 修正双重 `fig:fig:` 前缀 → `fig:`；修正伪代码集合运算符 ∩ → ∪（拼接语义） | `appendices/C-scale-efficient-retrieval.tex` |
+| Ch5 语法修正：`supervised by single` → `supervised by a single`；`outperformed` → `outperforms`（时态统一） | `chapters/05-scale-efficient-retrieval.tex` |
+| Ch5 清理注释残留代码（8处投稿注释行），删除对已无引用文献的注释引用 | `chapters/05-scale-efficient-retrieval.tex` |
+| Ch2 taxonomy 对齐：将 fine-grained/spatial/temporal/partially-relevant 合并为 §2.1 统一讨论，Long-video retrieval 作为观测缩放问题移至 §2.2，与 Ch3 Definition 1（4个语义域）对齐 | `chapters/02-related-work.tex` |
+| Ch2 §2.3 补充 Ch5 贡献预览：提及 GMP-GR、MUIRML（Multi-relational User-Item Relevance Metric Learning）、HiPANNS，与 §2.2 对 Ch4 VEterfall 的描述保持对称 | `chapters/02-related-work.tex` |
+| 将中文版致谢 `00-acknowledgments-zh.tex` 在提交时手动排除（个人参考稿，不提交） | - |
+| 最终完整编译（main + supplementary 交叉引用），main.pdf 118 页，supplementary.pdf 47 页，零错误零未定义引用 | - |
+
+### 2026-06-29 修复（第六轮：致谢撰写）
+
+| 修复内容 | 文件 |
+|---------|------|
+| 重写致谢：从通用模板改为个性化感谢，含褚晓文教授（四最大支持）、许人镜教授（co-supervisor/师兄共鸣）、刘浩教授（最严厉的课）、熊辉/杨强/李佳/宋扬秋教授、工业界合作者（通义实验室/百度/小红书Zanlin/Shuohuan/Weibin/Siyan/Jianjia）、论文合作者（Wen Shuo Chao/Yang Liu/Qiuchen Wang）、同学（Siqi Lai/Junru/Lingrui/Xiaoyong/Xiaokang/Zhenyi等）、家人 | `chapters/00-acknowledgments.tex` |
+| 创建中文参考稿 `00-acknowledgments-zh.tex`（不参与编译，供母语写作参考） | `chapters/00-acknowledgments-zh.tex` |
+| 修正人名拼写：Wenshuo Zhao → Wen Shuo Chao（按本人实际英文署名） | `chapters/00-acknowledgments.tex` |
 
 ### 2026-06-28 修复（第五轮：Introduction 框架图插入 + 第六段扩展）
 
@@ -321,10 +333,14 @@ latexmk -c
 ```
 HKUSTGZ-Thesis/
 ├── main.tex                 # 主论文编译文件（Ch1-6 + Publications + References）
-├── main.pdf                 # 主论文输出（117页）
+├── main.pdf                 # 主论文输出（119页）
 ├── supplementary.tex        # 补充材料编译文件（Appendix A-C + References）
-├── supplementary.pdf        # 补充材料输出（51页）
+├── supplementary.pdf        # 补充材料输出（46页）
 ├── chapters/                # 论文章节
+│   ├── 00-abstract.tex      # 英文摘要
+│   ├── 00-acknowledgments.tex      # 致谢（英文）
+│   ├── 00-acknowledgments-zh.tex   # 致谢（中文参考稿，不参与编译）
+│   └── ...
 ├── appendices/              # 附录（由 supplementary.tex 加载）
 ├── figures/                 # 图片资源
 ├── references/              # 参考文献
@@ -343,7 +359,7 @@ HKUSTGZ-Thesis/
 | 章节 | 文件 | 内容概要 |
 |-----|------|---------|
 | 摘要 | `chapters/00-abstract.tex` | 英文摘要；scaling problem along the retrieval pipeline 叙事；需确认是否补充中文摘要 |
-| 致谢 | `chapters/00-acknowledgments.tex` | 通用致谢，建议个性化 |
+| 致谢 | `chapters/00-acknowledgments.tex` | 个性化致谢（导师/合作者/家人/委员会），已完成；另有中文参考稿 `00-acknowledgments-zh.tex` |
 | 第 1 章 | `chapters/01-introduction.tex` | 研究背景、semantic/observational/search scaling 三维度、三篇 paper 解决方案、论文组织 |
 | 第 2 章 | `chapters/02-related-work.tex` | 视频检索概念、embedding models、spatiotemporal sampling、ANNS/图检索、文献综述 |
 | 第 3 章 | `chapters/03-universal-video-retrieval.tex` | UVRB、V-SynFlow、Modality Pyramid、GVE |
@@ -361,6 +377,8 @@ HKUSTGZ-Thesis/
 
 | 日期 | 更新内容 |
 |-----|---------|
+| 2026-06-29 | **提交前整理（第七轮）**：修复 6 项确定性错误（Ch3 `\captionof`、Ch4 重复label、Ch5拼写/语法、Appendix C伪代码∩→∪/双重fig前缀、Ch5注释残留代码清理）；Ch2 taxonomy与Ch3对齐（4个语义域）；Ch2 §2.3补充Ch5贡献预览（GMP-GR/MUIRML/HiPANNS）；中文版致谢加入.gitignore；main.pdf 118页 + supplementary.pdf 47页，0错误0未定义引用；清理中间文件 |
+| 2026-06-29 | **致谢完成**：重写英文版致谢（`00-acknowledgments.tex`），包含对褚晓文教授、许人镜教授、刘浩教授三位导师的个性化感谢，以及熊辉/杨强/李佳/宋扬秋教授、工业界合作者（通义实验室/百度/小红书）、论文合作者、同学、家人的感谢；创建中文版参考稿 `00-acknowledgments-zh.tex`；完整编译验证通过（main.pdf 119页 + supplementary.pdf 46页，0错误）；清理LaTeX中间文件 |
 | 2026-06-28 | **Introduction 框架图插入**：在 `01-introduction.tex` 中插入 `figures/thesis-framework.pdf` 为 Figure 1.1（`[t]` 放置于第二段与第三段之间）；扩展第六段为详细方法描述，与框架图三列结构（Semantic Scaling → GVE / Observational Scaling → MG-LVR + VEterfall / Search Scaling → HiPANNS + GPU Execution）对齐；上下文一致性验证通过（Intro P6 vs Abstract vs Conclusion vs Figure）；main.pdf 从 116 页增至 117 页；编译验证无错误 |
 | 2026-06-28 | **Supplementary 拆分**：将附录从 main.tex 分离到独立的 supplementary.tex；main 仅保留 Ch1-6 + Publications + References（116页）；supplementary 包含 Appendix A-C + 独立 Bibliography（51页）；通过 `xr-hyper` 实现双向交叉引用（main↔supplementary labels），零未解析引用；supplementary 使用简洁标题页（论文标题 + "Supplementary Material"）；更新 AGENTS.md / TODO.md / README.md |
 | 2026-06-28 | 第四轮修改（Future Directions 重写 + 全文审查）：Future Directions 完全重写为 4 个前沿方向并压缩 50%；修复封面 degree 重复、Ch6 em dash、吞吐量数据矛盾、defensive language（3 处）、Ch2 overclaim、Ch6 分号（2 处）；全文 style check（无残留 em dash/分号/AI 词）；编译验证 163 页无错误 |

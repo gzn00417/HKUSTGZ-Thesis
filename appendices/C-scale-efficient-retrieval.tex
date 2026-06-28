@@ -45,11 +45,11 @@ In Algorithm~\ref{gmpgr:alg:q_hipanns}, inter-query HiPANNS~(Q-HiPANNS) adaptive
         \ForEach{$B_i \in \Psi$}{
             $\epsilon = N_U - N^{\prime}_U$\;
             \eIf{$N_{B_i} \leq \epsilon$}{
-                Concentrate batch as $B_U = B_U \cap B_i$ and $N^{\prime}_U = N^{\prime}_U + N_{B_i}$\;
+                Concentrate batch as $B_U = B_U \cup B_i$ and $N^{\prime}_U = N^{\prime}_U + N_{B_i}$\;
                 Calculate $\delta_{B_i}$ on $U$\;
             }{
                 Split $B_i$ as $B_i^{[1,\epsilon]}$ and $B_i^{[\epsilon+1,N_{B_i}]}$\;
-                Concentrate batch as $B_U = B_U \cap B_i^{[1,\epsilon]}$\;
+                Concentrate batch as $B_U = B_U \cup B_i^{[1,\epsilon]}$\;
                 Calculate $\delta_{B_i}$ on $U$\;
                 Set $B_U = B_i^{[\epsilon+1,N_{B_i}]}$ and $N^{\prime}_U = N_{B_i} - \epsilon$\;
             }
@@ -109,8 +109,8 @@ Here we analyze the efficiency in terms of inference time and search speed on MV
 
 \begin{figure}[htbp]
     \centering
-    \subfloat[MVideo]{\includegraphics[width=0.48\linewidth]{figures/gmpgr/efficiency_MVideo.pdf}\label{gmpgr:fig:effciency_mvideo}}
-    \subfloat[Fresh]{\includegraphics[width=0.48\linewidth]{figures/gmpgr/efficiency_Fresh.pdf}\label{gmpgr:fig:fig:effciency_fresh}}
+    \subfloat[MVideo]{\includegraphics[width=0.48\linewidth]{figures/gmpgr/efficiency_MVideo.pdf}\label{gmpgr:fig:efficiency_mvideo}}
+    \subfloat[Fresh]{\includegraphics[width=0.48\linewidth]{figures/gmpgr/efficiency_Fresh.pdf}\label{gmpgr:fig:efficiency_fresh}}
     \caption{Analysis of correlations between retrieval performance and efficiency on four datasets. Methods close to the left~top~($\nwarrow$) have better retrieval performance, \ie Cov~($\uparrow$), with less time costs~($\leftarrow$).}
     \label{gmpgr:fig:appendix_efficiency}
 \end{figure}
