@@ -9,11 +9,11 @@
 ## 当前状态
 
 - **编译**: 已验证 (`latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex` + `supplementary.tex`)
-- **PDF**: [main.pdf](main.pdf) (116页) + [supplementary.pdf](supplementary.pdf) (51页), 2026-06-28 编译
+- **PDF**: [main.pdf](main.pdf) (117页) + [supplementary.pdf](supplementary.pdf) (51页), 2026-06-28 编译
 - **交叉引用**: 已通过 `xr-hyper` 双向验证（main 引用 appendix labels，supplementary 引用 chapter labels），零未解析引用
 - **致命错误**: 无
 - **未定义引用/引用**: 无
-- **Introduction**: 已完整重写（7段 + Organization），叙事围绕 semantic/observational/search scaling 展开；已完成 overclaim 风险降低（移除绝对化表述，所有 thesis-level claim 加 scope qualifier）
+- **Introduction**: 已完整重写（7段 + Organization），叙事围绕 semantic/observational/search scaling 展开；已完成 overclaim 风险降低（移除绝对化表述，所有 thesis-level claim 加 scope qualifier）；已插入论文框架图 `figures/thesis-framework.pdf`（Figure 1.1），第六段扩展为详细方法描述并与图中三列结构对齐
 - **Abstract**: 已修改，与 intro 的 scaling 叙事对齐；使用 scoped proposition 替代 slogan
 - **Conclusion**: 已重写，Future Directions 替换为四个前沿方向（Retrieval-Native Foundation Models / Agentic Visual Memory / Self-Evolving Data / Continuous Generative Representations），篇幅压缩约 50%
 - **Ch2 状态**: 已清理完毕（无残留 em dash、分号、不必要 `\textbf{}`、AI 特征词）
@@ -79,6 +79,16 @@
 ---
 
 ## 已修复问题
+
+### 2026-06-28 修复（第五轮：Introduction 框架图插入 + 第六段扩展）
+
+#### 框架图插入与第六段扩展
+| 修复内容 | 文件 |
+|---------|------|
+| 插入论文框架图 `figures/thesis-framework.pdf` 为 Figure 1.1，放置于第二段与第三段之间（`[t]` 放置） | `chapters/01-introduction.tex` |
+| 第六段（"To address these three challenges..."）扩展：为三项研究各增加方法细节描述，与框架图三列结构对齐 | `chapters/01-introduction.tex` |
+| 第六段新增 `Figure~\ref{fig:thesis-framework}` 引用 | `chapters/01-introduction.tex` |
+| 上下文一致性验证：Intro P6 方法描述与 Abstract、Conclusion、框架图内容完全对齐 | 全文 |
 
 ### 2026-06-28 修复（第四轮：Future Directions 重写 + 全文审查）
 
@@ -311,7 +321,7 @@ latexmk -c
 ```
 HKUSTGZ-Thesis/
 ├── main.tex                 # 主论文编译文件（Ch1-6 + Publications + References）
-├── main.pdf                 # 主论文输出（116页）
+├── main.pdf                 # 主论文输出（117页）
 ├── supplementary.tex        # 补充材料编译文件（Appendix A-C + References）
 ├── supplementary.pdf        # 补充材料输出（51页）
 ├── chapters/                # 论文章节
@@ -351,6 +361,7 @@ HKUSTGZ-Thesis/
 
 | 日期 | 更新内容 |
 |-----|---------|
+| 2026-06-28 | **Introduction 框架图插入**：在 `01-introduction.tex` 中插入 `figures/thesis-framework.pdf` 为 Figure 1.1（`[t]` 放置于第二段与第三段之间）；扩展第六段为详细方法描述，与框架图三列结构（Semantic Scaling → GVE / Observational Scaling → MG-LVR + VEterfall / Search Scaling → HiPANNS + GPU Execution）对齐；上下文一致性验证通过（Intro P6 vs Abstract vs Conclusion vs Figure）；main.pdf 从 116 页增至 117 页；编译验证无错误 |
 | 2026-06-28 | **Supplementary 拆分**：将附录从 main.tex 分离到独立的 supplementary.tex；main 仅保留 Ch1-6 + Publications + References（116页）；supplementary 包含 Appendix A-C + 独立 Bibliography（51页）；通过 `xr-hyper` 实现双向交叉引用（main↔supplementary labels），零未解析引用；supplementary 使用简洁标题页（论文标题 + "Supplementary Material"）；更新 AGENTS.md / TODO.md / README.md |
 | 2026-06-28 | 第四轮修改（Future Directions 重写 + 全文审查）：Future Directions 完全重写为 4 个前沿方向并压缩 50%；修复封面 degree 重复、Ch6 em dash、吞吐量数据矛盾、defensive language（3 处）、Ch2 overclaim、Ch6 分号（2 处）；全文 style check（无残留 em dash/分号/AI 词）；编译验证 163 页无错误 |
 | 2026-06-27 | 第三轮修改（Overclaim 风险降低）：移除 "naive scaling does not produce generalization" 金句，替换为 scoped proposition；Abstract/Intro/Conclusion 全文统一为 empirical/operational claim；"no amount of" → "alone cannot"；"fundamental" → "consistent"；"cannot be resolved" → "is not eliminated"；Conclusion 新增三种 generalization 段落（semantic/observational/deployment）；编译验证 167 页无错误 |

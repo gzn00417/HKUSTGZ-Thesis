@@ -12,9 +12,9 @@
 ## 当前状态
 
 - 编译状态：已验证 (TeX Live 2026, XeLaTeX)
-- 输出文件：[main.pdf](main.pdf)（116页）+ [supplementary.pdf](supplementary.pdf)（51页），2026-06-28 编译
-- 最近审查：2026-06-28 Future Directions 重写 + 全文审查 + Supplementary 拆分
-- 最近修复：2026-06-28 将附录拆分为独立 supplementary.tex；通过 `xr-hyper` 实现双向交叉引用；修复封面 degree 重复、em dash、分号、defensive language、overclaim；全文 style check 通过
+- 输出文件：[main.pdf](main.pdf)（117页）+ [supplementary.pdf](supplementary.pdf)（51页），2026-06-28 编译
+- 最近审查：2026-06-28 Introduction 框架图插入 + 第六段扩展 + Future Directions 重写 + 全文审查 + Supplementary 拆分
+- 最近修复：2026-06-28 插入论文框架图 `figures/thesis-framework.pdf`，扩展 Introduction 第六段方法描述并与框架图对齐；将附录拆分为独立 supplementary.tex；通过 `xr-hyper` 实现双向交叉引用；修复封面 degree 重复、em dash、分号、defensive language、overclaim；全文 style check 通过
 - 写作规范：已建立 [STYLE.md](STYLE.md)（写作风格指南）和 [AGENTS.md](AGENTS.md)（AI 助手指令），供后续编辑参考
 - 模板文件：`ustthesis.cls` / `ustthesis.sty` 保持与 `../Template-of-HKUST-GZ-Thesis` 一致
 - 格式更新：第三章 Table 3.1--3.3 已按 `\linewidth` 页宽排版；caption 字体保持模板默认大小
@@ -77,7 +77,7 @@ latexmk -c
 ```
 HKUSTGZ-Thesis/
 ├── main.tex                 # 主论文编译文件（Ch1-6 + Publications + References）
-├── main.pdf                 # 主论文输出（116页）
+├── main.pdf                 # 主论文输出（117页）
 ├── supplementary.tex        # 补充材料编译文件（Appendix A-C + References）
 ├── supplementary.pdf        # 补充材料输出（51页）
 ├── chapters/                # 论文章节
@@ -205,6 +205,8 @@ supplementary.tex
 ---
 
 ## 更新日志
+
+- 2026-06-28: Introduction 框架图插入：在 `01-introduction.tex` 中插入 `figures/thesis-framework.pdf` 为 Figure 1.1，扩展第六段为详细方法描述并与框架图三列结构对齐；上下文一致性验证通过；main.pdf 从 116 页增至 117 页；编译验证无错误
 
 - 2026-06-28: Future Directions 重写为四个前沿方向（Retrieval-Native Foundation Models / Agentic Visual Memory / Self-Evolving Data / Continuous Generative Representations），篇幅压缩 50%；修复封面 degree 重复、Ch6 em dash、吞吐量数据矛盾、defensive language（3处）、Ch2 overclaim、Ch6 分号（2处）；全文 style check 通过；编译验证 163 页无错误
 - 2026-06-27: Overclaim 风险降低：移除 "naive scaling" slogan，替换为 scoped proposition；Conclusion 新增三种 generalization 段落；全文 claim 统一为 empirical/operational 表述；编译验证 167 页无错误
