@@ -12,9 +12,9 @@
 ## 当前状态
 
 - 编译状态：已验证 (TeX Live 2026, XeLaTeX)
-- 输出文件：[main.pdf](main.pdf)（163页, 2026-06-28 编译）
-- 最近审查：2026-06-28 Future Directions 重写 + 全文审查
-- 最近修复：2026-06-28 Future Directions 重写为四个前沿方向并压缩 50%；修复封面 degree 重复、em dash、分号、defensive language、overclaim；全文 style check 通过
+- 输出文件：[main.pdf](main.pdf)（116页）+ [supplementary.pdf](supplementary.pdf)（51页），2026-06-28 编译
+- 最近审查：2026-06-28 Future Directions 重写 + 全文审查 + Supplementary 拆分
+- 最近修复：2026-06-28 将附录拆分为独立 supplementary.tex；通过 `xr-hyper` 实现双向交叉引用；修复封面 degree 重复、em dash、分号、defensive language、overclaim；全文 style check 通过
 - 写作规范：已建立 [STYLE.md](STYLE.md)（写作风格指南）和 [AGENTS.md](AGENTS.md)（AI 助手指令），供后续编辑参考
 - 模板文件：`ustthesis.cls` / `ustthesis.sty` 保持与 `../Template-of-HKUST-GZ-Thesis` 一致
 - 格式更新：第三章 Table 3.1--3.3 已按 `\linewidth` 页宽排版；caption 字体保持模板默认大小
@@ -27,14 +27,20 @@
 # 进入论文目录
 cd HKUSTGZ-Thesis
 
-# 使用 latexmk 自动编译（推荐）
+# 使用 latexmk 编译（推荐，需按顺序）
 latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
+latexmk -xelatex -interaction=nonstopmode -halt-on-error supplementary.tex
+latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex   # 第二轮同步交叉引用
 
 # 或手动编译
 xelatex main.tex
 bibtex main
 xelatex main.tex
 xelatex main.tex
+xelatex supplementary.tex
+bibtex supplementary
+xelatex supplementary.tex
+xelatex main.tex   # 同步 supplementary.aux
 
 # 清理辅助文件
 latexmk -c
@@ -42,7 +48,7 @@ latexmk -c
 
 ### 2. 查看输出
 
-编译完成后查看 `main.pdf`。
+编译完成后查看 `main.pdf`（主论文）和 `supplementary.pdf`（补充材料）。
 
 ### 3. 修改内容
 
@@ -70,8 +76,10 @@ latexmk -c
 
 ```
 HKUSTGZ-Thesis/
-├── main.tex                 # 主编译文件
-├── main.pdf                 # 编译输出
+├── main.tex                 # 主论文编译文件（Ch1-6 + Publications + References）
+├── main.pdf                 # 主论文输出（116页）
+├── supplementary.tex        # 补充材料编译文件（Appendix A-C + References）
+├── supplementary.pdf        # 补充材料输出（51页）
 ├── chapters/                # 论文章节
 │   ├── 00-abstract.tex      # 摘要
 │   ├── 00-acknowledgments.tex # 致谢
@@ -82,7 +90,7 @@ HKUSTGZ-Thesis/
 │   ├── 05-scale-efficient-retrieval.tex  # 第五章
 │   ├── 06-conclusion.tex    # 结论
 │   └── 07-publications.tex  # 发表论文
-├── appendices/              # 附录
+├── appendices/              # 附录（由 supplementary.tex 加载）
 ├── figures/                 # 图片资源
 │   ├── gve/                 # 第三章图片
 │   ├── mglvr/               # 第四章图片
@@ -126,8 +134,15 @@ main.tex
   ├── ustthesis.cls (模板类)
   ├── ustthesis.sty (模板样式)
   ├── chapters/*.tex (章节内容)
-  ├── appendices/*.tex (附录)
-  └── references/references.bib (参考文献)
+  ├── references/references.bib (参考文献)
+  └── supplementary.aux (交叉引用 appendix labels，通过 xr-hyper)
+
+supplementary.tex
+  ├── ustthesis.cls (模板类)
+  ├── ustthesis.sty (模板样式)
+  ├── appendices/*.tex (附录内容)
+  ├── references/references.bib (参考文献)
+  └── main.aux (交叉引用 chapter labels，通过 xr-hyper)
 ```
 
 图片路径配置：

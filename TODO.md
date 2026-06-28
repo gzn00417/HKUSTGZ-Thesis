@@ -8,8 +8,9 @@
 
 ## 当前状态
 
-- **编译**: 已验证 (`latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex`)
-- **PDF**: [main.pdf](main.pdf) (163页, 2026-06-28 编译)
+- **编译**: 已验证 (`latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex` + `supplementary.tex`)
+- **PDF**: [main.pdf](main.pdf) (116页) + [supplementary.pdf](supplementary.pdf) (51页), 2026-06-28 编译
+- **交叉引用**: 已通过 `xr-hyper` 双向验证（main 引用 appendix labels，supplementary 引用 chapter labels），零未解析引用
 - **致命错误**: 无
 - **未定义引用/引用**: 无
 - **Introduction**: 已完整重写（7段 + Organization），叙事围绕 semantic/observational/search scaling 展开；已完成 overclaim 风险降低（移除绝对化表述，所有 thesis-level claim 加 scope qualifier）
@@ -294,8 +295,10 @@
 # 进入论文目录
 cd HKUSTGZ-Thesis
 
-# 完整编译（推荐）
+# 完整编译（推荐，需按顺序）
 latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
+latexmk -xelatex -interaction=nonstopmode -halt-on-error supplementary.tex
+latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex   # 第二轮同步交叉引用
 
 # 清理辅助文件
 latexmk -c
@@ -307,10 +310,12 @@ latexmk -c
 
 ```
 HKUSTGZ-Thesis/
-├── main.tex                 # 主编译文件
-├── main.pdf                 # 编译输出
+├── main.tex                 # 主论文编译文件（Ch1-6 + Publications + References）
+├── main.pdf                 # 主论文输出（116页）
+├── supplementary.tex        # 补充材料编译文件（Appendix A-C + References）
+├── supplementary.pdf        # 补充材料输出（51页）
 ├── chapters/                # 论文章节
-├── appendices/              # 附录
+├── appendices/              # 附录（由 supplementary.tex 加载）
 ├── figures/                 # 图片资源
 ├── references/              # 参考文献
 ├── ustthesis.cls            # 论文模板类文件
@@ -346,6 +351,7 @@ HKUSTGZ-Thesis/
 
 | 日期 | 更新内容 |
 |-----|---------|
+| 2026-06-28 | **Supplementary 拆分**：将附录从 main.tex 分离到独立的 supplementary.tex；main 仅保留 Ch1-6 + Publications + References（116页）；supplementary 包含 Appendix A-C + 独立 Bibliography（51页）；通过 `xr-hyper` 实现双向交叉引用（main↔supplementary labels），零未解析引用；supplementary 使用简洁标题页（论文标题 + "Supplementary Material"）；更新 AGENTS.md / TODO.md / README.md |
 | 2026-06-28 | 第四轮修改（Future Directions 重写 + 全文审查）：Future Directions 完全重写为 4 个前沿方向并压缩 50%；修复封面 degree 重复、Ch6 em dash、吞吐量数据矛盾、defensive language（3 处）、Ch2 overclaim、Ch6 分号（2 处）；全文 style check（无残留 em dash/分号/AI 词）；编译验证 163 页无错误 |
 | 2026-06-27 | 第三轮修改（Overclaim 风险降低）：移除 "naive scaling does not produce generalization" 金句，替换为 scoped proposition；Abstract/Intro/Conclusion 全文统一为 empirical/operational claim；"no amount of" → "alone cannot"；"fundamental" → "consistent"；"cannot be resolved" → "is not eliminated"；Conclusion 新增三种 generalization 段落（semantic/observational/deployment）；编译验证 167 页无错误 |
 | 2026-06-27 | 第二轮修改（基于教授反馈）：Future Works → Future Directions；naive scaling 表述变体（保留 Intro P7 金句，Abstract/Intro P3/Conclusion 改写）；消除 Intro P4 和 Ch2 与 Ch4 的措辞重复；Conclusion 开头段加厚（1段→2段）；Generalization claim 加 scope qualifier；编译验证 167 页无错误 |

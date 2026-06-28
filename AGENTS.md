@@ -4,16 +4,21 @@
 
 ```bash
 latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
+latexmk -xelatex -interaction=nonstopmode -halt-on-error supplementary.tex
+latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex   # second pass for cross-refs
 latexmk -c  # clean auxiliary files
 ```
 
 Compiler: XeLaTeX only. Template files `ustthesis.cls` / `ustthesis.sty` must not be modified.
 
+**Build order**: main must be compiled first (generates `main.aux`), then supplementary (reads `main.aux` for `\ref{}` to chapter labels), then main again (reads `supplementary.aux` for `\ref{}` to appendix labels). Both documents use `xr-hyper` for cross-document references.
+
 ## Structure
 
-- `main.tex` — entry point, loads all chapters
+- `main.tex` — main thesis (chapters 1–6, publications, bibliography; no appendices)
+- `supplementary.tex` — supplementary material (appendices A–C + own bibliography)
 - `chapters/*.tex` — one file per chapter (00-abstract through 07-publications)
-- `appendices/*.tex` — appendix chapters
+- `appendices/*.tex` — appendix chapters (loaded by `supplementary.tex`, not `main.tex`)
 - `figures/{gve,mglvr,gmpgr}/` — figures for Ch3, Ch4, Ch5 respectively
 - `references/references.bib` — single consolidated bibliography
 - `STYLE.md` — prose style rules (must read before editing any `.tex`)

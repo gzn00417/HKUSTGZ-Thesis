@@ -76,6 +76,10 @@
 \usepackage[numbers,sort&compress]{natbib}
 \usepackage[colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,urlcolor=blue!55!black]{hyperref}
 
+% Cross-references to supplementary document
+\usepackage{xr-hyper}
+\externaldocument{supplementary}
+
 % Formatting
 \usepackage{setspace}
 \usepackage{xspace}
@@ -206,15 +210,5 @@
 
 \bibliographystyle{IEEEtran}
 \bibliography{references/references}
-
-% ============================================================
-% APPENDICES
-% ============================================================
-
-\appendix
-
-\input{appendices/A-universal-video-retrieval}
-\input{appendices/B-spatiotemporal-scaling}
-\input{appendices/C-scale-efficient-retrieval}
 
 \end{document}
