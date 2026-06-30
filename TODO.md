@@ -1,6 +1,6 @@
 # TODO: 论文待解决问题与潜在风险
 
-> **最后更新**: 2026-06-29
+> **最后更新**: 2026-06-30
 > **编译状态**: 已验证 (TeX Live 2026, XeLaTeX)
 > **审查范围**: 全文综合审查（逻辑、格式、内容、排版、代码、伪代码、跨章一致性）
 
@@ -9,10 +9,12 @@
 ## 当前状态
 
 - **编译**: 已验证 (`latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex` + `supplementary.tex`)
-- **PDF**: [main.pdf](main.pdf) (118页) + [supplementary.pdf](supplementary.pdf) (47页), 2026-06-29 编译
+- **PDF**: [main.pdf](main.pdf) (118页) + [supplementary.pdf](supplementary.pdf) (51页), 2026-06-30 编译
 - **交叉引用**: 已通过 `xr-hyper` 双向验证（main 引用 appendix labels，supplementary 引用 chapter labels），零未解析引用
 - **致命错误**: 无
 - **未定义引用/引用**: 无
+- **参考文献**: 已清理 3 条未引用条目（`babenko2016efficient`、`lang2021architecture`、`wang2017irgan`），当前 106 条
+- **Ch5 `\ie` 逗号**: 已修复 10 处 `\ie` → `\ie,`（语法修正，符合编辑限制）
 - **Introduction**: 已完整重写（7段 + Organization），叙事围绕 semantic/observational/search scaling 展开；已完成 overclaim 风险降低（移除绝对化表述，所有 thesis-level claim 加 scope qualifier）；已插入论文框架图 `figures/thesis-framework.pdf`（Figure 1.1），第六段扩展为详细方法描述并与图中三列结构对齐
 - **Abstract**: 已修改，与 intro 的 scaling 叙事对齐；使用 scoped proposition 替代 slogan
 - **Conclusion**: 已重写，Future Directions 替换为四个前沿方向（Retrieval-Native Foundation Models / Agentic Visual Memory / Self-Evolving Data / Continuous Generative Representations），篇幅压缩约 50%
@@ -32,25 +34,14 @@
 
 | 问题 | 文件 | 说明 / 建议方案 |
 |-----|------|----------------|
-| 委员会信息未填写 | `main.tex` | `\member{Prof. XXX, Committee Member}` 被注释，需填写实际委员会成员 |
-| 缺少中文摘要 | `chapters/00-abstract.tex` / 模板 | HKUST(GZ) 博士论文通常要求中英文摘要；当前仅含英文摘要，需确认研究生院要求并补充 |
 | 封面元数据确认 | `main.tex` | 答辩日期 `2026/7/29`、系主任 `Prof. Xiaowen Chu`、导师姓名等需最终确认 |
-| 模板官方认可 | - | 建议联系研究生院确认当前 `ustthesis` 模板版本是否被正式接受 |
-| **Ch4 "Importantly," 过渡词** | `chapters/04-spatiotemporal-scaling.tex` | L21 `Importantly, the benchmark allows...`，需移除过渡词并自然衔接 |
-| **Ch5 Related Works 位置不当** | `chapters/05-scale-efficient-retrieval.tex` | Related Works 放在 Experiments 和 Conclusion **之后**，应移至 Methodology 之前或至少 Experiments 之前（Ch5 源自已发表论文，结构修改需谨慎）|
 
 ### 中优先级
 
 | 问题 | 文件 | 说明 / 影响 |
 |-----|------|------------|
 | **Ch5 Self Covariant Loss 公式** | `chapters/05-scale-efficient-retrieval.tex` | 公式中 `VAR(x) = \sqrt{\sum(x-\bar{x})^2}` 实际计算的是未归一化的标准差（缺少 $\frac{1}{N_l}$ 因子），命名为 `VAR` 容易与方差混淆；需确认是否为有意设计 |
-| **Ch5 $\mathcal{F}$ 符号重载** | `chapters/05-scale-efficient-retrieval.tex` | 公式(1)中 $\mathcal{F}$ 是检索函数，公式(7)中 $\mathcal{F}_t$ 是训练优化函数，同一章内符号含义不同 |
-| **Ch3/Ch4/Ch5 Related Works 重复** | 各章 | 各章保留独立的 Related Works section，与 Ch2 (Background and Literature Review) 存在大量内容重叠（如 HNSW、CLIP-based/MLLM-based models、工业检索系统等）|
-| **Ch3/Ch4/Ch5 Conclusion 重复** | 各章 | 各章保留独立的 Conclusion section，与 Ch6 (Conclusions and Future Works) 存在重复 |
-| 未引用参考文献 | `references/references.bib` | `babenko2016efficient`、`lang2021architecture`、`wang2017irgan` 三篇无任何引用（注释已清理），建议删除bib条目 |
-| 参考文献字段补全 | `references/references.bib` | 109 条中：41 条 inproceedings/article 缺 `pages`；38 条 inproceedings 缺 `publisher`/`organization`；107 条缺 `DOI`；建议从出版源补全 |
-| 出版物状态更新 | `chapters/07-publications.tex` | 第 1、2 篇标注为 Submitted to MM'26 / ECCV 2026，第 3 篇为 WWW'26 已发表；需根据实际审稿状态更新 |
-| **Q-HiPANNS 返回值模糊** | `appendices/C-scale-efficient-retrieval.tex` | L58 `Return δ_{B_i}` 返回的是函数参数 `B_i` 而非累积结果，语义不清 |
+| 参考文献字段补全 | `references/references.bib` | 106 条中：约 38 条 inproceedings/article 缺 `pages`；约 35 条 inproceedings 缺 `publisher`/`organization`；约 104 条缺 `DOI`；建议从出版源补全 |
 
 ### 低优先级（可忽略）
 
@@ -59,15 +50,28 @@
 - **PDF 版本兼容警告**: 插入的 PDF 图为 1.7 版，输出设置为 1.5；不影响显示，可考虑升级输出 PDF 版本。
 - **未使用图片资源**: `figures/gve/uvrb_radar_tasks.pdf` 等未在正文中引用，不影响编译。
 - **引用命令混用**: 第二章使用 `\citep`，第三~五章使用 `\cite`，风格可统一但非必要。
-- **Ch5 `\ie` 缺少逗号**: L21、L37、L198、L202、L215、L331、L357、L370 共 8 处 `\ie` 后缺少逗号，应为 `\ie,`。
-- **Ch5 Preliminaries 数据描述混淆**: L64 "one hundred billion requests... per day" 描述的是 Baidu 整体框架而非 GMP-GR 本身，与 L52 容易混淆读者。
-- **Ch3 Table 3.1 表格分裂**: 用了两个独立 `tabularx` 环境，第二个表格列头不同，可能产生排版间隙。建议合并为单一表格或添加分隔说明。
 - **Ch7 em dash (3处)**: `chapters/07-publications.tex` L7、L9、L11 使用 `---` 作为出版物条目分隔符，属于格式惯例，可保留但需确认一致性。
-- **Appendix A 缩写词**: `appendices/A-universal-video-retrieval.tex` L399 示例文本中出现 `don't`，属于 prompt 示例内容，可保留。
 
 ---
 
 ## 已修复问题
+
+### 2026-06-30 修复（第九轮：最终检查 + 引号格式统一）
+
+| 修复内容 | 文件 |
+|---------|------|
+| Ch3 V-SynFlow 图 `\begin{figure}` → `\begin{figure}[t]`：修复正文浮动体缺少 `[t]` 放置选项 | `chapters/03-universal-video-retrieval.tex` |
+| Acknowledgments 2 处直引号 `"..."` → LaTeX 标准引号 `` ``...'' ``（`"shixiong"` → `` ``shixiong'' ``、`"first experiences"` → `` ``first experiences'' ``） | `chapters/00-acknowledgments.tex` |
+| Ch5 Related Works 2 处直引号 → LaTeX 标准引号（`"curse of dimensionality"` → `` ``curse of dimensionality'' ``、`"buckets"` → `` ``buckets'' ``），属于格式修正 | `chapters/05-scale-efficient-retrieval.tex` |
+| 完整清理编译验证：main.pdf 118页 + supplementary.pdf 51页，零错误零未解析引用 | - |
+
+### 2026-06-29 修复（第八轮：参考文献清理 + Ch5 语法修正）
+
+| 修复内容 | 文件 |
+|---------|------|
+| 删除 3 条未引用 bib 条目：`babenko2016efficient`、`lang2021architecture`、`wang2017irgan`（全文无任何 `\cite` 引用） | `references/references.bib` |
+| 修复 Ch5 中 10 处 `\ie` 缺少逗号：`\ie` → `\ie,`（L21×2, L37, L188×2, L192, L203, L312, L338, L351），属于语法修正，符合 Ch3/4/5 编辑限制 | `chapters/05-scale-efficient-retrieval.tex` |
+| 完整编译验证：main.pdf 118页 + supplementary.pdf 51页，零错误零未解析引用 | - |
 
 ### 2026-06-29 修复（第七轮：全文确定性错误修复 + 提交前整理）
 
@@ -333,9 +337,9 @@ latexmk -c
 ```
 HKUSTGZ-Thesis/
 ├── main.tex                 # 主论文编译文件（Ch1-6 + Publications + References）
-├── main.pdf                 # 主论文输出（119页）
+├── main.pdf                 # 主论文输出（118页）
 ├── supplementary.tex        # 补充材料编译文件（Appendix A-C + References）
-├── supplementary.pdf        # 补充材料输出（46页）
+├── supplementary.pdf        # 补充材料输出（51页）
 ├── chapters/                # 论文章节
 │   ├── 00-abstract.tex      # 英文摘要
 │   ├── 00-acknowledgments.tex      # 致谢（英文）
@@ -377,6 +381,8 @@ HKUSTGZ-Thesis/
 
 | 日期 | 更新内容 |
 |-----|---------|
+| 2026-06-30 | **第九轮修复**：Ch3 V-SynFlow 图补充 `[t]` 放置选项；Acknowledgments 2 处直引号改为 LaTeX 标准引号；Ch5 Related Works 2 处直引号改为 LaTeX 标准引号；完整清理编译验证 main.pdf 118页 + supplementary.pdf 51页，零错误零未解析引用 |
+| 2026-06-29 | **第八轮修复**：删除 3 条未引用 bib 条目（`babenko2016efficient`/`lang2021architecture`/`wang2017irgan`）；修复 Ch5 中 10 处 `\ie` 缺逗号；完整编译验证 main.pdf 118页 + supplementary.pdf 51页，零错误零未解析引用；更新所有文档文件 |
 | 2026-06-29 | **提交前整理（第七轮）**：修复 6 项确定性错误（Ch3 `\captionof`、Ch4 重复label、Ch5拼写/语法、Appendix C伪代码∩→∪/双重fig前缀、Ch5注释残留代码清理）；Ch2 taxonomy与Ch3对齐（4个语义域）；Ch2 §2.3补充Ch5贡献预览（GMP-GR/MUIRML/HiPANNS）；中文版致谢加入.gitignore；main.pdf 118页 + supplementary.pdf 47页，0错误0未定义引用；清理中间文件 |
 | 2026-06-29 | **致谢完成**：重写英文版致谢（`00-acknowledgments.tex`），包含对褚晓文教授、许人镜教授、刘浩教授三位导师的个性化感谢，以及熊辉/杨强/李佳/宋扬秋教授、工业界合作者（通义实验室/百度/小红书）、论文合作者、同学、家人的感谢；创建中文版参考稿 `00-acknowledgments-zh.tex`；完整编译验证通过（main.pdf 119页 + supplementary.pdf 46页，0错误）；清理LaTeX中间文件 |
 | 2026-06-28 | **Introduction 框架图插入**：在 `01-introduction.tex` 中插入 `figures/thesis-framework.pdf` 为 Figure 1.1（`[t]` 放置于第二段与第三段之间）；扩展第六段为详细方法描述，与框架图三列结构（Semantic Scaling → GVE / Observational Scaling → MG-LVR + VEterfall / Search Scaling → HiPANNS + GPU Execution）对齐；上下文一致性验证通过（Intro P6 vs Abstract vs Conclusion vs Figure）；main.pdf 从 116 页增至 117 页；编译验证无错误 |

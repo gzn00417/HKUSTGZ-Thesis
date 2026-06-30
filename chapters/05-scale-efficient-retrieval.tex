@@ -18,7 +18,7 @@ Recently, recommender systems have become essential tools for helping users navi
 However, large-scale relevance evaluation based on user preference is computationally prohibitive in real-world recommendation applications~\cite{zhu2018learning}.
 For timely answering requirements, computing relevance values of billions of items is unacceptable~\cite{liu2021jizhi}.
 To balance effectiveness and efficiency, retrieval-and-ranking recommendation frameworks~\cite{cheng2016wide,ma2020off} have gained widespread adoption in modern industrial systems, such as YouTube~\cite{covington2016deep}, LinkedIn~\cite{borisyuk2016casmos}, and Pinterest~\cite{eksombatchai2018pixie}.
-The first stage~(\ie retrieval) focuses on retrieving a thousand-scale relevant subset from the entire billion-scale item catalog, which then serves as the candidates for further ordering in the second stage~(\ie ranking).
+The first stage~(\ie, retrieval) focuses on retrieving a thousand-scale relevant subset from the entire billion-scale item catalog, which then serves as the candidates for further ordering in the second stage~(\ie, ranking).
 In particular, retrieval plays an important role in real-time and satisfactory answers for large-scale queries.
 Effective retrieval can significantly simplify the search space for potential answers while maintaining personalization and serendipity, thus reducing the ranking difficulty in producing reliable final recommendations.
 
@@ -34,7 +34,7 @@ For example, HNSW~\cite{malkov2018efficient} hierarchically establishes a multi-
 
 However, we confront three challenges in developing an accurate and efficient retrieval framework for web-scale recommendations.
 \textit{(1)~Unified modeling of multi-relational user-item relevance.} Baidu recommendation applications consist of dozens of distinct and related behaviors~(e.g., click, browse) that are typically modeled by a tailored metric for estimating relevance between users and items. However, the independent modeling of these user-item interactions fails to capture the semantic relations of diverse user behaviors, which are mutually beneficial between them~\cite{tan2020fast}. Besides, training multiple behavior-specific metrics incurs exponential efforts in system updates. Thus, the first challenge lies in cost-effective multi-relational metric joint training for more accurate relevance estimation.
-\textit{(2)~Efficient search on large-scale graph item base.} Baidu devises Graph-based ANNS to traverse relevant candidate items from a graph item base. Practically, a trade-off problem arises that increasing the online retrieval throughput will restrict the search efforts, \ie the graph traversal steps. However, existing methods make delivering satisfactory items in limited steps difficult, especially for billion-scale graphs in web-scale recommender systems.
+\textit{(2)~Efficient search on large-scale graph item base.} Baidu devises Graph-based ANNS to traverse relevant candidate items from a graph item base. Practically, a trade-off problem arises that increasing the online retrieval throughput will restrict the search efforts, \ie, the graph traversal steps. However, existing methods make delivering satisfactory items in limited steps difficult, especially for billion-scale graphs in web-scale recommender systems.
 On the one hand, neural relevance metrics often violate the triangle inequality, a property that ensures optimal pathfinding in graph traversal~\cite{chen2022approximate}. This violation forces the exploration of redundant edges, decreasing the possibility of reaching distant yet relevant candidates.
 On the other hand, graph-based ANNS usually search for relevant items greedily, which may be stuck in a narrow space after a short-length traversal among a large-scale graph.
 The inability to balance search depth and breadth degrades the quality of real-time recommendations. Addressing this challenge requires developing a search-compatible relevance metric and a deep-and-broad traversal algorithm for efficient graph search.
@@ -185,11 +185,11 @@ In this way, we can simultaneously minimize the prediction error of multi-relati
 
 In this work, the search step aims to retrieve the most similar items using graph-based ANNS.
 Existing graph retrieval frameworks struggle to achieve low-latency retrieval in high-concurrency scenarios for two reasons.
-First, their traversal strategies underperform at scale, as they inadequately balance search depth, \ie refinement of local neighborhoods, and breadth, \ie coverage of global graph regions, within constrained computational budgets~\cite{ootomo2024cagra}.
+First, their traversal strategies underperform at scale, as they inadequately balance search depth, \ie, refinement of local neighborhoods, and breadth, \ie, coverage of global graph regions, within constrained computational budgets~\cite{ootomo2024cagra}.
 Second, the underlying GPU-based infrastructure faces inefficiencies when handling asynchronous retrieval requests, which includes tremendous irregular neural computations according to divergent search routes. The frequent kernel launch of GPU computation from different queries induces significant overhead and contention under extreme concurrency~\cite{pan2023recom}.
 These limitations collectively degrade the retrieval throughput for real-time recommendations.
 To this end, we propose a \textit{Hierarchically Parallel Approximate Nearest Neighbor Search~(HiPANNS)} algorithm to efficiently answer highly concurrent retrieval queries.
-Specifically, HiPANNS consists of two sub-algorithms, \ie inter-candidate HiPANNS and inter-query HiPANNS.
+Specifically, HiPANNS consists of two sub-algorithms, \ie, inter-candidate HiPANNS and inter-query HiPANNS.
 
 Inter-candidate HiPANNS~(C-HiPANNS) allows parallel search within the large-scale graph item base to broaden the global search space for more comprehensive retrieval.
 For each query $u$, we aim to execute $k$ parallel search processes with different initial seeds $S$.
@@ -200,7 +200,7 @@ The parallelized traversal achieves a $k$-fold expansion of the search space, wh
 
 Inter-query HiPANNS~(Q-HiPANNS) adaptively aggregates irregular neural computations for more efficient GPU-accelerated retrieval against launch bound from extreme concurrency.
 We adaptively synchronize the irregular user-item relevance evaluation by a queuing aggregation scheme and parallelize batched neural computation on GPU for acceleration.
-First, we initialize a queue $\Psi$ to persistently listen to neural computations. $\Psi$ will record the computations orderly for the following sequential batching, \ie the element received first will be batched first. Each element in $\Psi$ is produced from C-HiPANNS as a group of $(u,v)$ pairs for measuring neighbor embedding similarity. We dynamically generate batches for parallel computing the GPU cluster $U$.
+First, we initialize a queue $\Psi$ to persistently listen to neural computations. $\Psi$ will record the computations orderly for the following sequential batching, \ie, the element received first will be batched first. Each element in $\Psi$ is produced from C-HiPANNS as a group of $(u,v)$ pairs for measuring neighbor embedding similarity. We dynamically generate batches for parallel computing the GPU cluster $U$.
 However, the elements of $\Psi$ vary in amounts due to divergent connections in the graph item base, causing difficulties in aggregating fixed batches that are beneficial to fully utilize the computational ability of GPUs.
 To address that, we synthesize batches by adaptively slicing $(u,v)$ groups to fit certain configurations.
 Specifically, we set the maximum size of the computing batch as $B_U$. If the size of current batch $B_i$, $N_{B_i}$, is larger than the remaining space $\epsilon$, we split it into two elements, including $B_i^{[1,\epsilon]}=\{(u_{i,1},v_{i,1}),\cdots,(u_{i,\epsilon},v_{i,\epsilon})\}$ and $B_i^{[\epsilon+1,N_{B_i}]}=\{(u_{i,\epsilon+1},v_{i,\epsilon+1}),\cdots,(u_{i,N_{B_i}},v_{i,N_{B_i}})\}$. $B_i^{[1,\epsilon]}$ will be computed in the current executive round of $U$ while $B_i^{[\epsilon+1,N_{B_i}]}$ will be computed in the next.
@@ -309,7 +309,7 @@ Specifically, compared to SL2G and NANN, two typical industrial retrieval framew
     \centering
     \subfloat[Video]{\includegraphics[width=0.48\linewidth]{figures/gmpgr/efficiency_Video.pdf}\label{gmpgr:fig:efficiency_video}}
     \subfloat[Explore]{\includegraphics[width=0.48\linewidth]{figures/gmpgr/efficiency_Explore.pdf}\label{gmpgr:fig:efficiency_explore}}
-    \caption{Analysis of correlations between retrieval performance and efficiency on Video and Explore datasets. Methods close to the left~top~($\nwarrow$) have better retrieval performance, \ie Cov~($\uparrow$), with less time costs~($\leftarrow$).}
+    \caption{Analysis of correlations between retrieval performance and efficiency on Video and Explore datasets. Methods close to the left~top~($\nwarrow$) have better retrieval performance, \ie, Cov~($\uparrow$), with less time costs~($\leftarrow$).}
     \label{gmpgr:fig:efficiency}
 \end{figure}
 
@@ -335,7 +335,7 @@ This part analyzes the efficiency by testing their inference time and search spe
 We first analyze the correlation between retrieval performance and time by scattering five methods in Figure~\ref{gmpgr:fig:efficiency}. More results on MVideo and Fresh datasets are in Appendix~\ref{gmpgr:sec:appendix_efficiency}.
 Intuitively, a method is considered more efficient if it achieves higher performance~(here we use Cov to evaluate) with lower time consumption. Results reveal that GMP-GR outperforms the four baseline methods in terms of efficiency, as evidenced by its proximity to the upper left quadrant in the scatter plots.
 Notably, C-NSW stands out for its minimal retrieval time, attributed to its reliance on the cosine similarity metric which is computationally lightweight than DNNs. However, C-NSW underperforms in retrieval accuracy due to the limitation that the simple metric is unable to capture complex user-item relationships.
-Then, we compare the retrieval speed in Table~\ref{gmpgr:tab:speed}, which reflects the number of nodes that methods traverse on HNSW per second. GMP-GR also exhibits the capability to search through more nodes~(\ie larger search space) than any DNN-based approach.
+Then, we compare the retrieval speed in Table~\ref{gmpgr:tab:speed}, which reflects the number of nodes that methods traverse on HNSW per second. GMP-GR also exhibits the capability to search through more nodes~(\ie, larger search space) than any DNN-based approach.
 In summary, GMP-GR consistently outperforms all baseline methods, striking an optimal balance between retrieval efficiency and accuracy.
 
 
@@ -348,7 +348,7 @@ In summary, GMP-GR consistently outperforms all baseline methods, striking an op
 \end{figure}
 
 \paragraph{Ablation Study.}
-We conduct an ablation study on GMP-GR in Figure~\ref{gmpgr:fig:ablation}, by comparing it with two variants, \ie GMP-GR-P and GMP-GR-M. Evaluations on Rec@10 and Rec@100 are provided in Appendix~\ref{gmpgr:sec:appendix_ablation}.
+We conduct an ablation study on GMP-GR in Figure~\ref{gmpgr:fig:ablation}, by comparing it with two variants, \ie, GMP-GR-P and GMP-GR-M. Evaluations on Rec@10 and Rec@100 are provided in Appendix~\ref{gmpgr:sec:appendix_ablation}.
 GMP-GR-P replaces MUIRML with a single supervision of the behavior in which a user visits an item, and GMP-GR-M substitutes HiPANNS with a standard HNSW search algorithm.
 Specifically, we find that GMP-GR consistently outperforms both GMP-GR-P and GMP-GR-M across different datasets.
 This superiority can be attributed to two key factors. First, MUIRML significantly enhances the relevance estimation accuracy and pathfinding efficiency. Second, HiPANNS prevents the graph-based ANNS process from succumbing to local optima by distributed and co-optimized search.
@@ -431,8 +431,8 @@ We design a DNN-based metric optimized in a multi-objective way to incorporate c
 
 \paragraph{Approximate Nearest Neighbor Search}
 Approximate Nearest Neighbor Search~(ANNS) is a fundamental problem in computer science, particularly within domains that handle high-dimensional data such as computer vision~\cite{ben2015approximate} and multimedia~\cite{ferhatosmanoglu2001approximate}. ANNS aims to find points in a dataset that are close to a query point, where searching the exact nearest neighbor is computationally prohibitive~\cite{liu2004investigation}.
-One of the early approaches, KD-tree~\cite{friedman1977algorithm}, performs well in low-dimensional spaces. But their efficiency decreases significantly as dimensionality increases, called "curse of dimensionality". To address the limitation, more sophisticated tree-based structures like Randomized KD-trees~\cite{silpa2008optimised} attempt to partition the data space more effectively and offer improved performance in higher-dimensional spaces.
-As research progressed, hashing-based methods emerged as a powerful alternative for ANNS, with Locality-Sensitive Hashing~(LSH) being a prominent technique to hash input items by mapping similar items to the same "buckets" with high probability~\cite{indyk1998approximate}.
+One of the early approaches, KD-tree~\cite{friedman1977algorithm}, performs well in low-dimensional spaces. But their efficiency decreases significantly as dimensionality increases, called ``curse of dimensionality''. To address the limitation, more sophisticated tree-based structures like Randomized KD-trees~\cite{silpa2008optimised} attempt to partition the data space more effectively and offer improved performance in higher-dimensional spaces.
+As research progressed, hashing-based methods emerged as a powerful alternative for ANNS, with Locality-Sensitive Hashing~(LSH) being a prominent technique to hash input items by mapping similar items to the same ``buckets'' with high probability~\cite{indyk1998approximate}.
 More recently, graph-based methods have gained popularity for their effectiveness in handling high-dimensional ANNS~\cite{wang2021comprehensive}. The idea is to construct a graph where nodes represent the dataset points, and edges connect points close to each other. Navigating this graph allows for efficient ANN searches.
 Notably, the Navigable Small World~(NSW)~\cite{malkov2014approximate} and its improved variant, Hierarchical Navigable Small World (HNSW)~\cite{malkov2018efficient}, have shown remarkable performance, significantly outperforming previous methods on large-scale datasets.
 Besides, instead of Delaunay graphs, other graph-based approaches choose K-nearest neighbor graph~\cite{fu2016efanna} and relative neighborhood graph~\cite{jayaram2019diskann} for index construction.

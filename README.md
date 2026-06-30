@@ -12,9 +12,9 @@
 ## 当前状态
 
 - 编译状态：已验证 (TeX Live 2026, XeLaTeX)
-- 输出文件：[main.pdf](main.pdf)（118页）+ [supplementary.pdf](supplementary.pdf)（47页），2026-06-29 编译
-- 最近审查：2026-06-29 全文确定性错误修复（caption/label/拼写/伪代码/语法/注释清理）+ Ch2对齐
-- 最近修复：2026-06-29 提交前整理（第七轮修复 + 中文致谢.gitignore）；完整编译验证通过
+- 输出文件：[main.pdf](main.pdf)（118页）+ [supplementary.pdf](supplementary.pdf)（51页），2026-06-30 编译
+- 最近审查：2026-06-30 第九轮修复（Ch3 图放置 + 全文引号格式统一）+ 完整编译验证
+- 最近修复：2026-06-30 最终检查（浮动体放置、直引号→LaTeX 标准引号）；完整清理编译验证通过
 - 写作规范：已建立 [STYLE.md](STYLE.md)（写作风格指南）和 [AGENTS.md](AGENTS.md)（AI 助手指令），供后续编辑参考
 - 模板文件：`ustthesis.cls` / `ustthesis.sty` 保持与 `../Template-of-HKUST-GZ-Thesis` 一致
 - 格式更新：第三章 Table 3.1--3.3 已按 `\linewidth` 页宽排版；caption 字体保持模板默认大小
@@ -79,7 +79,7 @@ HKUSTGZ-Thesis/
 ├── main.tex                 # 主论文编译文件（Ch1-6 + Publications + References）
 ├── main.pdf                 # 主论文输出（118页）
 ├── supplementary.tex        # 补充材料编译文件（Appendix A-C + References）
-├── supplementary.pdf        # 补充材料输出（47页）
+├── supplementary.pdf        # 补充材料输出（51页）
 ├── chapters/                # 论文章节
 │   ├── 00-abstract.tex      # 摘要
 │   ├── 00-acknowledgments.tex       # 致谢（英文，正式）
@@ -207,6 +207,8 @@ supplementary.tex
 
 ## 更新日志
 
+- 2026-06-30: 第九轮修复：Ch3 V-SynFlow 图补充 `[t]` 放置选项；Acknowledgments 2 处直引号改为 LaTeX 标准引号；Ch5 Related Works 2 处直引号改为 LaTeX 标准引号；完整清理编译验证 main.pdf 118页 + supplementary.pdf 51页，零错误零未解析引用
+- 2026-06-29: 第八轮修复：删除 3 条未引用 bib 条目（`babenko2016efficient`/`lang2021architecture`/`wang2017irgan`）；修复 Ch5 中 10 处 `\ie` 缺逗号；完整编译验证 main.pdf 118页 + supplementary.pdf 51页，零错误零未解析引用；更新所有文档文件
 - 2026-06-29: 提交前整理：修复6项确定性错误（Ch3 captionof/Ch4重复label/Ch5拼写语法/Appendix C伪代码∩→∪+双重fig前缀/Ch5注释残留），Ch2 taxonomy与Ch3对齐，Ch2 §2.3补充Ch5贡献预览（GMP-GR/MUIRML/HiPANNS），中文致谢加入.gitignore；main.pdf 118页 + supplementary.pdf 47页，0错误0未定义引用；清理中间文件
 - 2026-06-29: 致谢完成：重写英文版致谢（个性化感谢三位导师/教授/工业界合作者/论文合作者/同学/家人），创建中文参考稿 `00-acknowledgments-zh.tex`；完整编译验证通过；清理LaTeX中间文件
 - 2026-06-28: Introduction 框架图插入：在 `01-introduction.tex` 中插入 `figures/thesis-framework.pdf` 为 Figure 1.1，扩展第六段为详细方法描述并与框架图三列结构对齐；上下文一致性验证通过；main.pdf 从 116 页增至 117 页；编译验证无错误

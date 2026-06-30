@@ -52,7 +52,7 @@ Text-to-video retrieval has progressed from matching coarse phrases to parsing f
 Video embedding models have evolved from the adaptation of image-centric ones, such as CLIP~\cite{radford2021learning}, to powerful, larger language-based encoders. Early methods such as CLIP4Clip~\cite{luo2022clip4clip} and InternVideo2~\cite{wang2024internvideo2} added temporal modules to CLIP but inherited its limitations in complex language understanding and long-context processing~\cite{wang2025internvideo2,li2025improving}. To overcome these issues, recent work leverages Multimodal Large Language Models (MLLMs) as video embedders. Models like LLaVE~\cite{lan2025llave}, UNITE~\cite{kong2025modality}, and VLM2Vec-V2~\cite{meng2025vlm2vec} achieve strong performance on benchmarks by training on text-image and text-video data. However, this data has so far been limited for learning generalizable embeddings, and these video embedding models have not been systematically evaluated on more complex video retrieval tasks and across diverse video domains.
 
 
-\begin{figure}
+\begin{figure}[t]
     \centering
     \includegraphics[width=\linewidth]{figures/gve/v-synflow.pdf}
     \caption{V-SynFlow: a multi-stage synthesis workflow for diverse video retrieval data.}
