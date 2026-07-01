@@ -1,6 +1,6 @@
 # TODO: 论文待解决问题与潜在风险
 
-> **最后更新**: 2026-06-30
+> **最后更新**: 2026-07-01
 > **编译状态**: 已验证 (TeX Live 2026, XeLaTeX)
 > **审查范围**: 全文综合审查（逻辑、格式、内容、排版、代码、伪代码、跨章一致性）
 
@@ -9,7 +9,7 @@
 ## 当前状态
 
 - **编译**: 已验证 (`latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex` + `supplementary.tex`)
-- **PDF**: [main.pdf](main.pdf) (118页) + [supplementary.pdf](supplementary.pdf) (51页), 2026-06-30 编译
+- **PDF**: [main.pdf](main.pdf) (119页) + [supplementary.pdf](supplementary.pdf) (51页), 2026-07-01 编译
 - **交叉引用**: 已通过 `xr-hyper` 双向验证（main 引用 appendix labels，supplementary 引用 chapter labels），零未解析引用
 - **致命错误**: 无
 - **未定义引用/引用**: 无
@@ -55,6 +55,14 @@
 ---
 
 ## 已修复问题
+
+### 2026-07-01 更新（第十轮：Ch7 合作作者许可）
+
+| 更新内容 | 文件 |
+|---------|------|
+| Ch7 新增 `\paragraph{Co-author Permission for Thesis Inclusion}` 段落，说明第5章合作论文获得 Prof. Hao Liu 的书面许可 | `chapters/07-publications.tex` |
+| Ch7 插入 `figures/endorse-liuhao.png`（Prof. Hao Liu 邮件回复 "ok, I endorse." 截图），图注说明为合作作者书面许可 | `chapters/07-publications.tex` |
+| 完整清理编译验证：main.pdf 119页 + supplementary.pdf 51页，零错误零未解析引用 | - |
 
 ### 2026-06-30 修复（第九轮：最终检查 + 引号格式统一）
 
@@ -337,7 +345,7 @@ latexmk -c
 ```
 HKUSTGZ-Thesis/
 ├── main.tex                 # 主论文编译文件（Ch1-6 + Publications + References）
-├── main.pdf                 # 主论文输出（118页）
+├── main.pdf                 # 主论文输出（119页）
 ├── supplementary.tex        # 补充材料编译文件（Appendix A-C + References）
 ├── supplementary.pdf        # 补充材料输出（51页）
 ├── chapters/                # 论文章节
@@ -370,7 +378,7 @@ HKUSTGZ-Thesis/
 | 第 4 章 | `chapters/04-spatiotemporal-scaling.tex` | MG-LVR、时空缩放规律、VEterfall |
 | 第 5 章 | `chapters/05-scale-efficient-retrieval.tex` | GMP-GR、MUIRML、HiPANNS、百度在线部署 |
 | 第 6 章 | `chapters/06-conclusion.tex` | 贡献总结与四个前沿方向（Retrieval-Native Foundation Models / Agentic Visual Memory / Self-Evolving Data / Continuous Generative Representations） |
-| 第 7 章 | `chapters/07-publications.tex` | 三篇相关论文列表 |
+| 第 7 章 | `chapters/07-publications.tex` | 三篇相关论文列表 + 合作作者（Prof. Hao Liu）书面许可邮件截图 |
 | 附录 A | `appendices/A-universal-video-retrieval.tex` | GVE 实验细节、prompt、训练参数 |
 | 附录 B | `appendices/B-spatiotemporal-scaling.tex` | MG-LVR 错误分析、补充表格、prompt |
 | 附录 C | `appendices/C-scale-efficient-retrieval.tex` | HiPANNS 伪代码、实现细节、额外实验 |
@@ -381,6 +389,7 @@ HKUSTGZ-Thesis/
 
 | 日期 | 更新内容 |
 |-----|---------|
+| 2026-07-01 | **第十轮更新**：Ch7 新增 Co-author Permission 章节，插入 Prof. Hao Liu 邮件许可截图 `figures/endorse-liuhao.png`；完整清理编译验证 main.pdf 119页 + supplementary.pdf 51页，零错误零未解析引用 |
 | 2026-06-30 | **第九轮修复**：Ch3 V-SynFlow 图补充 `[t]` 放置选项；Acknowledgments 2 处直引号改为 LaTeX 标准引号；Ch5 Related Works 2 处直引号改为 LaTeX 标准引号；完整清理编译验证 main.pdf 118页 + supplementary.pdf 51页，零错误零未解析引用 |
 | 2026-06-29 | **第八轮修复**：删除 3 条未引用 bib 条目（`babenko2016efficient`/`lang2021architecture`/`wang2017irgan`）；修复 Ch5 中 10 处 `\ie` 缺逗号；完整编译验证 main.pdf 118页 + supplementary.pdf 51页，零错误零未解析引用；更新所有文档文件 |
 | 2026-06-29 | **提交前整理（第七轮）**：修复 6 项确定性错误（Ch3 `\captionof`、Ch4 重复label、Ch5拼写/语法、Appendix C伪代码∩→∪/双重fig前缀、Ch5注释残留代码清理）；Ch2 taxonomy与Ch3对齐（4个语义域）；Ch2 §2.3补充Ch5贡献预览（GMP-GR/MUIRML/HiPANNS）；中文版致谢加入.gitignore；main.pdf 118页 + supplementary.pdf 47页，0错误0未定义引用；清理中间文件 |
