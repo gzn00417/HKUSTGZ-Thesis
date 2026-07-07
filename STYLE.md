@@ -1,5 +1,7 @@
 # Writing Style Guide
 
+> **当前状态**: 论文正文已冻结。本文档作为写作风格参考保留，不再主动使用。
+
 This document defines the editing standards for this thesis. It must be read before editing any `.tex` file. The goal is submission-ready academic prose for top-tier CS venues (NeurIPS, ICLR, ICML, CVPR, ECCV, etc.), produced in a single editing pass.
 
 ## Chapter Edit Restrictions

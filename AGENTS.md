@@ -1,5 +1,16 @@
 # AGENTS.md
 
+## Current Phase
+
+Thesis body (chapters 1–7, appendices) is **frozen** — no further content edits. All ongoing work is in `slides/`.
+
+## Slides
+
+- `slides/` — defense slides (v0.1–v0.3), build.py, and figures
+- **Version management**: always create a new version (e.g., v0.4); never overwrite existing pptx. The current version is not final until explicitly stated.
+- **Never delete pptx files** directly. If deletion is requested, only move to trash after notifying.
+- See `slides/README.md` for full design strategy, iteration history, and maintenance rules.
+
 ## Build
 
 ```bash
@@ -22,7 +33,7 @@ Compiler: XeLaTeX only. Template files `ustthesis.cls` / `ustthesis.sty` must no
 - `figures/{gve,mglvr,gmpgr}/` — figures for Ch3, Ch4, Ch5 respectively
 - `references/references.bib` — single consolidated bibliography
 - `STYLE.md` — prose style rules (must read before editing any `.tex`)
-- `TODO.md` — known issues and risks (check before claiming something is "done")
+- `TODO.md` — slides preparation checklist
 
 ## LaTeX Conventions
 
@@ -59,14 +70,3 @@ Read `STYLE.md` before editing prose. Key rules:
 | Ch5 | WebConf 2026 | MUIRML metric, HiPANNS |
 
 Source papers live in `../Paper-LaTeX-Projects/` and PDFs in `../Paper-PDFs/`.
-
-## Slides
-
-- `slides/` — defense slides (v0.1–v0.3), build.py, and figures
-- **Version management**: always create a new version (e.g., v0.4); never overwrite existing pptx. The current version is not final until explicitly stated.
-- **Never delete pptx files** directly. If deletion is requested, only move to trash after notifying.
-- See `slides/README.md` for full design strategy, iteration history, and maintenance rules.
-
-## Current Phase
-
-Thesis body (chapters 1–7, appendices) is **frozen** — no further content edits. All ongoing work is in `slides/`.
