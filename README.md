@@ -15,6 +15,7 @@
 - 输出文件：[main.pdf](main.pdf)（119页）+ [supplementary.pdf](supplementary.pdf)（51页），2026-07-01 编译
 - 最近审查：2026-07-01 第十轮更新（Ch7 新增合作作者许可邮件截图）+ 完整编译验证
 - 最近修复：2026-07-01 Ch7 新增 Co-author Permission 章节，插入 Prof. Hao Liu 邮件许可截图 `figures/endorse-liuhao.png`；完整清理编译验证通过
+- 当前阶段：**论文正文已冻结**，不再修改 chapters 1-7 和 appendices。所有后续工作集中在 `slides/` 答辩幻灯片维护
 - 写作规范：已建立 [STYLE.md](STYLE.md)（写作风格指南）和 [AGENTS.md](AGENTS.md)（AI 助手指令），供后续编辑参考
 - 模板文件：`ustthesis.cls` / `ustthesis.sty` 保持与 `../Template-of-HKUST-GZ-Thesis` 一致
 - 格式更新：第三章 Table 3.1--3.3 已按 `\linewidth` 页宽排版；caption 字体保持模板默认大小
@@ -105,7 +106,14 @@ HKUSTGZ-Thesis/
 ├── STYLE.md                 # 写作风格指南（编辑 .tex 前必读）
 ├── AGENTS.md                # AI 助手指令
 ├── README.md                # 本文件
-└── TODO.md                  # 待解决问题清单
+├── TODO.md                  # 待解决问题清单
+└── slides/                  # 答辩幻灯片（v0.1-v0.3）
+    ├── README.md            # 幻灯片维护规则与设计策略
+    ├── build.py             # 参考实现（从 PNG 生成 deck）
+    ├── thesis-slides-v0.1.pptx
+    ├── thesis-slides-v0.2.pptx
+    ├── thesis-slides-v0.3.pptx
+    └── figures/             # build.py 引用的 17 张 PNG
 ```
 
 ---
@@ -172,6 +180,7 @@ supplementary.tex
 | [STYLE.md](STYLE.md) | 写作风格指南，编辑任何 `.tex` 文件前必读 |
 | [AGENTS.md](AGENTS.md) | AI 助手指令，包含构建命令、项目结构和 LaTeX 约定 |
 | [TODO.md](TODO.md) | 待解决问题与潜在风险清单 |
+| [slides/README.md](slides/README.md) | 答辩幻灯片维护规则与设计策略 |
 | [../Paper-LaTeX-Projects/](../Paper-LaTeX-Projects/) | 会议论文项目 |
 | [../Paper-PDFs/](../Paper-PDFs/) | 会议论文PDF版本 |
 | [../Template-of-HKUST-GZ-Thesis/](../Template-of-HKUST-GZ-Thesis/) | 原始论文模板 |
@@ -209,6 +218,7 @@ supplementary.tex
 
 ## 更新日志
 
+- 2026-07-07: 提交答辩幻灯片 `slides/`（v0.1-v0.3），含 build.py、17 张 PNG 和维护规则；论文正文冻结，后续仅维护 slides
 - 2026-07-01: 第十轮更新：Ch7 新增 Co-author Permission 章节，插入 Prof. Hao Liu 邮件许可截图 `figures/endorse-liuhao.png`；完整清理编译验证 main.pdf 119页 + supplementary.pdf 51页，零错误零未解析引用
 - 2026-06-30: 第九轮修复：Ch3 V-SynFlow 图补充 `[t]` 放置选项；Acknowledgments 2 处直引号改为 LaTeX 标准引号；Ch5 Related Works 2 处直引号改为 LaTeX 标准引号；完整清理编译验证 main.pdf 118页 + supplementary.pdf 51页，零错误零未解析引用
 - 2026-06-29: 第八轮修复：删除 3 条未引用 bib 条目（`babenko2016efficient`/`lang2021architecture`/`wang2017irgan`）；修复 Ch5 中 10 处 `\ie` 缺逗号；完整编译验证 main.pdf 118页 + supplementary.pdf 51页，零错误零未解析引用；更新所有文档文件
