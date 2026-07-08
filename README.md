@@ -22,9 +22,9 @@ HKUSTGZ-Thesis/
 ├── references/references.bib        # 参考文献
 ├── AGENTS.md / STYLE.md / TODO.md   # 项目文档
 └── slides/                          # 答辩幻灯片（当前活跃）
-    ├── thesis-slides-v0.1~0.3.pptx
-    ├── build.py                     # 参考实现
-    ├── figures/                     # 17 张 PNG
+    ├── thesis-slides-v0.1~v0.4.pptx
+    ├── build.py                     # 设计系统参考库
+    ├── figures/                     # 42 张 PNG
     └── README.md                    # 幻灯片维护规则
 ```
 
