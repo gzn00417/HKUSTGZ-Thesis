@@ -22,8 +22,10 @@ HKUSTGZ-Thesis/
 ├── references/references.bib        # 参考文献
 ├── AGENTS.md / STYLE.md / TODO.md   # 项目文档
 └── slides/                          # 答辩幻灯片（当前活跃）
-    ├── thesis-slides-v0.1~v0.4.pptx
+    ├── thesis-slides-v0.1~v0.5.pptx # v0.5 为当前最新审阅版
     ├── build.py                     # 设计系统参考库
+    ├── v0.5-build/                  # v0.5 重建入口与内部阶段
+    ├── v0.5-final-changelog.md      # v0.5 合并修改与 QA 记录
     ├── figures/                     # 42 张 PNG
     └── README.md                    # 幻灯片维护规则
 ```

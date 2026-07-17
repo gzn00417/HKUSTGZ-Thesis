@@ -6,8 +6,8 @@ Thesis body (chapters 1–7, appendices) is **frozen** — no further content ed
 
 ## Slides
 
-- `slides/` — defense slides (v0.1–v0.4), build.py, and figures
-- **Version management**: always create a new version (e.g., v0.5); never overwrite existing pptx. The current version is not final until explicitly stated.
+- `slides/` — defense slides (v0.1–v0.5), build.py, `v0.5-build/build-v0.5.py`, and figures
+- **Version management**: always create a new version; never overwrite existing pptx. The current version is not final until explicitly stated.
 - **Never delete pptx files** directly. If deletion is requested, only move to trash after notifying.
 - See `slides/README.md` for full design strategy, iteration history, and maintenance rules.
 

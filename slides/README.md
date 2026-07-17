@@ -249,3 +249,15 @@ CAP_PAD        = 0.06    # 图与图注垂直间距
 ---
 
 *Last updated: 2026-07-08 · 设计系统库：`slides/build.py` · 产出：`slides/thesis-slides-v0.4.pptx`（85 张；0 重叠 / 0 越界 / 0 文字溢出 / 无丢图 / PowerPoint 正常打开无需修复 / 字号 4 档正文+展示层）*
+
+---
+
+## Current Version · v0.5 (2026-07-14; build layout maintained 2026-07-18)
+
+- The earlier `Files` block is retained verbatim as the v0.4 historical snapshot. This section supersedes only its current-version designation.
+- `thesis-slides-v0.5.pptx` is the latest defense deck. Its content is the fully reviewed former v0.6.6 candidate, consolidated under the requested v0.5 version number.
+- It contains 79 slides: 56 main-talk slides including Questions, one backup divider, and 22 backup slides.
+- The complete v0.5-to-v0.6.x evolution, committee-review decisions, evidence-boundary corrections, rebuild instructions, and QA record are consolidated in `v0.5-final-changelog.md`.
+- All v0.5 build code is grouped under `v0.5-build/`. Run `v0.5-build/build-v0.5.py` as the single rebuild entry point. The historical v0.1–v0.4 PPTX files and the original README content above remain unchanged.
+- The 2026-07-18 cleanup changed only the location and names of internal build scripts. A fresh rebuild remained semantically identical to the delivered v0.5 in visible text, tables, and speaker notes.
+- All v0.6.x PPTX checkpoints were moved to the macOS Trash after their final content was incorporated into v0.5. No thesis `.tex` file or thesis figure was changed.
