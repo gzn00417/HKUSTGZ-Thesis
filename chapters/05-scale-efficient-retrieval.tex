@@ -206,7 +206,7 @@ To address that, we synthesize batches by adaptively slicing $(u,v)$ groups to f
 Specifically, we set the maximum size of the computing batch as $B_U$. If the size of current batch $B_i$, $N_{B_i}$, is larger than the remaining space $\epsilon$, we split it into two elements, including $B_i^{[1,\epsilon]}=\{(u_{i,1},v_{i,1}),\cdots,(u_{i,\epsilon},v_{i,\epsilon})\}$ and $B_i^{[\epsilon+1,N_{B_i}]}=\{(u_{i,\epsilon+1},v_{i,\epsilon+1}),\cdots,(u_{i,N_{B_i}},v_{i,N_{B_i}})\}$. $B_i^{[1,\epsilon]}$ will be computed in the current executive round of $U$ while $B_i^{[\epsilon+1,N_{B_i}]}$ will be computed in the next.
 The output values will be returned as estimations of the relevance between users and items during the processes of C-HiPANNS.
 
-More details are presented in Appendix~\ref{gmpgr:sec:appendix_pseudocode}.
+More details are presented in the supplementary material.
 
 \section{System Optimization}\label{gmpgr:sec:sys_op}
 
@@ -277,7 +277,7 @@ Fresh data is then cumulatively integrated with the original item base in a batc
 
 \subsection{Experimental Setup}
 
-We present datasets, baselines, and metrics in our offline and online experiments. Besides, implementation details are provided in Appendix~\ref{gmpgr:sec:appendix_implementation}.
+We present datasets, baselines, and metrics in our offline and online experiments. Besides, implementation details are provided in the supplementary material.
 
 \paragraph{Datasets.}\label{gmpgr:sec:dataset}
 We collect real-world video resources from Baidu applications and construct four datasets according to their potential of user satisfaction, including (1)~Video: popular landscape videos, (2)~MVideo: popular portrait videos, (3)~Explore: videos that are potentially favorable but not popular, and (4)~Fresh: videos that are uncommon and infrequently discovered.
@@ -332,7 +332,7 @@ Specifically, compared to SL2G and NANN, two typical industrial retrieval framew
 
 \paragraph{Efficiency Analysis.}
 This part analyzes the efficiency by testing their inference time and search speed.
-We first analyze the correlation between retrieval performance and time by scattering five methods in Figure~\ref{gmpgr:fig:efficiency}. More results on MVideo and Fresh datasets are in Appendix~\ref{gmpgr:sec:appendix_efficiency}.
+We first analyze the correlation between retrieval performance and time by scattering five methods in Figure~\ref{gmpgr:fig:efficiency}. More results on MVideo and Fresh datasets are in the supplementary material.
 Intuitively, a method is considered more efficient if it achieves higher performance~(here we use Cov to evaluate) with lower time consumption. Results reveal that GMP-GR outperforms the four baseline methods in terms of efficiency, as evidenced by its proximity to the upper left quadrant in the scatter plots.
 Notably, C-NSW stands out for its minimal retrieval time, attributed to its reliance on the cosine similarity metric which is computationally lightweight than DNNs. However, C-NSW underperforms in retrieval accuracy due to the limitation that the simple metric is unable to capture complex user-item relationships.
 Then, we compare the retrieval speed in Table~\ref{gmpgr:tab:speed}, which reflects the number of nodes that methods traverse on HNSW per second. GMP-GR also exhibits the capability to search through more nodes~(\ie, larger search space) than any DNN-based approach.
@@ -348,7 +348,7 @@ In summary, GMP-GR consistently outperforms all baseline methods, striking an op
 \end{figure}
 
 \paragraph{Ablation Study.}
-We conduct an ablation study on GMP-GR in Figure~\ref{gmpgr:fig:ablation}, by comparing it with two variants, \ie, GMP-GR-P and GMP-GR-M. Evaluations on Rec@10 and Rec@100 are provided in Appendix~\ref{gmpgr:sec:appendix_ablation}.
+We conduct an ablation study on GMP-GR in Figure~\ref{gmpgr:fig:ablation}, by comparing it with two variants, \ie, GMP-GR-P and GMP-GR-M. Evaluations on Rec@10 and Rec@100 are provided in the supplementary material.
 GMP-GR-P replaces MUIRML with a single supervision of the behavior in which a user visits an item, and GMP-GR-M substitutes HiPANNS with a standard HNSW search algorithm.
 Specifically, we find that GMP-GR consistently outperforms both GMP-GR-P and GMP-GR-M across different datasets.
 This superiority can be attributed to two key factors. First, MUIRML significantly enhances the relevance estimation accuracy and pathfinding efficiency. Second, HiPANNS prevents the graph-based ANNS process from succumbing to local optima by distributed and co-optimized search.

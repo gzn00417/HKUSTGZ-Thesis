@@ -73,16 +73,23 @@
 }
 
 % Bibliography and links
+% NOTE: hyperref should be loaded last (except for packages that must come after it)
 \usepackage[numbers,sort&compress]{natbib}
-\usepackage[colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,urlcolor=blue!55!black]{hyperref}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
 
-% Cross-references to supplementary document
+% Cross-references to supplementary document (per AGENTS.md build convention)
+% NOTE: main.tex does NOT use \ref{} to any appendix labels; this is kept so
+% that supplementary.tex can resolve references back to main chapters.
 \usepackage{xr-hyper}
 \externaldocument{supplementary}
 
-% Formatting
-\usepackage{setspace}
 \usepackage{xspace}
+
+% ============================================================
+% FIGURE PATH
+% ============================================================
+
+\graphicspath{{figures/gve/}{figures/mglvr/}{figures/gmpgr/}}
 
 % ============================================================
 % CUSTOM COMMANDS
@@ -96,8 +103,8 @@
 % Arrow symbol (fix for XeLaTeX character issues)
 \DeclareRobustCommand{\arrow}{\textrightarrow}
 
-% Small caps command
-\DeclareRobustCommand{\SCP}{\sc}
+% Small caps command (use \scshape, not obsolete \sc)
+\DeclareRobustCommand{\SCP}{\scshape}
 
 % Placeholder commands (fix undefined commands)
 \DeclareRobustCommand{\xia}{}
@@ -120,30 +127,18 @@
 \DeclareRobustCommand{\faRobot}{}
 
 % ============================================================
-% FORMATTING SETTINGS
+% FORMATTING NOTES
 % ============================================================
-
-\graphicspath{{figures/gve/}{figures/mglvr/}{figures/gmpgr/}}
-
-\setlength{\parskip}{0.35em}
-\setlength{\parindent}{1.5em}
-\onehalfspacing
-\AtBeginEnvironment{table}{\singlespacing}
-\AtBeginEnvironment{figure}{\singlespacing}
-\emergencystretch=2em
-
-% Keep the template caption style, but mirror its 10pt space below captions.
-\makeatletter
-\long\def\@makecaption#1#2{%
-   \vskip 10pt
-   \setbox\@tempboxa\hbox{#1: #2}%
-   \ifdim \wd\@tempboxa >\hsize
-       \unhbox\@tempboxa\par
-     \else
-       \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
-   \fi
-   \vskip 10pt}
-\makeatother
+%
+% The ustthesis.cls class already provides:
+%   - Double line spacing via \openup 3\jot (activated by \chapters)
+%   - Default caption style (\@makecaption with 10pt skip, centered short captions)
+%   - Default margins for A4 (1in top/left, mirrored for twoside binding)
+%   - Page numbers below the bottom margin (default behavior)
+%   - Default paragraph indentation (2em) and skip (6pt plus 1pt minus 1pt)
+%
+% We therefore do NOT load setspace, do NOT call \onehalfspacing/\doublespacing,
+% do NOT redefine \@makecaption, and do NOT override \PNumberAboveBottomMargin.
 
 % ============================================================
 % THESIS METADATA
@@ -167,9 +162,10 @@
 %   placed below the bottom margin.  However, if the author prefers
 %   the page number to be printed above the bottom margin, please
 %   activate the following command.
-%   (XeLaTeX + hyperref requires this to display page numbers correctly.)
-
-\PNumberAboveBottomMargin
+%
+% Standard HKUST(GZ) thesis places page numbers BELOW the bottom margin,
+% matching the template sample and the reference thesis.
+%\PNumberAboveBottomMargin
 
 % ============================================================
 % DOCUMENT BODY
@@ -218,6 +214,8 @@
 % BIBLIOGRAPHY
 % ============================================================
 
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Bibliography}
 \bibliographystyle{IEEEtran}
 \bibliography{references/references}
 
