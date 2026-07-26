@@ -38,3 +38,7 @@ Thumbs.db
 *.bak
 *.old
 *.orig
+
+# ---- Python build cache ----
+__pycache__/
+*.py[cod]

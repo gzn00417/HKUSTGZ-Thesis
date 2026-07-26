@@ -22,12 +22,18 @@ HKUSTGZ-Thesis/
 ├── references/references.bib        # 参考文献
 ├── AGENTS.md / STYLE.md / TODO.md   # 项目文档
 └── slides/                          # 答辩幻灯片（当前活跃）
-    ├── thesis-slides-v0.1~v0.5.pptx # v0.5 为当前最新审阅版
-    ├── build.py                     # 设计系统参考库
-    ├── v0.5-build/                  # v0.5 重建入口与内部阶段
-    ├── v0.5-final-changelog.md      # v0.5 合并修改与 QA 记录
-    ├── figures/                     # 42 张 PNG
-    └── README.md                    # 幻灯片维护规则
+    ├── thesis-slides-v0.1~v0.5.pptx # 保留的早期历史版本
+    ├── thesis-slides-v0.6.pptx      # 原 v0.66，79 页稳定基线
+    ├── thesis-slides-v0.7.pptx      # 原 v0.69，69 页压缩基线
+    ├── thesis-slides-v0.8.pptx      # 当前推荐的 69 页答辩基线
+    ├── build.mjs                    # 从 v0.8 非覆盖派生新版本
+    ├── build.py                     # 保留的 v0.4 历史设计系统
+    ├── v0.5-build/                  # 从 v0.4 重建 v0.5 的历史构建链
+    ├── v0.5-final-changelog.md      # v0.5 完整修改与 QA 记录
+    ├── SLIDES-GUIDE.md              # 内容、审美、QA 与迭代权威指南
+    ├── TODO-v0.6.md                 # 保留的原始用户修改意见
+    ├── figures/                     # 幻灯片使用的 PNG
+    └── README.md                    # 精简版本索引与维护入口
 ```
 
 ## 编译
@@ -53,4 +59,5 @@ latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex   # 交叉引�
 | [AGENTS.md](AGENTS.md) | AI 助手指令，当前阶段与维护规则 |
 | [STYLE.md](STYLE.md) | 写作风格指南（参考，已冻结） |
 | [TODO.md](TODO.md) | 答辩准备清单 |
-| [slides/README.md](slides/README.md) | 幻灯片维护规则与设计策略 |
+| [slides/README.md](slides/README.md) | 幻灯片版本索引与维护入口 |
+| [slides/SLIDES-GUIDE.md](slides/SLIDES-GUIDE.md) | 幻灯片内容、审美、QA 与长期迭代规则 |

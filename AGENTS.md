@@ -6,10 +6,31 @@ Thesis body (chapters 1–7, appendices) is **frozen** — no further content ed
 
 ## Slides
 
-- `slides/` — defense slides (v0.1–v0.5), build.py, `v0.5-build/build-v0.5.py`, and figures
+- `slides/` — defense slides, three public milestones, one safe branching script,
+  reusable figures, and the consolidated maintenance guide
+- **Early history**: preserve `thesis-slides-v0.1.pptx` through
+  `thesis-slides-v0.5.pptx` in `slides/`. They are historical references, not
+  the starting point for new edits. v0.5 is the last 79-slide evidence-calibrated
+  baseline before the later restructuring.
+- **Public milestones**:
+  - `thesis-slides-v0.6.pptx` = original v0.66, 79-slide stable baseline
+  - `thesis-slides-v0.7.pptx` = original v0.69, 69-slide compressed baseline
+  - `thesis-slides-v0.8.pptx` = current recommended 69-slide baseline
 - **Version management**: always create a new version; never overwrite existing pptx. The current version is not final until explicitly stated.
 - **Never delete pptx files** directly. If deletion is requested, only move to trash after notifying.
-- See `slides/README.md` for full design strategy, iteration history, and maintenance rules.
+- Start future work from v0.8 and use `slides/build.mjs` only to create a
+  non-overwriting branch such as v0.81.
+- `slides/build.py`, `slides/v0.5-build/`, and
+  `slides/v0.5-final-changelog.md` are retained historical v0.4/v0.5
+  reproducibility assets. Do not use them as the implementation base for v0.8.
+- Read `slides/SLIDES-GUIDE.md` before every slide revision. It is the
+  authoritative source for thesis alignment, cross-page reasoning, aesthetics,
+  known failure cases, QA, and record policy.
+- Retain `slides/TODO-v0.6.md` as source evidence for the user's detailed
+  feedback.
+- After slide-content or layout changes, render and inspect every slide. Automated
+  overflow checks do not replace full-size visual review.
+- See `slides/README.md` for the concise file index and recovery information.
 
 ## Build
 
