@@ -33,6 +33,10 @@ Thumbs.db
 *.snm
 *.vrb
 
+# ---- Defense-slide temporary review output ----
+slides/.tmp-*/
+slides/**/*.inspect.ndjson
+
 # ---- Editor backups ----
 *~
 *.bak

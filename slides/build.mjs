@@ -3,15 +3,18 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { createHash } from "node:crypto";
 
+const requestedSource = process.env.SLIDES_SOURCE;
 const source = path.resolve(
-  process.env.SLIDES_SOURCE || "slides/thesis-slides-v0.8.pptx",
+  requestedSource || "slides/thesis-slides-v0.9.pptx",
 );
+const canonicalV09Sha256 =
+  "467fc283fed0cca02fa4490f48fb17b6340165919141fbc094edfac96b8b4e86";
 const requestedOutput = process.env.SLIDES_OUTPUT;
 
 if (!requestedOutput) {
   throw new Error(
     "Set SLIDES_OUTPUT to a new version, for example " +
-      "slides/thesis-slides-v0.81.pptx.",
+      "slides/thesis-slides-v0.91.pptx.",
   );
 }
 
@@ -40,6 +43,13 @@ if (sourceHeader.toString("binary") !== "PK\u0003\u0004") {
   throw new Error(`Source does not have a valid PPTX/ZIP signature: ${source}`);
 }
 
+const sourceHash = await sha256(source);
+if (!requestedSource && sourceHash !== canonicalV09Sha256) {
+  throw new Error(
+    "The default v0.9 source does not match the reviewed canonical SHA-256.",
+  );
+}
+
 try {
   await fs.copyFile(source, output, fsConstants.COPYFILE_EXCL);
 } catch (error) {
@@ -51,7 +61,6 @@ try {
   throw error;
 }
 
-const sourceHash = await sha256(source);
 const outputHash = await sha256(output);
 if (sourceHash !== outputHash) {
   await fs.unlink(output);

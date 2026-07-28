@@ -25,8 +25,10 @@ HKUSTGZ-Thesis/
     ├── thesis-slides-v0.1~v0.5.pptx # 保留的早期历史版本
     ├── thesis-slides-v0.6.pptx      # 原 v0.66，79 页稳定基线
     ├── thesis-slides-v0.7.pptx      # 原 v0.69，69 页压缩基线
-    ├── thesis-slides-v0.8.pptx      # 当前推荐的 69 页答辩基线
-    ├── build.mjs                    # 从 v0.8 非覆盖派生新版本
+    ├── thesis-slides-v0.8.pptx      # 审阅前的 69 页里程碑
+    ├── thesis-slides-v0.9.pptx      # 当前正式的 69 页答辩版本
+    ├── build.mjs                    # 从 V0.9 非覆盖派生新版本
+    ├── v0.9-build/                  # V0.9 合并记录、审阅证据与最终精修脚本
     ├── build.py                     # 保留的 v0.4 历史设计系统
     ├── v0.5-build/                  # 从 v0.4 重建 v0.5 的历史构建链
     ├── v0.5-final-changelog.md      # v0.5 完整修改与 QA 记录

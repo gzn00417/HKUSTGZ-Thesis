@@ -2,9 +2,8 @@
 
 This is the authoritative guide for future defense-slide work. It consolidates
 the user's feedback, the thesis-alignment decisions, visual standards, failure
-cases, the durable v0.1–v0.5 history, and the final state of the v0.6–v0.8
-iteration. It is deliberately a decision document rather than a chronological
-work log.
+cases, the retained version history, and the reviewed V0.9 state. It is
+deliberately a decision document rather than a chronological work log.
 
 ## 1. Retained versions
 
@@ -17,17 +16,17 @@ work log.
 | `v0.5` | 79 | `24f1898e9bd1c6e6c38ce8ef11c6d280f0911cd4f5ecf857172b5e69731946c2` | thesis-level restructuring and evidence calibration |
 | `v0.6` | 79 | `bd856ec48c1b6cfb7ed63b656322a64885148cb9c15b1bdd2ee23147ee547c21` | original v0.66, stable classical baseline |
 | `v0.7` | 69 | `1feb4ea7eda31f2449ef285608d5a8b21d64fdc61406439c1bec0d897e92df97` | original v0.69, stable compressed baseline |
-| `v0.8` | 69 | `45e8070682ee4e5d166f47301e9c62c057c84b11041e57a57e45f972e39b0b56` | current recommended baseline |
+| `v0.8` | 69 | `45e8070682ee4e5d166f47301e9c62c057c84b11041e57a57e45f972e39b0b56` | pre-review 69-slide baseline |
+| `v0.9` | 69 | `467fc283fed0cca02fa4490f48fb17b6340165919141fbc094edfac96b8b4e86` | current formal defense deck |
 
-All eight files are intentionally retained. `v0.1`–`v0.5` preserve the early
-design and content evolution. `v0.6`, `v0.7`, and `v0.8` remain the three key
-decision milestones. The former `v0.75` is historically important because it was
-the first complete, stable 69-slide deck after the Study 2, Study 3, and
-conclusion rebuild. Its useful content is inherited by `v0.8`, so the
-intermediate v0.6x/v0.7x files remain in the recoverable archive rather than
-becoming additional working versions.
+The retained versions are formal milestones. `v0.1`–`v0.5` preserve the early
+design and content evolution. `v0.6`, `v0.7`, and `v0.8` preserve the major
+restructuring milestones. V0.9 consolidates the V0.81–V0.87 review chain. Its
+important intermediate reasoning and hashes remain in
+`v0.9-build/CHANGELOG.md`, while repetitive working PPTX files and build folders
+are kept only in the system Trash.
 
-Never overwrite a milestone. Create `v0.81`, `v0.82`, or another explicit new
+Never overwrite a formal version. Create `v0.91` or another explicit new
 version. If old PPTX files are pruned, move them to the system Trash after
 notifying the user. Do not permanently delete them.
 
@@ -144,10 +143,11 @@ The introduction frames retrieval as three successive decisions:
 2. **Observational scaling:** what visual evidence should be observed?
 3. **Search scaling:** how should learned relevance be searched at scale?
 
-These are successive bottlenecks, not three unrelated projects. The conclusion
+These are successive retrieval stages with different scaling challenges, not
+three unrelated projects. The conclusion
 returns to the same vocabulary and states the thesis principle:
 
-> Align capacity with the active bottleneck, then test whether the capability
+> Align capacity with the active stage constraint, then test whether the capability
 > transfers.
 
 Roadmap, section openers, detailed slides, study summaries, and conclusion must
@@ -186,7 +186,7 @@ Study 2 follows Chapter 4. Its research process is:
 
 ### 6.1 Benchmark
 
-Motivate sampling as a structural bottleneck in long-video retrieval. Define
+Motivate sampling as a structural constraint in long-video retrieval. Define
 temporal granularity and continuity before using them analytically. Explain why
 MG-LVR is needed, what it measures, and how its construction supports controlled
 analysis. A benchmark statistic is evidence, not the contribution by itself.
@@ -295,7 +295,7 @@ method transitions and final summary.
 
 ## 8. Conclusion, limitations, and future work
 
-The conclusion mirrors the three bottlenecks and the exact contribution language
+The conclusion mirrors the three retrieval stages and the exact contribution language
 used in the studies. It should not introduce a fourth framing at the end.
 Generalizability means transfer beyond the optimization condition and must be
 defined operationally for each study.
@@ -389,18 +389,23 @@ These lessons came from adversarial review of the actual deck:
 3. Locate the exact source passages, tables, and figures for every proposed
    factual change.
 4. Identify neighboring and analogous slides affected by the same change.
-5. Create a new version. Never work directly on `v0.8`.
+5. Create a new version. Never work directly on `v0.9`.
 
 To make an exact non-overwriting branch:
 
 ```bash
-SLIDES_OUTPUT=slides/thesis-slides-v0.81.pptx node slides/build.mjs
+SLIDES_OUTPUT=slides/thesis-slides-v0.91.pptx node slides/build.mjs
 ```
 
-The branch script validates the PPTX/ZIP signature and verifies that the new
-file is byte-identical by SHA-256. It does not reconstruct the editorial path
-from v0.7 to v0.8. The reviewed v0.8 binary and its manifest hash are the
-canonical current source.
+The branch script validates the canonical V0.9 SHA-256 and PPTX/ZIP signature,
+refuses overwrite, and verifies that the new file is byte-identical.
+
+To trace a V0.8-to-V0.9 decision, start with
+`slides/v0.9-build/CHANGELOG.md` and `slides/v0.9-build/REVIEW.md`. The exact
+editor for the final pass is `slides/v0.9-build/edit-final-pass.mjs`. It requires
+the restored author-edited V0.86 source if replay is ever necessary. Full
+byte-for-byte reconstruction of every working iteration is not a maintenance
+requirement.
 
 ### During editing
 
@@ -434,11 +439,11 @@ Automated checks do not replace rendered visual inspection.
 
 ## 12. Current status
 
-### Confirmed and implemented in v0.8
+### Confirmed and implemented through V0.9
 
 - 69 slides: 57 main slides and 12 compact appendix slides.
 - Repository-level `README.md`, `TODO.md`, and `AGENTS.md`, together with the
-  slide-local documents, use the same v0.6/v0.7/v0.8 milestone scheme.
+  slide-local documents, identify V0.9 as the current formal defense deck.
 - Study 1 result order follows the introduction of its data, model, and
   curriculum.
 - Study 2 distinguishes training-time and test-time scaling and uses the correct
@@ -449,10 +454,17 @@ Automated checks do not replace rendered visual inspection.
 - C-HiPANNS and Q-HiPANNS are framed as coupled online components.
 - Roadmap, study summaries, and conclusion use consistent semantic,
   observational, and search scaling language.
-- Slides 10 and 47 were corrected after full-render review.
-- All 69 final slides were rendered and reviewed.
-- Automatic canvas-overflow, page-marker, package-integrity, and critical-figure
-  checks passed.
+- Chapter 3 task/domain/sub-domain terminology and the editable V-SynFlow stage
+  name are aligned with the thesis.
+- Chapter 4 granularity and continuity definitions use the thesis notation.
+- SCL, transfer, correlation, and efficiency claims are evidence-calibrated.
+- Appendix result scope, radar-series count, audience-facing labels, and six
+  prepared committee questions are self-contained.
+- All 69 V0.9 slides were rendered and reviewed at full size.
+- Canvas-overflow, template-fidelity, package-integrity, critical-render, and
+  speaker-note checks passed during the V0.9 review chain.
+- The consolidated V0.9 changelog records working-version hashes, affected
+  sections, source alignment, preserved content, and deferred risks.
 
 ### Uncertain but not blocking
 
@@ -464,6 +476,10 @@ Automated checks do not replace rendered visual inspection.
   completed-study slides.
 - External publication, acceptance, deployment, and defense-date wording may
   change and should be reverified before presentation.
+- Slide 12's embedded thesis figure retains the source phrase “Multimodal Task
+  Extending.” The editable slide label is corrected, but the source figure was
+  not regenerated.
+- Slide 23's publication-status wording is intentionally unchanged from V0.85.
 
 ### Decisions that require the author
 
@@ -484,23 +500,26 @@ Automated checks do not replace rendered visual inspection.
 
 ## 13. File and record policy
 
-Keep the visible directory small:
+Keep the visible directory reviewable:
 
 - five early historical PPTX files (`v0.1`–`v0.5`);
-- three key milestone PPTX files (`v0.6`, `v0.7`, and `v0.8`);
+- three restructuring milestone PPTX files (`v0.6`, `v0.7`, and `v0.8`);
+- the formal V0.9 deck;
 - `README.md`;
 - this guide;
-- the original `TODO-v0.6.md`;
+- the early feedback record (`TODO-v0.6.md`) and consolidated V0.9 review
+  evidence (`v0.9-build/REVIEW.md`);
 - one safe version-branch script;
+- the consolidated V0.9 changelog and final-pass editor;
 - the historical v0.4 design-system source (`build.py`);
 - the reproducible v0.5 build chain and consolidated v0.5 changelog;
 - the figure directory.
 
-Intermediate v0.6x/v0.7x PPTX files, superseded newer build directories,
-temporary renders, inspect output, and detailed iteration logs are recoverable
-in:
-
-`/Users/guozhuoning/.Trash/HKUSTGZ-Thesis-slides-cleanup-20260727`
+Starter decks, edited candidates, rendered PNGs, layout JSON, extracted source
+media, inspection output, and dependency workspaces are temporary and are not
+long-term repository dependencies. If temporary PPTX files are pruned, move the
+containing temporary directory to the system Trash rather than deleting those
+PPTX files directly.
 
 Only update this guide when a decision is likely to matter in a future editing
 session. Record durable rules, source alignment, unresolved author decisions, and

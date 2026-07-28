@@ -1,68 +1,67 @@
 # Defense Slides
 
-This directory keeps five early historical decks, three key presentation
-milestones, and one small set of reusable support files.
+This directory contains the formal thesis-defense deck, milestone PPTX history,
+reusable figures, and compact maintenance records.
 
-## Early historical versions
+## Current version
 
-- `thesis-slides-v0.1.pptx`
-- `thesis-slides-v0.2.pptx`
-- `thesis-slides-v0.3.pptx`
-- `thesis-slides-v0.4.pptx`
-- `thesis-slides-v0.5.pptx`
+| File | Slides | SHA-256 | Role |
+|---|---:|---|---|
+| `thesis-slides-v0.9.pptx` | 69 | `467fc283fed0cca02fa4490f48fb17b6340165919141fbc094edfac96b8b4e86` | current formal defense deck |
 
-These files preserve the early design and content evolution. They are not the
-recommended starting point for new edits. `v0.5` is especially useful as the
-last 79-slide evidence-calibrated baseline before the later v0.6x/v0.7x
-restructuring.
+V0.9 contains 57 main slides and 12 appendix slides. It is byte-identical to
+the reviewed V0.87 deck and supersedes the V0.81–V0.87 working chain.
 
-## Presentation milestones
+## Retained PPTX milestones
 
-| File | Historical source | Role |
-|---|---|---|
-| `thesis-slides-v0.6.pptx` | original `v0.66` | stable 79-slide classical baseline |
-| `thesis-slides-v0.7.pptx` | original `v0.69` | stable 69-slide compressed baseline |
-| `thesis-slides-v0.8.pptx` | current `v0.8` | recommended 69-slide defense baseline |
+| Version | Role |
+|---|---|
+| `v0.1`–`v0.5` | early design and content evolution |
+| `v0.6` | original v0.66, 79-slide stable baseline |
+| `v0.7` | original v0.69, 69-slide compressed baseline |
+| `v0.8` | pre-review 69-slide baseline |
+| `v0.9` | reviewed formal 69-slide defense deck |
 
-The intermediate v0.6x/v0.7x iterations remain recoverable in the system Trash.
-The useful revisions from `v0.75` are already inherited by `v0.8`, so those
-files are not kept as additional visible milestones.
+V0.81–V0.87 were working iterations rather than formal milestones. Their key
+reasoning, hashes, affected sections, evidence boundaries, and QA results are
+consolidated in `v0.9-build/CHANGELOG.md`. Their PPTX files and repetitive build
+folders were moved to the system Trash during V0.9 promotion.
 
 ## Files to read before editing
 
-1. `SLIDES-GUIDE.md` — authoritative design, content, QA, and iteration guide.
-2. `TODO-v0.6.md` — original user feedback retained as source evidence.
-3. The relevant thesis chapter introduction and conclusion.
+1. `SLIDES-GUIDE.md`, the authoritative content, visual, QA, and record guide.
+2. `v0.9-build/CHANGELOG.md`, the consolidated V0.8-to-V0.9 change record.
+3. `v0.9-build/REVIEW.md`, the consolidated review evidence.
+4. `TODO-v0.6.md`, retained evidence for earlier detailed feedback.
+5. The relevant thesis chapter introduction, method passages, and conclusion.
 
-## Code and reproducibility
+The exact Artifact Tool editor for the final V0.86-to-V0.87 pass is retained as
+`v0.9-build/edit-final-pass.mjs`. It is a historical trace, not the default
+starting point for future revisions.
 
-- `build.mjs` is the current safe entry point. It creates a byte-identical new
-  version from v0.8, refuses overwrite, validates the PPTX signature, and verifies
-  the copied file by SHA-256.
-- `build.py` is retained as the historical v0.4 design-system reference.
-- `v0.5-build/` reproducibly rebuilds v0.5 from v0.4. It is historical code and
-  must not be used as the implementation base for v0.8 edits.
-- `v0.5-final-changelog.md` preserves the detailed v0.5 evidence and QA record.
+## Create the next branch
 
-`build.mjs` deliberately does not claim to reconstruct the editorial history
-from v0.7 to v0.8. The reviewed v0.8 PPTX and its recorded SHA-256 are the
-canonical current artifact.
+```bash
+SLIDES_OUTPUT=slides/thesis-slides-v0.91.pptx node slides/build.mjs
+```
 
-## Minimal workflow
+`build.mjs` validates the canonical V0.9 hash, creates an exact
+non-overwriting copy, and verifies the output hash.
 
-1. Start from `thesis-slides-v0.8.pptx`.
-2. Create a new filename with `build.mjs`; existing files cannot be overwritten.
-3. Edit only the new version.
-4. Render every slide and inspect both montages and risky pages at full size.
-5. Run structural, overflow, figure-identity, and package-integrity checks.
-6. Record only durable decisions in `SLIDES-GUIDE.md`; do not create a new
-   plan/review/QA file for every minor iteration.
+## Retained historical build assets
 
-Figures used by the deck are in `figures/`.
+- `build.py`: historical V0.4 design-system source.
+- `v0.5-build/`: reproducible V0.5 build chain.
+- `v0.5-final-changelog.md`: consolidated V0.5 modification and QA record.
+- `figures/`: reusable slide figures.
 
-## Recovery
+## Record and cleanup policy
 
-Unselected intermediate decks, superseded newer build folders, render outputs,
-and detailed iteration records were moved, not permanently deleted, to:
-
-`/Users/guozhuoning/.Trash/HKUSTGZ-Thesis-slides-cleanup-20260727`
+- Keep formal PPTX milestones, not every working iteration.
+- For a major review cycle, keep one consolidated changelog, one consolidated
+  review record, and only the editor that materially helps trace the final pass.
+- Never overwrite a formal PPTX.
+- Never permanently delete a PPTX from the project. When pruning is requested,
+  notify the user and move it to the system Trash.
+- Do not retain render folders, starter decks, edited candidates, layout JSON,
+  extracted media, inspection output, or dependency workspaces.
