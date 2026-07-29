@@ -22,18 +22,13 @@ HKUSTGZ-Thesis/
 ├── references/references.bib        # 参考文献
 ├── AGENTS.md / STYLE.md / TODO.md   # 项目文档
 └── slides/                          # 答辩幻灯片（当前活跃）
-    ├── thesis-slides-v0.1~v0.5.pptx # 保留的早期历史版本
-    ├── thesis-slides-v0.6.pptx      # 原 v0.66，79 页稳定基线
-    ├── thesis-slides-v0.7.pptx      # 原 v0.69，69 页压缩基线
-    ├── thesis-slides-v0.8.pptx      # 审阅前的 69 页里程碑
-    ├── thesis-slides-v0.9.pptx      # 当前正式的 69 页答辩版本
-    ├── build.mjs                    # 从 V0.9 非覆盖派生新版本
-    ├── v0.9-build/                  # V0.9 合并记录、审阅证据与最终精修脚本
-    ├── build.py                     # 保留的 v0.4 历史设计系统
-    ├── v0.5-build/                  # 从 v0.4 重建 v0.5 的历史构建链
-    ├── v0.5-final-changelog.md      # v0.5 完整修改与 QA 记录
+    ├── thesis-slides-v1.pptx        # 稳定的 65 页答辩版本
+    ├── thesis-slides-v1.4.pptx      # 保留的作者批改中间版本
+    ├── thesis-slides-v2.pptx        # 保留的 70 页压缩前版本
+    ├── thesis-slides-v3.pptx        # 当前 69 页工作版本
+    ├── NOTE-V1.md / NOTE-V1.4.md / NOTE-V2.md / NOTE-V3.md
+    ├── HISTORY.md                   # 合并后的版本、修改与 QA 记录
     ├── SLIDES-GUIDE.md              # 内容、审美、QA 与迭代权威指南
-    ├── TODO-v0.6.md                 # 保留的原始用户修改意见
     ├── figures/                     # 幻灯片使用的 PNG
     └── README.md                    # 精简版本索引与维护入口
 ```
@@ -63,3 +58,4 @@ latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex   # 交叉引�
 | [TODO.md](TODO.md) | 答辩准备清单 |
 | [slides/README.md](slides/README.md) | 幻灯片版本索引与维护入口 |
 | [slides/SLIDES-GUIDE.md](slides/SLIDES-GUIDE.md) | 幻灯片内容、审美、QA 与长期迭代规则 |
+| [slides/HISTORY.md](slides/HISTORY.md) | 合并后的版本、修改意见与 QA 记录 |

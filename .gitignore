@@ -36,6 +36,8 @@ Thumbs.db
 # ---- Defense-slide temporary review output ----
 slides/.tmp-*/
 slides/**/*.inspect.ndjson
+slides/.cleanup-review/
+slides/~$*.pptx
 
 # ---- Editor backups ----
 *~

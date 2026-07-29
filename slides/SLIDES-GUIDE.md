@@ -2,7 +2,7 @@
 
 This is the authoritative guide for future defense-slide work. It consolidates
 the user's feedback, the thesis-alignment decisions, visual standards, failure
-cases, the retained version history, and the reviewed V0.9 state. It is
+cases, the retained version history, and the reviewed V1 state. It is
 deliberately a decision document rather than a chronological work log.
 
 ## 1. Retained versions
@@ -17,18 +17,27 @@ deliberately a decision document rather than a chronological work log.
 | `v0.6` | 79 | `bd856ec48c1b6cfb7ed63b656322a64885148cb9c15b1bdd2ee23147ee547c21` | original v0.66, stable classical baseline |
 | `v0.7` | 69 | `1feb4ea7eda31f2449ef285608d5a8b21d64fdc61406439c1bec0d897e92df97` | original v0.69, stable compressed baseline |
 | `v0.8` | 69 | `45e8070682ee4e5d166f47301e9c62c057c84b11041e57a57e45f972e39b0b56` | pre-review 69-slide baseline |
-| `v0.9` | 69 | `467fc283fed0cca02fa4490f48fb17b6340165919141fbc094edfac96b8b4e86` | current formal defense deck |
+| `v0.9` | 69 | `467fc283fed0cca02fa4490f48fb17b6340165919141fbc094edfac96b8b4e86` | reviewed formal baseline |
+| `v0.91` | 69 | `29f2c9fd7443d218a3831336a9bda880c2216dc0acf88d051771fb0ab8cf7381` | author/review working milestone |
+| `v0.92` | 69 | `57305f418d85c3862832489b0cd13412574a724f70daf04262faabbcc8e79c78` | author/review working milestone |
+| `v0.93` | 68 | `b5bc93fd3bf0adc6d8c3d372d845fea5b497701c0bee400f4628053a746019ee` | final author-edited source for V1 |
+| `v1` | 65 | `df9f29705913a6441e5d9bf6355c0f36491f33a3645331951e7f004462a636a7` | retained stable defense deck |
+| `v1.4` | 67 | `51b24ce673f2f5d49f5ae44f4ab9a7a6e960ba218f3b6382fdeaa150f7c2c239` | retained author-reviewed intermediate deck |
+| `v2` | 70 | `ce4fb20ad7fa4893107aef8b7c4a0fa7f8b2bc79a084daef82063c14ad6be7c2` | retained pre-compression working deck |
+| `v3` | 69 | `48ab9b0fc09614801cebcd4bc89ab893b31d119946f632c2ac6f72cee5e47876` | current working defense deck |
 
-The retained versions are formal milestones. `v0.1`–`v0.5` preserve the early
-design and content evolution. `v0.6`, `v0.7`, and `v0.8` preserve the major
-restructuring milestones. V0.9 consolidates the V0.81–V0.87 review chain. Its
-important intermediate reasoning and hashes remain in
-`v0.9-build/CHANGELOG.md`, while repetitive working PPTX files and build folders
-are kept only in the system Trash.
+The retained versions include formal and author-review milestones.
+`v0.1`–`v0.5` preserve the early design and content evolution. `v0.6`, `v0.7`,
+and `v0.8` preserve the major restructuring milestones. V0.9 consolidates the
+V0.81–V0.87 review chain. Its durable result and the later V0.91–V0.93
+author-review chain are summarized in `HISTORY.md`. Repetitive review and
+build files are kept only in the local recovery area. V1 is derived from the exact
+author-edited V0.93 file and adds the final English oral script, targeted visible
+corrections, and a reduced appendix.
 
-Never overwrite a formal version. Create `v0.91` or another explicit new
-version. If old PPTX files are pruned, move them to the system Trash after
-notifying the user. Do not permanently delete them.
+Never overwrite a retained version. Start future work from V3 unless the user
+specifies another source. If old PPTX files are pruned, move them to
+the system Trash after notifying the user. Do not permanently delete them.
 
 ### 1.1 Historical evolution worth preserving
 
@@ -137,13 +146,13 @@ the minimum definition, motivation, or context required at first use.
 
 ## 4. Thesis-wide narrative
 
-The introduction frames retrieval as three successive decisions:
+The introduction frames retrieval as three connected decisions:
 
 1. **Semantic scaling:** what should be represented?
 2. **Observational scaling:** what visual evidence should be observed?
 3. **Search scaling:** how should learned relevance be searched at scale?
 
-These are successive retrieval stages with different scaling challenges, not
+These are connected retrieval stages with different scaling challenges, not
 three unrelated projects. The conclusion
 returns to the same vocabulary and states the thesis principle:
 
@@ -160,12 +169,11 @@ Use the Chapter 3 order:
 1. Explain why universal video retrieval remains unresolved.
 2. State the two thesis-defined hurdles.
 3. Define UVRB and its unified evaluation protocol.
-4. Analyze capability correlations.
-5. Introduce V-SynFlow and UVRD.
-6. Introduce GVE and the Modality Pyramid curriculum.
-7. Present comparison, overall results, ability-level results, ablation, and data
-   scaling.
-8. State the finding, novelty, and contribution.
+4. Introduce V-SynFlow and UVRD as a response to diagnosed gaps.
+5. Introduce GVE and the Modality Pyramid curriculum.
+6. Present the common experimental protocol, overall results, ability-level
+   results, ablation, capability correlations, and data scaling.
+7. State the finding, novelty, and contribution.
 
 Do not show a GVE result before GVE is introduced. UVRB evaluates 14 models; do
 not casually relabel all 14 as baselines. Use the thesis's exact capability and
@@ -306,6 +314,49 @@ unresolved problem, why it follows from the thesis, and a plausible research
 direction. One-line slogans are insufficient, but speculative detail must not be
 presented as completed evidence.
 
+### 8.1 Speaker-note and oral-delivery rules
+
+Speaker notes are a presenter-facing script, not a second technical document.
+The following rules apply deck-wide rather than only to the slide where the
+original feedback appeared:
+
+- Final-deck notes must be English-only and contain only words that can be
+  spoken. Keep source lists, timing labels, Chinese prompts, editorial comments,
+  and revision scaffolding in maintenance documents, not in PowerPoint notes.
+- Use short sentences, common words, and one main idea per sentence. Prefer
+  phrases such as “in order,” “step by step,” and “the next question” over rare
+  or difficult alternatives when the meaning is unchanged.
+- Create clear restart points. A presenter who loses one sentence should be able
+  to continue from the next sentence without losing the argument.
+- Reuse strong and easy-to-say wording already visible on the slide or in the
+  thesis. Do not paraphrase every classic phrase merely to make the notes sound
+  different.
+- Define notation in spoken words at first use. After that, prefer natural terms
+  such as “frame count” and “tokens per frame” instead of repeatedly saying
+  symbols such as F and T.
+- Method notes should follow the reading order of the main figure. Explain the
+  question, the two or three mechanism steps, and the design reason. Do not read
+  every infrastructure label or equation.
+- Experiment notes should follow “setting, main result, meaning.” Do not read an
+  inventory of decimal values. Direct attention to highlighted values and state
+  the supported conclusion.
+- Cross-study transitions should follow “question, response, what it enables
+  next.” This makes the dependency among representation, observation, and
+  search explicit without overstating the thesis.
+- Appendix notes need only a short orientation sentence or paragraph explaining
+  what evidence the slide contains and when it may answer a question.
+- For a 40-to-50-minute defense, write the main script for a careful delivery
+  pace and leave recovery time for pauses, slide changes, and forgotten words.
+  A final script near 3,400 spoken words is a suitable conservative target for
+  this presenter.
+- Committee information on the title slide should remain concise and appear
+  after the advisor line in the script.
+
+The visible slide and its notes must work together. The slide carries stable
+phrases, figures, and highlighted evidence. The notes connect them into natural
+speech. Neither surface should display internal process language such as
+“source,” “timing,” “must say,” or “optional detail.”
+
 ## 9. Visual standards
 
 The preferred style is restrained, professional, thesis-like, and stable.
@@ -341,6 +392,11 @@ improving the argument.
 - Titles should make a claim or orient the audience, not merely repeat a module
   name.
 - Avoid unexplained abbreviations and editorial terms absent from the thesis.
+- Use conventional, thesis-faithful units and notation. Do not introduce scaled
+  tables such as “times one thousand” when ordinary decimal values are more
+  familiar and easier to verify.
+- Avoid repeated high-contrast blocks. Use one primary visual anchor and reserve
+  strong color for a real conceptual or evidential distinction.
 
 ### 9.3 Figures
 
@@ -384,28 +440,18 @@ These lessons came from adversarial review of the actual deck:
 
 ### Before editing
 
-1. Read this guide and the relevant section of `TODO-v0.6.md`.
+1. Read this guide and the relevant section of `HISTORY.md`.
 2. Read the corresponding thesis chapter introduction and conclusion.
 3. Locate the exact source passages, tables, and figures for every proposed
    factual change.
 4. Identify neighboring and analogous slides affected by the same change.
-5. Create a new version. Never work directly on `v0.9`.
+5. Create a new version. Never overwrite V1, V1.4, or V2.
 
-To make an exact non-overwriting branch:
-
-```bash
-SLIDES_OUTPUT=slides/thesis-slides-v0.91.pptx node slides/build.mjs
-```
-
-The branch script validates the canonical V0.9 SHA-256 and PPTX/ZIP signature,
-refuses overwrite, and verifies that the new file is byte-identical.
-
-To trace a V0.8-to-V0.9 decision, start with
-`slides/v0.9-build/CHANGELOG.md` and `slides/v0.9-build/REVIEW.md`. The exact
-editor for the final pass is `slides/v0.9-build/edit-final-pass.mjs`. It requires
-the restored author-edited V0.86 source if replay is ever necessary. Full
-byte-for-byte reconstruction of every working iteration is not a maintenance
-requirement.
+Start from `slides/thesis-slides-v3.pptx` unless the user names another source.
+Use a non-overwriting filename and use `HISTORY.md` for version provenance. Keep
+any new editor, render, inspection, or candidate deck in a temporary
+workspace. Full byte-for-byte reconstruction of every working iteration is not
+a maintenance requirement.
 
 ### During editing
 
@@ -439,11 +485,21 @@ Automated checks do not replace rendered visual inspection.
 
 ## 12. Current status
 
-### Confirmed and implemented through V0.9
+### Confirmed V1 baseline
 
-- 69 slides: 57 main slides and 12 compact appendix slides.
-- Repository-level `README.md`, `TODO.md`, and `AGENTS.md`, together with the
-  slide-local documents, identify V0.9 as the current formal defense deck.
+- 65 slides: 56 main slides and 9 compact appendix slides.
+- V1 uses the exact author-edited V0.93 file as its source. V0.91, V0.92, and
+  V0.93 remain unchanged.
+- Repository-level documents retain V1 as the stable baseline while identifying
+  V3 as the current working deck.
+- All 65 PowerPoint notes are English-only spoken scripts. The 56-slide main
+  script contains about 3,449 spoken words. Direct reading is about 38–43
+  minutes at 80–90 words per minute, and the conservative delivery range is
+  44–49 minutes with pauses, slide changes, and recovery.
+- The title-slide script thanks Prof. Xiaowen Chu and Prof. Renjing Xu first,
+  then lists the committee concisely: Chair Prof. Pan Hui, Prof. Jeffrey Xu Yu,
+  Prof. Yutao Yue, Prof. Xuming Hu, and Prof. Meishan Zhang from HIT
+  (Shenzhen).
 - Study 1 result order follows the introduction of its data, model, and
   curriculum.
 - Study 2 distinguishes training-time and test-time scaling and uses the correct
@@ -458,18 +514,35 @@ Automated checks do not replace rendered visual inspection.
   name are aligned with the thesis.
 - Chapter 4 granularity and continuity definitions use the thesis notation.
 - SCL, transfer, correlation, and efficiency claims are evidence-calibrated.
-- Appendix result scope, radar-series count, audience-facing labels, and six
-  prepared committee questions are self-contained.
-- All 69 V0.9 slides were rendered and reviewed at full size.
-- Canvas-overflow, template-fidelity, package-integrity, critical-render, and
-  speaker-note checks passed during the V0.9 review chain.
-- The consolidated V0.9 changelog records working-version hashes, affected
-  sections, source alignment, preserved content, and deferred risks.
+- Slide 13 separates scale/validation from tasks/domains, slide 36 restores the
+  thesis's ordinary decimal notation, and slide 51 uses a grounded
+  video-retrieval significance claim.
+- Three secondary appendix pages from V0.93 were omitted. The retained appendix
+  covers selected UVRB, MG-LVR, VEterfall, GMP-GR, deployment, and Q&A evidence.
+- Every slide was rendered and reviewed. Newly changed and dense pages were also
+  checked at full resolution. The exported PPTX was reopened successfully, all
+  65 notes were matched to `NOTE-V1.md`, no slide crossed the canvas boundary,
+  and the package passed ZIP-integrity checks.
+
+### Confirmed V3 working state
+
+- 69 slides: 60 main slides and 9 compact appendix slides.
+- The former physical slides 52–54 are compressed into two conclusion pages.
+- The first revised page explains why representation, observation, and search
+  must be studied as a dependency chain.
+- The second revised page makes each study's technical novelty and contribution
+  explicit and closes with the thesis principle.
+- `NOTE-V3.md` contains approximately 4,519 spoken words. Repeated capability
+  lists were reduced, and the main method explanations use shorter and plainer
+  oral wording.
+- All 69 embedded notes match the Markdown script. The PPTX was reopened,
+  rendered, and reviewed slide by slide. Overflow, package, image, numbering,
+  template-fidelity, and note checks passed.
+- `HISTORY.md` is the single retained trace for the earlier review chain,
+  the V0.93-to-V1 pass, and later revisions. `NOTE-V1.md` is the clean V1 script.
 
 ### Uncertain but not blocking
 
-- The defense duration is not fixed. Fifty-seven main slides may require a
-  speaker-level skip plan for a short slot.
 - Dense experimental figures are readable in the checked render, but room and
   projector conditions may change the optimal speaking pace.
 - Future-work slides are thesis-derived but necessarily more speculative than
@@ -483,8 +556,7 @@ Automated checks do not replace rendered visual inspection.
 
 ### Decisions that require the author
 
-- Target speaking duration and which evidence slides are mandatory, skippable, or
-  appendix-only.
+- Rehearsal-based changes to pace, pauses, and optional spoken detail.
 - Whether a particular committee prefers more equations or more empirical detail.
 - Whether genuinely new experiments and verified results should be added.
 - Any externally changed venue, status, date, or deployment wording.
@@ -502,18 +574,15 @@ Automated checks do not replace rendered visual inspection.
 
 Keep the visible directory reviewable:
 
-- five early historical PPTX files (`v0.1`–`v0.5`);
-- three restructuring milestone PPTX files (`v0.6`, `v0.7`, and `v0.8`);
-- the formal V0.9 deck;
-- `README.md`;
-- this guide;
-- the early feedback record (`TODO-v0.6.md`) and consolidated V0.9 review
-  evidence (`v0.9-build/REVIEW.md`);
-- one safe version-branch script;
-- the consolidated V0.9 changelog and final-pass editor;
-- the historical v0.4 design-system source (`build.py`);
-- the reproducible v0.5 build chain and consolidated v0.5 changelog;
+- V1, V1.4, V2, and V3 PPTX files;
+- their corresponding `NOTE-V1.md`, `NOTE-V1.4.md`, `NOTE-V2.md`, and
+  `NOTE-V3.md` scripts;
+- `README.md`, `HISTORY.md`, and this guide;
 - the figure directory.
+
+Earlier decks, individual changelogs, detailed feedback files, and historical
+build chains are represented by the consolidated record in `HISTORY.md`. Local
+recovery copies may remain under the Git-ignored `.cleanup-review/` directory.
 
 Starter decks, edited candidates, rendered PNGs, layout JSON, extracted source
 media, inspection output, and dependency workspaces are temporary and are not
