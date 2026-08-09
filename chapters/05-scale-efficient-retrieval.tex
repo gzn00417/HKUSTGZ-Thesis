@@ -1,28 +1,13 @@
-\chapter{GPU-accelerated Multi-relational Parallel Graph Retrieval for Web-scale Recommendations}
+\chapter{Search Scaling for Web-Scale Recommendations}
 \label{ch:scale-efficient-retrieval}
-
-\begin{chapterabstract}
-Web recommendations provide personalized items from massive catalogs for users, which rely heavily on retrieval stages to trade off the effectiveness and efficiency of selecting a small relevant set from billion-scale candidates in online digital platforms. As one of the largest Chinese search engine and news feed providers, Baidu resorts to Deep Neural Network (DNN) and graph-based Approximate Nearest Neighbor Search (ANNS) algorithms for accurate relevance estimation and efficient search for relevant items. However, current retrieval at Baidu fails in comprehensive user-item relational understanding due to dissected interaction modeling, and performs inefficiently in large-scale graph-based ANNS because of suboptimal traversal navigation and the GPU computational bottleneck under high concurrency. To this end, we propose a GPU-accelerated Multi-relational Parallel Graph Retrieval (GMP-GR) framework to achieve effective yet efficient retrieval in web-scale recommendations. First, we propose a multi-relational user-item relevance metric learning method that unifies diverse user behaviors through multi-objective optimization and employs a self-covariant loss to enhance pathfinding performance. Second, we develop a hierarchical parallel graph-based ANNS to boost graph retrieval throughput, which conducts breadth-depth-balanced searches on a large-scale item graph and cost-effectively handles irregular neural computation via adaptive aggregation on GPUs. In addition, we integrate system optimization strategies in the deployment of GMP-GR in Baidu. Extensive experiments demonstrate the superiority of GMP-GR in retrieval accuracy and efficiency. Deployed across more than twenty applications at Baidu, GMP-GR serves hundreds of millions of users with a throughput exceeding hundreds of millions of requests per second.
-\end{chapterabstract}
-
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=\linewidth]{figures/gmpgr/Application.pdf}
-    \caption{Applications of recommender systems at Baidu.}
-    \label{gmpgr:fig:application}
-\end{figure}
 
 \section{Introduction}
 
-Recently, recommender systems have become essential tools for helping users navigate various options and discover relevant products or content~\cite{wu2022survey}.
-However, large-scale relevance evaluation based on user preference is computationally prohibitive in real-world recommendation applications~\cite{zhu2018learning}.
-For timely answering requirements, computing relevance values of billions of items is unacceptable~\cite{liu2021jizhi}.
-To balance effectiveness and efficiency, retrieval-and-ranking recommendation frameworks~\cite{cheng2016wide,ma2020off} have gained widespread adoption in modern industrial systems, such as YouTube~\cite{covington2016deep}, LinkedIn~\cite{borisyuk2016casmos}, and Pinterest~\cite{eksombatchai2018pixie}.
-The first stage~(\ie, retrieval) focuses on retrieving a thousand-scale relevant subset from the entire billion-scale item catalog, which then serves as the candidates for further ordering in the second stage~(\ie, ranking).
-In particular, retrieval plays an important role in real-time and satisfactory answers for large-scale queries.
-Effective retrieval can significantly simplify the search space for potential answers while maintaining personalization and serendipity, thus reducing the ranking difficulty in producing reliable final recommendations.
+Chapters~\ref{ch:universal-video-retrieval} and~\ref{ch:spatiotemporal-scaling} address what a video embedding should represent and how visual evidence should be supplied to it. Accurate embedding generation is still insufficient when the learned relevance signal must be evaluated over billions of candidates under strict latency and throughput constraints~\cite{zhu2018learning,liu2021jizhi}. This chapter addresses this final bottleneck, search scaling, through the joint design of the learned metric, graph traversal, and GPU execution. The relevant background is reviewed centrally in \S\ref{sec:bc-search} and \S\ref{sec:lr-search}.
 
-In this work, we focus on the retrieval stage in Baidu's web-scale recommendation scenarios, e.g., news feed, Tieba, and video clips. Recent works~\cite{tan2020fast,chen2022approximate} establish the retrieval framework in a training-and-search manner.
+Retrieval-and-ranking frameworks~\cite{cheng2016wide,ma2020off} reduce a massive item catalog to a compact candidate set before ranking and are widely used in industrial systems~\cite{covington2016deep,borisyuk2016casmos,eksombatchai2018pixie}. The retrieval stage must preserve relevance while avoiding exhaustive scoring, making the interaction between metric quality and search efficiency central to deployment-scale retrieval.
+
+This chapter focuses on the retrieval stage in Baidu's web-scale recommendation scenarios, e.g., news feed, Tieba, and video clips. Recent works~\cite{tan2020fast,chen2022approximate} establish the retrieval framework in a training-and-search manner.
 Based on the complex relational dependencies modeling ability of Deep Neural Network~(DNN)~\cite{zhang2019deep}, they attempt to train a DNN-based metric for more accurate user-item relevance estimation compared with simple functions~\cite{dehghani2017neural,tay2018latent}.
 Nevertheless, real-time retrieval is difficult due to complicated neural computations on massive candidates.
 To solve the problem, researchers have been exploring the potential of Approximate Nearest Neighbor Search~(ANNS) algorithms to mitigate extensive computations, which search for relatively relevant items for each query user by selectively visiting instead of the entire item base.
@@ -40,6 +25,13 @@ On the other hand, graph-based ANNS usually search for relevant items greedily, 
 The inability to balance search depth and breadth degrades the quality of real-time recommendations. Addressing this challenge requires developing a search-compatible relevance metric and a deep-and-broad traversal algorithm for efficient graph search.
 \textit{(3)~Accelerating irregular neural computation in high concurrency.} At Baidu, users raise hundreds of millions of recommendation requests per second. These request executions are irregular because divergent user profiling drives distinct search paths, where the visited items should be estimated for their relevance by the neural metric. Baidu has developed a GPU-accelerated framework for web-scale recommendations to leverage the computational economy of GPUs~\cite{liu2022lion}. However, their performance degrades under highly concurrent, non-uniform workloads because of frequent kernel launches, a process with fixed latency overhead that dominates runtime when computations are small and irregular~\cite{el2016klap}. Millions of sequential processes of deep relevance computations on a GPU cluster introduce bottlenecks of recommendation throughput. Therefore, the third challenge is redesigning computation scheduling to accelerate large-scale irregular neural computations for higher throughput.
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\linewidth]{figures/gmpgr/Application.pdf}
+    \caption{Applications of recommender systems at Baidu.}
+    \label{gmpgr:fig:application}
+\end{figure}
+
 To this end, we propose a \textbf{GPU-accelerated Multi-relational Parallel Graph Retrieval~(GMP-GR)} framework for effective and efficient retrieval in web-scale recommendations.
 Specifically, we first devise a \textit{Multi-relational User-Item Relevance Metric Learning~(MUIRML)} to generate a practical DNN-based metric via multi-objective optimization.
 The metric extracts multi-relational knowledge in inter-dependent user behaviors to capture nuanced user preferences for accurate relevance measurement.
@@ -51,7 +43,7 @@ In Baidu recommendation applications, we further apply several system optimizati
 Extensive experiments demonstrate the superior retrieval effectiveness and efficiency of GMP-GR in offline retrieving evaluations and online recommendation services.
 Our framework has been deployed in more than twenty web-scale recommender systems at Baidu, where it efficiently handles hundreds of millions of requests per second, improving user time-on-page by more than $3\%$ for hundreds of millions of users.
 
-The main contributions of our work are concluded as follows:
+The contributions of this chapter are summarized as follows:
 (1)~We propose a GPU-accelerated Multi-relational Parallel Graph Retrieval framework to achieve accurate and efficient retrieval for web-scale recommendations.
 (2)~We devise a DNN-based metric to estimate user-item relevance via capturing inter-dependency among complex user-item relations, which can also improve the search efficiency on a large-scale graph for shorter navigation.
 (3)~We design a GPU-accelerated parallel graph-based ANNS algorithm for highly concurrent retrieval by billion-scale breadth-depth balanced graph search and parallel irregular computations with adaptive aggregation.
@@ -65,6 +57,8 @@ The recommendation framework has served hundreds of millions of online recommend
 Next, we detail the retrieval framework for Baidu recommendations, including the retrieval problem and the retrieval pipeline.
 
 \subsection{Online Retrieval at Baidu}
+This setting instantiates the unified ranking problem in \S\ref{sec:bc-vr} at deployment scale. A user request serves as the query, the item base serves as the candidate corpus, and the learned relevance value determines the top-$K$ ordering. The notation below is specific to the industrial recommendation setting.
+
 Given $N_u$ users $\{u_1,u_2,\cdots,u_{N_u}\}$ and $N_v$ items $\{v_1,v_2,\cdots,v_{N_v}\}$. Consider a query from a user $u$ with raw feature $x_{u}$, the objective of the retrieval stage is to recommend the top-$K$ items that are most relevant to $u$ in order.
 Specifically, we define the retrieval problem as a function $\mathcal{F}(\cdot;\cdot)$ generates a set $V_{u}$ based on the user features. $V_u$ contains the $K$ most similar items $V_{u} = \{v_{u,1},v_{u,2},\cdots,v_{u,K}\}$ as
 \begin{equation}
@@ -413,39 +407,4 @@ First, we examine the temporal patterns as shown in Figure~\ref{gmpgr:fig:timest
 Moreover, we investigate the distributions of traffic and latency and explore their correlations in Figure~\ref{gmpgr:fig:service_traffic_latency}. The result indicates a direct relationship between query traffic and latency, with higher traffic volumes leading to longer response times. Furthermore, we observe distinct patterns in the latency-traffic relationships across five servers, reflecting divergence in computational resources and workload distribution.
 Finally, we summarize the traffic and latency statistics across five servers in Figure~\ref{gmpgr:fig:server_traffic_latency}, providing insights into the performance characteristics in terms of query processing and response times.
 
-
-\section{Related Works}\label{gmpgr:sec:related_work}
-
-This section reviews related works, including DNN-based recommender systems and approximate nearest neighbor search.
-
-\paragraph{Deep Neural Network-based Recommender Systems}
-Deep Neural Network~(DNN) has become a popular tool for recommendation systems due to its ability to capture intricate user-item interaction patterns through nonlinear transformations~\cite{zhang2019deep}.
-For example, \cite{zhang2017hashtag} leverages convolutional and recurrent neural networks for recommendations to learn text features from tweets.
-Recently, neural collaborative filtering has been increasingly adopted, where a Multi-layer Perceptron~(MLP) is deployed to approximate the interaction function and has significant performance gains over traditional methods~\cite{he2017neural}.
-Along with the idea, two-tower architectures have become popular in DNN-based recommender systems~\cite{yang2020mixed}. They train dual encoders for users and items, respectively, which generate user and item representations for downstream operations such as relevance evaluation.
-With two sets of high-dimensional embeddings, the DNN-based system can provide recommendations in user-based or item-based paradigms~\cite{ko2022survey}.
-User-based collaborative filtering compares similarities between users based on their past ratings and recommends items liked by similar users~\cite{zhang2020alleviating}.
-In contrast, item-based collaborative filtering computes similarities between items rather than between users~\cite{xue2019deep}.
-We design a DNN-based metric optimized in a multi-objective way to incorporate comprehensive behaviors and triangle inequality for better recommendation accuracy and efficiency.
-
-
-\paragraph{Approximate Nearest Neighbor Search}
-Approximate Nearest Neighbor Search~(ANNS) is a fundamental problem in computer science, particularly within domains that handle high-dimensional data such as computer vision~\cite{ben2015approximate} and multimedia~\cite{ferhatosmanoglu2001approximate}. ANNS aims to find points in a dataset that are close to a query point, where searching the exact nearest neighbor is computationally prohibitive~\cite{liu2004investigation}.
-One of the early approaches, KD-tree~\cite{friedman1977algorithm}, performs well in low-dimensional spaces. But their efficiency decreases significantly as dimensionality increases, called ``curse of dimensionality''. To address the limitation, more sophisticated tree-based structures like Randomized KD-trees~\cite{silpa2008optimised} attempt to partition the data space more effectively and offer improved performance in higher-dimensional spaces.
-As research progressed, hashing-based methods emerged as a powerful alternative for ANNS, with Locality-Sensitive Hashing~(LSH) being a prominent technique to hash input items by mapping similar items to the same ``buckets'' with high probability~\cite{indyk1998approximate}.
-More recently, graph-based methods have gained popularity for their effectiveness in handling high-dimensional ANNS~\cite{wang2021comprehensive}. The idea is to construct a graph where nodes represent the dataset points, and edges connect points close to each other. Navigating this graph allows for efficient ANN searches.
-Notably, the Navigable Small World~(NSW)~\cite{malkov2014approximate} and its improved variant, Hierarchical Navigable Small World (HNSW)~\cite{malkov2018efficient}, have shown remarkable performance, significantly outperforming previous methods on large-scale datasets.
-Besides, instead of Delaunay graphs, other graph-based approaches choose K-nearest neighbor graph~\cite{fu2016efanna} and relative neighborhood graph~\cite{jayaram2019diskann} for index construction.
-In industrial applications, SL2G~\cite{tan2020fast} first leverages DNN as the relevance metric for graph-based ANNS in real-world recommendations.
-NANN~\cite{chen2022approximate} extends SL2G by improving the DNN-based metric for better accuracy and adaptivity and working ANNS with controllable costs for industrial requirements.
-In this work, we propose a parallel retrieval algorithm for web-scale recommendations with wider search space and better concurrent computational efficiency.
-
-
-\section{Conclusion}
-
-This work investigates the retrieval stage optimization for the web-scale recommendation. We propose a GMP-GR framework to enhance the retrieval accuracy and efficiency.
-First, we devise multi-relational user-item relevance metric learning to improve user-item multi-relational understanding and graph search efficiency in a multi-objective way.
-Second, we design a tailored parallel graph-based ANNS algorithm to distributedly broaden search space and parallelize irregular neural computations on GPUs.
-Besides, we employ system optimization strategies to improve online recommendation performance.
-We conduct extensive experiments on offline datasets and online services to demonstrate the outperformance of GMP-GR.
-We have implemented GMP-GR in the recommender systems at Baidu, where it serves hundreds of millions of users and processes hundreds of millions of online requests per second.
+Taken together, the offline and online results show that search scaling cannot be reduced to faster graph traversal alone. Retrieval quality, navigation behavior, and GPU execution efficiency must be optimized jointly for the learned relevance signal to remain effective under production-scale traffic. This system-level evidence completes the progression from semantic representation through observational efficiency to large-scale search developed across the three technical chapters.

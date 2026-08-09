@@ -1,9 +1,11 @@
-\chapter{Towards Universal Video Retrieval: Generalizing Video Embedding via Synthesized Multimodal Pyramid Curriculum}
+\chapter{Semantic Scaling for Generalizable Video Retrieval}
 \label{ch:universal-video-retrieval}
 
-\begin{chapterabstract}
-The prevailing video retrieval evaluation suffers from fragmented benchmarks that obscure true model generalization. To diagnose this limitation, we conduct a structured assessment across 16 established public datasets, revealing critical capability gaps, particularly pronounced deficiencies in fine-grained, temporal, and partially relevant video retrieval. The discoveries directly motivate the holistic design of our framework: V-SynFlow synthesizes 1.55 million high-quality, multi-task video-text pairs explicitly targeting the uncovered deficiencies, while the Modality Pyramid curriculum trains the General Video Embedder (GVE) by leveraging inherent task hierarchies for progressive learning. GVE achieves state-of-the-art zero-shot performance across diverse scenarios. Our analysis further demonstrates that conventional benchmarks poorly correlate with holistic retrieval capability, and identifies partially relevant retrieval as a pivotal yet overlooked real-world challenge. This work establishes a practical pathway toward universal video retrieval by tightly coupling evaluation diagnostics with structured training on diverse synthesized data.
-\end{chapterabstract}
+\section{Introduction}
+
+Chapter~\ref{ch:introduction} identifies semantic scaling as the first bottleneck in the retrieval pipeline. A generalizable video representation must support heterogeneous query formats, semantic domains, and relevance granularities rather than specialize in a single benchmark setting. The literature on video embedding models and heterogeneous retrieval evaluation is reviewed centrally in \S\ref{sec:lr-embedding} and \S\ref{sec:lr-benchmarks}.
+
+Current video embedding models are commonly trained on massive datasets with simple and noisy text annotations, such as WebVid~\cite{bain2021frozen}. This practice yields strong results for coarse-grained text-to-video retrieval on standard benchmarks such as MSRVTT~\cite{xu2016msr}, but the resulting models struggle with the complexity of diverse real-world retrieval scenarios~(Figure~\ref{fig:uvr}). First, a narrow semantic distribution renders these models less effective in fine-grained queries required to understand spatial relations or temporal dynamics~\cite{xu2025carebench}, as well as in long-context retrieval within lengthy videos~\cite{cai2025lovr}. Second, the scope of applicable tasks is restricted, with limited support for diverse query formats, such as composed retrieval using text-and-image pairs. Furthermore, these capability gaps are often obscured by the fragmented evaluation landscape, where models are optimized and tested on isolated benchmarks, preventing a clear understanding of comprehensive generalization.
 
 \begin{figure}[t]
     \centering
@@ -11,13 +13,6 @@ The prevailing video retrieval evaluation suffers from fragmented benchmarks tha
     \caption{Universal Video Retrieval organizes heterogeneous retrieval settings into a unified capability space.}
     \label{fig:uvr}
 \end{figure}
-
-\section{Introduction}
-
-Video retrieval is a critical and challenging task for modern search engines and recommendation systems, requiring effective video embedding models~\cite{zhu2023deep}. Early efforts extended Contrastive Language-Image Pretraining (CLIP)~\cite{radford2021learning} to video~\cite{ma2022x}. Currently, Multimodal Large Language Models (MLLMs) are rapidly displacing CLIP due to the superior language understanding and visual generalization capabilities of these models~\cite{kong2025modality}.  
-Current practices involve training these models on massive datasets with simple and noisy text annotations (e.g., WebVid~\cite{bain2021frozen}), which yields strong results for coarse-grained text-to-video retrieval on standard benchmarks (e.g., MSRVTT~\cite{xu2016msr}).  
-
-However, these models struggle with the complexity of diverse real-world video retrieval scenarios~(Figure~\ref{fig:uvr}). First, a narrow semantic distribution renders these models less effective in fine-grained queries required to understand spatial relations or temporal dynamics~\cite{xu2025carebench}, as well as in long-context retrieval within lengthy videos~\cite{cai2025lovr}. Second, the scope of applicable tasks is restricted, with limited support for diverse query formats, such as composed retrieval using text-and-image pairs. Furthermore, these capability gaps are often obscured by the fragmented evaluation landscape, where models are optimized and tested on isolated benchmarks, preventing a clear understanding of comprehensive generalization.
 
 \begin{figure}[t]
     \centering
@@ -37,19 +32,10 @@ Third, to ensure stability during heterogeneous training, we apply the \textbf{M
 
 Extensive experiments validate the effectiveness of the GVE model~(Figure~\ref{gve:fig:radar_uvrb}). In addition to strong zero-shot performance, the analysis reveals that performance on conventional benchmarks correlates poorly with overall retrieval capability; meanwhile, partially relevant video retrieval can serve as a representative indicator of universal video retrieval.
 
-The main contributions of this work are summarized as follows:
+The contributions of this chapter are summarized as follows:
 (1)~\textbf{Data}:~We propose V-SynFlow, a synthesis pipeline that produces UVRD with over $1.55$ million video-text pairs to explicitly address the data deficiencies identified in current models.
 (2)~\textbf{Training}:~We introduce the Modality Pyramid curriculum, a training strategy that mitigates modality interference in heterogeneous multi-task learning, enabling the GVE model to achieve stable and strong zero-shot generalization.
 (3)~\textbf{Analysis}:~Rather than proposing a novel benchmark, we establish a unified evaluation protocol across $16$ existing datasets. This standardized assessment systematically diagnoses model universality and offers new empirical insights beyond traditional evaluation paradigms.
-
-
-\section{Related Works}
-
-\paragraph{Video Retrieval.}
-Text-to-video retrieval has progressed from matching coarse phrases to parsing fine-grained spatio-temporal descriptions~\cite{xu2016msr}. While recent benchmarks have advanced beyond simple recognition by incorporating detailed annotations like spatio-temporal grounding (CaReBench~\cite{xu2025carebench}), scene understanding (UltraVideo~\cite{ultravideo}), and camera motion (CameraBench~\cite{lin2025towards}), they remain specialized. Concurrently, the scope of retrieval has expanded to include new paradigms like composed queries with text-image pairs (e.g., CoVR~\cite{ventura2024covr,hummel2024egocvr}) and purely visual queries in egocentric contexts~\cite{liu2021activity}. Despite these advances, the field remains fragmented, with models and evaluation siloed within specific tasks or domains. This prevents a holistic understanding of a model's true generalization capabilities.
-
-\paragraph{Video Embedding Models.}
-Video embedding models have evolved from the adaptation of image-centric ones, such as CLIP~\cite{radford2021learning}, to powerful, larger language-based encoders. Early methods such as CLIP4Clip~\cite{luo2022clip4clip} and InternVideo2~\cite{wang2024internvideo2} added temporal modules to CLIP but inherited its limitations in complex language understanding and long-context processing~\cite{wang2025internvideo2,li2025improving}. To overcome these issues, recent work leverages Multimodal Large Language Models (MLLMs) as video embedders. Models like LLaVE~\cite{lan2025llave}, UNITE~\cite{kong2025modality}, and VLM2Vec-V2~\cite{meng2025vlm2vec} achieve strong performance on benchmarks by training on text-image and text-video data. However, this data has so far been limited for learning generalizable embeddings, and these video embedding models have not been systematically evaluated on more complex video retrieval tasks and across diverse video domains.
 
 
 \begin{figure}[t]
@@ -64,6 +50,8 @@ Video embedding models have evolved from the adaptation of image-centric ones, s
 To bridge the persistent gap of fragmented evaluation protocols, we formulate the core problem from a holistic perspective by introducing the unified paradigm of Universal Video Retrieval~(UVR). This preliminary setup provides an objective diagnostic foundation to motivate our method contributions.
 
 \subsection{Formulations}
+
+The general ranking formulation in \S\ref{sec:bc-vr} is instantiated here across heterogeneous query formats and semantic domains. The query $q$, target video $v$, embedding function, and cosine relevance score retain the meanings defined in Chapter~\ref{ch:related-work}. UVR extends their scope by requiring consistent relevance ordering across the capability space defined below.
 
 \begin{definition}[\textbf{Universal Video Retrieval~(UVR)}]\label{gve:def:universal_video_retrieval}
     Given a matching pair comprising a query $q$ and a video $v$, UVR aims to learn a $\theta$-parameterized model $E_\theta(\cdot)$ to compute a relevance score $s_{q \to v} = \cos(E_\theta(q), E_\theta(v))$. This score must be consistently higher than the similarity scores of irrelevant pairs across any query format or data domain.
@@ -359,7 +347,4 @@ Model failures are architecture-dependent. For example, CLIP-based models are sp
 \paragraph{Finding 4: Scaling Has Limited Impact on Visual Perception.}
 Parameter scaling improves high-level semantic coherence, but yields negligible gains in low-level visual perception. Notably, the $87$M-parameter \texttt{CLIP4Clip} (VIS: $0.714$) defeats the $8$B-parameter \texttt{Unite-7B} (VIS: $0.702$). Given the weak correlation between visual fidelity and overall retrieval success ($\rho_{\text{AVG-VIS}} = 0.26$), future progress requires targeted improvements in visual grounding.
 
-
-\section{Conclusion}
-
-This work advances the paradigm of universal video retrieval by shifting from isolated task optimization to a holistic, capability-driven framework. Guided by our standardized diagnostic protocol across existing benchmarks, we demonstrated that overcoming inherent model bottlenecks requires tightly coupling quality-controlled data synthesis with structured multi-task learning. Specifically, our V-SynFlow pipeline systematically bridges semantic gaps via a million-pair UVRD dataset, while the \pyramid curriculum stabilizes heterogeneous modality training for video embeddings. Consequently, our GVE achieves robust and leading generalization under zero-shot settings. Besides, our statistically rigorous evaluation provides the community with actionable empirical insights. To ensure full reproducibility, our evaluation codes, synthesized dataset, and pre-trained weights will be publicly released, establishing a principled and scalable pathway toward more robust multimodal retrieval systems.
+These findings clarify the semantic information that a generalizable representation must preserve. However, representation capacity alone cannot recover evidence that is absent from the sampled visual input. This limitation motivates the shift from semantic scaling to observational scaling in Chapter~\ref{ch:spatiotemporal-scaling}.

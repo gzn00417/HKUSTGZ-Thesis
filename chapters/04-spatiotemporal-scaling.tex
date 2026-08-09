@@ -1,9 +1,11 @@
-\chapter{Demystifying Spatiotemporal Scaling Laws of Multimodal Video Embeddings}
+\chapter{Observational Scaling for Multi-Granular Long-Video Retrieval}
 \label{ch:spatiotemporal-scaling}
 
-\begin{chapterabstract}
-As text-video retrieval becomes essential for large-scale video applications, models are expected to handle a diverse range of queries, from broad thematic summaries to descriptions of fleeting moments. However, since long videos are typically processed via sparse sampling, it remains unclear how sampling density affects retrieval across varying granularities. To address this, we introduce MG-LVR, a benchmark of multi-granular queries over a long-video corpus, constructed via a sparse-to-dense, semantics-aware pipeline. Evaluation across 23 multimodal embedding models reveals a significant granularity gap: fine-grained retrieval lags coarse-grained performance by over 75\% under sparse sampling. Our analysis of spatiotemporal scaling shows that while spatial resolution is most beneficial at low frame counts, the optimal token allocation shifts systematically with query granularity. We further observe a training-time asymmetry where temporal representations are heavily anchored to specific frame counts. Leveraging these insights, we propose a progressive dense-to-sparse self-distillation framework that improves fine-grained query performance by up to 20\%. This work provides a granularity-aware perspective on spatiotemporal scaling, offering principled designs for more robust video embedding training and inference.
-\end{chapterabstract}
+\section{Introduction}
+
+Chapter~\ref{ch:universal-video-retrieval} broadens the semantic conditions that a video representation is expected to support. Yet even a generalizable representation remains bounded by the visual evidence supplied to the model. This chapter therefore addresses observational scaling: how faithfully an embedding preserves the evidence required by queries at different temporal granularities under constrained sampling.
+
+Real-world videos are increasingly long and informationally dense, spanning tens of minutes to hours~\cite{henschel2025streamingt2v,weng2024longvlm}, while a query may describe anything from the overall theme to a brief moment~\cite{xiao2022video,chen2023joint}. Since encoding every frame at full resolution is computationally prohibitive~\cite{hu2022mmsampler}, spatiotemporal sampling determines which evidence is available to the representation~\cite{guo2025gve}. Too few frames or too low a resolution can cause the target moment to be missed entirely. Although previous work has demonstrated sensitivity to sampling~\cite{guo2025gve,zhu2025dynamic}, its interaction with query granularity remains underexplored because no existing benchmark provides a multi-granular and controllable testbed. The relevant benchmark and embedding literature is reviewed centrally in \S\ref{sec:lr-benchmarks} and \S\ref{sec:lr-embedding}.
 
 \begin{figure}[t]
     \centering
@@ -11,10 +13,6 @@ As text-video retrieval becomes essential for large-scale video applications, mo
     \caption{Overview of Multi-granular Long Video Retrieval (MG-LVR) benchmark.}
     \label{mglvr:fig:statistics}
 \end{figure}
-
-\section{Introduction}
-
-Text-video retrieval has been studied primarily in settings where a query summarizes the entirety of a short clip~\cite{wang2025cross}. However, real-world videos are increasingly long and informationally dense, spanning tens of minutes to hours~\cite{henschel2025streamingt2v,weng2024longvlm}. Within such videos, a user query may describe anything from the overall theme to a brief, specific moment, making retrieval inherently multi-granular~\cite{xiao2022video,chen2023joint}. Since encoding every frame at full resolution is computationally prohibitive~\cite{hu2022mmsampler}, models must rely on spatiotemporal sampling to produce video embeddings, which is a process proven critical for retrieval quality~\cite{guo2025gve}. The sampling strategy thus determines the available visual evidence. Too few frames or too low a resolution can cause the target moment to be missed entirely, constituting a structural information loss. Therefore, how sampling density interacts with query granularity is a central question for long-video retrieval. Nevertheless, while previous works have demonstrated the sensitivity of performance to sampling~\cite{guo2025gve,zhu2025dynamic}, this relationship remains underexplored because no existing benchmark provides the multi-granular and controllable testbed required to isolate these effects.
 
 Current benchmarks are insufficient for this purpose. Short-clip datasets such as MSR-VTT~\cite{xu2016msr} and DiDeMo~\cite{anne2017localizing} are too brief for sampling density to have a meaningful impact. Recent long-video retrieval benchmarks~\cite{cai2025lovr} extend the temporal scope but evaluate at a single query granularity, making it impossible to determine whether sampling configurations should vary with query specificity. No existing setting jointly provides long-form videos and multi-granular query categorization within a unified evaluation framework. Such a combination is essential for exploring spatiotemporal scalability across diverse semantic scales.
 
@@ -24,7 +22,10 @@ Using \benchmarkname, we conduct a comprehensive spatiotemporal scaling analysis
 
 This analysis highlights a key insight that the knowledge required for effective low-density inference is already latent within high-density models, but it does not automatically transfer when the sampling configuration changes. To address this, we propose Video Embedding Waterfall (VEterfall), a progressive dense-to-sparse self-distillation framework. Inspired by the waterfall effect, our method cascades high-fidelity semantic knowledge from densely sampled embeddings down to sparser representations. In this way, VEterfall achieves up to a 20\% relative recall gain on fine-grained queries while operating in a 4$\times$ to 16$\times$ more efficient inference setting. Our experiments confirm that the scaling behaviors identified by \benchmarkname can be directly and effectively exploited in practice.
 
-In summary, our contributions are: (1) \benchmarkname, the first benchmark for multi-granular long-video retrieval that enables scalable research into spatiotemporal sampling; (2) a multi-dimensional scaling analysis identifying key principles such as frame-count anchoring and granularity-dependent token allocation; and (3) VEterfall, a self-distillation method that enhances video embeddings under sparse sampling by unlocking multi-granular knowledge already latent within the models.
+The contributions of this chapter are summarized as follows.
+(1)~We introduce \benchmarkname, the first benchmark for multi-granular long-video retrieval that enables scalable research into spatiotemporal sampling.
+(2)~We conduct a multi-dimensional scaling analysis that identifies key principles such as frame-count anchoring and granularity-dependent token allocation.
+(3)~We propose VEterfall, a self-distillation method that enhances video embeddings under sparse sampling by unlocking multi-granular knowledge already latent within the models.
 
 
 \begin{table}[t]
@@ -48,17 +49,6 @@ In summary, our contributions are: (1) \benchmarkname, the first benchmark for m
     \end{tabular}
 \end{table}
 
-\section{Related Works}
-
-\subsection{Video Retrieval Benchmarks}
-
-Early text-video retrieval benchmarks such as MSR-VTT~\cite{xu2016msr} and DiDeMo~\cite{anne2017localizing} consist of short clips in which sparse frame sampling suffices to capture the full content, rendering sampling strategy largely inconsequential. Subsequent benchmarks have extended the scope in complementary directions: LoVR~\cite{cai2025lovr} targets retrieval over hour-long videos, while TVR~\cite{lei2020tvr} and ActivityNet Captions~\cite{krishna2017dense} provide fine-grained temporal annotations for partially relevant video retrieval~\cite{dong2022partially}. Despite this progress, each benchmark addresses only one dimension of the problem, covering either video duration or query granularity, but not both. \benchmarkname addresses this gap by pairing a long-form corpus with temporally categorized queries, enabling the first controlled study of how spatiotemporal sampling interacts with retrieval granularity.
-
-\subsection{Video Embedding Models}
-
-Video-language embedding models have evolved from frame-level temporal aggregation~\cite{luo2022clip4clip} to dedicated spatiotemporal encoders, dividing into two families. CLIP-based models extend contrastive image-text pretraining to video, with representative examples including InternVideo2~\cite{wang2024internvideo2} and X-CLIP~\cite{gorti2022x}. MLLM-based models repurpose large multimodal language models for embedding extraction, as exemplified by GVE~\cite{guo2025gve}, Qwen3-VL-Embedding~\cite{qwen3vlembedding}, and other modality-unified approaches~\cite{kong2025modality}. Scaling-law studies in this domain have primarily examined model size and training data volume; a recent complementary effort~\cite{zhu2025dynamic} establishes power-law scaling with respect to frame count and caption density on short clips. The present work differs by evaluating end-to-end multimodal embedding models on long-form video, decomposing sampling into orthogonal spatial and temporal axes, and introducing query granularity as a first-class variable. Building on the resulting scaling principles, we further propose VEterfall, a progressive dense-to-sparse self-distillation framework distinguished from conventional knowledge distillation by its cascaded, density-descending regime.
-
-
 \section{Rethinking Text-Video Retrieval Evaluation}
 \label{mglvr:sec:benchmark}
 
@@ -68,6 +58,8 @@ As shown in Figure~\ref{mglvr:fig:statistics}, the \textbf{Multi-Granular Long V
 
 \subsection{Formulations}
 \label{mglvr:sec:formulation}
+
+This chapter retains the query $q$, corpus $\mathcal{V}$, and ranking objective from the unified formulation in \S\ref{sec:bc-vr}. It specializes that formulation to text queries over long-form videos and introduces temporal granularity as an observational variable rather than a different retrieval objective.
 
 \begin{definition}[\textbf{Text-Video Retrieval}]
     Given a text query $q$ and a video corpus $\mathcal{V}$, the task is to identify the target video $v^{*} \in \mathcal{V}$ whose content is described by $q$. The query may refer to any portion of the video, from a brief localized event to the overall theme, with the fraction of relevant content serving as a variable difficulty factor.
@@ -500,7 +492,4 @@ As shown in Table \ref{mglvr:tab:token_eff}, where we fix $F{=}8$ and vary $T$, 
 \paragraph{Ablation on Contrastive Learning.}
 Table \ref{mglvr:tab:lambda} illustrates the impact of the loss weight $\lambda$. Setting $\lambda{=}0$ already yields competitive performance, and adding the InfoNCE term provides marginal but consistent gains. These results confirm that the primary source of improvement is the embedding distillation objective rather than the contrastive learning term.
 
-
-\section{Conclusion}
-
-We introduced \benchmarkname, a benchmark for the controlled study of spatiotemporal sampling across query granularity levels in long-video retrieval. Evaluating $23$ models revealed a fundamental asymmetry between spatial and temporal scaling: spatial representations are resolution-robust, whereas temporal representations exhibit frame-count anchoring that is most pronounced on fine-grained queries. Under a fixed token budget, the optimal allocation between spatial and temporal tokens depends on query granularity. Building on these findings, we proposed VEterfall, a progressive dense-to-sparse self-distillation framework in which the high-density representations of a model are used to improve its own low-density embeddings without requiring external supervision, achieving up to ${\sim}20\%$ relative R@1 gains on fine-grained queries under sparse sampling. An important direction for future work is to develop architectures and training strategies that generalize robustly across spatiotemporal sampling configurations.
+Together with the frame- and token-efficiency results, this ablation shows that observational scaling can be improved by transferring high-density embedding knowledge into sparse configurations. Efficient embedding generation, however, does not by itself make the resulting relevance signal searchable over massive candidate collections. Chapter~\ref{ch:scale-efficient-retrieval} addresses this final search-scaling bottleneck.
