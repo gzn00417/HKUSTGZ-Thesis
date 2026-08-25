@@ -1,6 +1,6 @@
 # Writing Style Guide
 
-> **当前状态**: 论文正文已冻结。本文档作为写作风格参考保留，不再主动使用。
+> **当前状态**: 论文已定稿提交，开发与写作全部结束。本文档作为归档参考保留。
 
 This document defines the editing standards for this thesis. It must be read before editing any `.tex` file. The goal is submission-ready academic prose for top-tier CS venues (NeurIPS, ICLR, ICML, CVPR, ECCV, etc.), produced in a single editing pass.
 
@@ -12,6 +12,8 @@ Chapters 3, 4, 5 are derived from published/submitted conference papers. **Do no
 - Grammar errors (spelling, article usage, subject-verb agreement)
 
 Do not rephrase, restructure, or rewrite sentences in these chapters for style alone.
+
+The explicitly authorized appendix-integration pass is complete. Its retained structural rule is that supporting configurations, analyses, and figures remain adjacent to the experiment or claim they explain. New material must not be appended as an undifferentiated block at the end of a chapter. Each technical chapter ends with `Chapter Summary`, while the thesis-level conclusion remains in Chapter 6.
 
 ## Core Principles
 
@@ -27,6 +29,9 @@ Do not rephrase, restructure, or rewrite sentences in these chapters for style a
 - Colons (`:`) are acceptable for introducing explanations or lists.
 
 ## Formatting
+
+- Keep table captions at the template default size. Use the body-text default for ordinary table contents. Use `\footnotesize` only for genuinely dense tables and `\scriptsize` only when a wide result table cannot otherwise fit.
+- Use `[t]` for figures and tables. A local `[!t]` may be used for a near-page-height object when it remains top-aligned and prevents a sparse preceding page. The rendered PDF must also keep each float close to its first substantive discussion, avoid sparse float-only pages, and preserve a continuous reading order around landscape material. Avoid `\clearpage`. A local float barrier may be used only at a genuine semantic boundary and only when it does not create a visibly underfilled preceding page. Keep portrait orientation by default. Retain a landscape page only when it materially improves final-size legibility and does not fracture the surrounding prose.
 
 - **Minimize `\textbf{}`**. Only use for:
   - List item labels (e.g., `\item \textbf{Coarse-grained retrieval}`)

@@ -5,46 +5,17 @@
 % \printcontents{}{1}{\subsection*{Content}}
 
 \section{Overview of Appendix}\label{gve:app:overview}
-This appendix provides supplementary material supporting the main chapter, organized as follows:
-
-\paragraph{Methodology Supplementary.}
-\begin{itemize}
-    \item \textbf{Details of Evaluations (for Section~\ref{gve:sec:uvrb}):} 
-    (1)~\textit{UVRB Details (Appendix~\ref{gve:app:uvrb}):} Provides statistics, construction strategies, and evaluation details for all 16 datasets in UVRB.
-    (2)~\textit{Evaluation Pipeline (Appendix~\ref{gve:app:evaluation_pipeline}):} Offers a technical overview of the scalable and reproducible evaluation protocol.
-    
-    \item \textbf{Details of Data Synthesis and Preparation (for Section~\ref{gve:sec:data_synthesis}):}
-    (1)~\textit{Training Data (Appendix~\ref{gve:app:training_data}):} Details the composition and scale of the multi-modal training mixture.
-    (2)~\textit{Dataset Construction Pipeline (Appendix~\ref{gve:app:data_construct}):} Explains the design principles of the unified dataset framework.
-    (3)~\textit{Synthetic Data Prompts (Appendix~\ref{gve:app:prompt}):} Presents the structured prompts used for generating synthetic video retrieval data.
-    
-    \item \textbf{Details of Model and Training (for Section~\ref{gve:sec:modality_pyramid}):}
-    (1)~\textit{Model Architecture (Appendix~\ref{gve:app:arch}):} Gives a detailed description of the GVE model architecture, including input fusion and embedding extraction.
-    (2)~\textit{Training Implementation (Appendix~\ref{gve:app:hyperparameters}):} Outlines the parameter-efficient fine-tuning strategy and key hyperparameters.
-\end{itemize}
-
-\paragraph{Experimental Details and Results.}
-\begin{itemize}
-    \item \textbf{Baseline Details (Appendix~\ref{gve:app:baseline_details}):} Lists the specifications of all 14 evaluated baseline models.
-    \item \textbf{Training Dynamics (Appendix~\ref{gve:app:training_dynamics}):} Visualizes training dynamics and metrics for the GVE-3B and GVE-7B models.
-    \item \textbf{Additional Experiments}:
-    \begin{itemize}
-        \item[(1)] \textbf{Training-time Scaling (Appendix~\ref{gve:app:data_scaling}):} Presents the impact of scaling training data on performance, complementing the analysis in the main chapter.
-        \item[(2)] \textbf{Test-time Scaling (Appendix~\ref{gve:app:scaling}):} Analyzes the effect of scaling test-time parameters (e.g., number of frames, resolution) on model performance.
-        \item[(3)] \textbf{Data Quality Validation (Appendix~\ref{gve:app:v-synflow_validation}):} Details the human-in-the-loop evaluation conducted to validate the quality of our synthesized UVRD dataset.
-        \item[(4)] \textbf{Curriculum Analysis (Appendix~\ref{gve:app:pyramid_validation}):} Provides in-depth experimental analysis to validate the design and effectiveness of the \pyramid.
-        \item[(5)] \textbf{Video Classification (Appendix~\ref{gve:app:video_classification}):} Reports zero-shot classification performance on standard video action recognition benchmarks.
-    \end{itemize}
-\end{itemize}
+All methodological details, reproducibility materials, and additional experiments associated with GVE have been integrated into Chapter~\ref{ch:universal-video-retrieval}. This appendix source is retained only as a recoverable migration record and no longer contributes separate technical content.
 
 
 
 
+\iffalse % Integrated into Chapter 3.
 \subsection{UVRB Details}\label{gve:app:uvrb}
 
 This section provides details of UVRB  as shown in Figure~\ref{gve:fig:uvrb}, including statistics and construction strategies of datasets.
 
-\begin{figure}[htbp]
+\begin{figure}[t]
     \centering
     \includegraphics[width=\linewidth]{figures/gve/uvrb.pdf}
     \caption{The dataset category of Universal Video Retrieval Benchmark~(UVRB).}
@@ -53,7 +24,7 @@ This section provides details of UVRB  as shown in Figure~\ref{gve:fig:uvrb}, in
 
 First, the statistics for the number of queries and corpus, the video durations, and the text lengths are presented in Table~\ref{gve:tab:uvrb_dataset}.
 
-\begin{table}[htbp]
+\begin{table}[t]
 \centering
 \caption{Statistics of datasets in the Universal Video Retrieval Benchmark (UVRB). All videos use 8 uniformly sampled frames. $\#$~Query: the number of queries; $\#$~Corpus: the number of corpus; Dur~(s):~Duration in seconds; $\#$~Word:~text length in words.}
 \label{gve:tab:uvrb_dataset}
@@ -130,7 +101,7 @@ Second, we introduce the construction strategies of each dataset as follows.
 
 Third, we list the query prompt and metrics for datasets in evaluations in Table~\ref{gve:tab:uvrb_prompts_metric}.
 
-\begin{table}[htbp]
+\begin{table}[t]
 \centering
 \caption{Query Prompts and Metrics for Datasets in UVRB.}
 \label{gve:tab:uvrb_prompts_metric}
@@ -184,7 +155,7 @@ In addition, we prepare video datasets using the following strategies.
     \item \textbf{WebVid}~\cite{bain2021frozen}: We refuse the queries captioning over one video to impede the generality of text, which excludes $5$M videos in final training approximately.
 \end{itemize}
 
-\begin{table}[p]
+\begin{table}[t]
 \centering
 \caption{Configuration of the main training data mixture for our 3B and 7B models. `K' denotes thousands, `M' denotes millions. Notes: (a) Task: T=Text, I=Image, V=Video. The format is Query→Corpus. (b) Neg.: Number of explicit hard negatives per positive. '0' indicates use of in-batch negatives only.}
 \label{gve:tab:main_training_data}
@@ -235,7 +206,7 @@ WebVid & T→V & \multicolumn{2}{c}{5.4M} & 0 & 32 \\
 \end{tabular}
 \end{table}
 
-\begin{table}[htbp]
+\begin{table}[t]
 \centering
 \caption{Configuration of UVRD. Sample sizes are identical for both 3B and 7B models. Notes: (a) Task: T=Text, I=Image, V=Video (Query→Corpus). (b) Neg.: Explicit hard negatives per positive. '0' denotes in-batch negatives only.}
 \label{gve:tab:uvrd_data}
@@ -259,7 +230,7 @@ To maintain a balanced training diet and manage computational load, we employ a 
 
 The scale of our training data is substantial. For our 3B parameter model, we prepared $12.55$ million instances. To further leverage the capacity of our 7B parameter model, we increase the sampling rate for several large-scale datasets, bringing the total instances to $13.73$ million. A detailed breakdown of the data composition is provided in Table~\ref{gve:tab:data_summary}.
 
-\begin{table}[htbp]
+\begin{table}[t]
 \centering
 \caption{Total number of instances for our 3B and 7B models across all data categories.}
 \label{gve:tab:data_summary}
@@ -283,6 +254,9 @@ Synthesized: UVRD (All Modalities) & 1.55M & 1.55M \\
 
 
 
+\fi
+
+\iffalse % Integrated into Chapter 3.
 \subsection{Dataset Construction Pipeline Details}\label{gve:app:data_construct}
 
 Current multimodal retrieval research is hindered by fragmented, ad-hoc dataset construction. We introduce a unified, object-oriented framework that elevates this process to a rigorous science, balancing conceptual clarity with robustness for scalable, reproducible benchmarking.
@@ -308,6 +282,9 @@ Scalability and data quality are first-class principles. Large datasets (e.g., I
 
 
 
+\fi
+
+\iffalse % Integrated into Chapter 3.
 \subsection{Prompt for Synthetic Video Retrieval Data Generation}\label{gve:app:prompt}
 
 To ensure high-quality, diverse, and controllable synthetic video retrieval data generation at scale, we design and deploy a suite of structured prompts to instruct MLLMs for captioning. Our pipeline operates in four parts:
@@ -620,6 +597,9 @@ Each task is governed by a structured prompt template with dynamic control slots
 The pipeline supports sharded, resumable batch generation with quality-aware sampling, enabling the production of millions of grounded, stylistically varied synthetic instances.
 
 
+\fi
+
+\iffalse % Integrated into Chapter 3.
 \subsection{Model Architecture Details}
 \label{gve:app:arch}
 
@@ -650,7 +630,7 @@ The core of our training is an InfoNCE-style contrastive loss with a temperature
 \paragraph{Hyperparameter Summary.}
 A comprehensive summary of all key hyperparameters is provided in Table \ref{gve:tab:training_hyperparameters}.
 
-\begin{table}[htbp]
+\begin{table}[t]
 \centering
 \caption{Key hyperparameters used for model training.}
 \label{gve:tab:training_hyperparameters}
@@ -697,7 +677,7 @@ Dataloader Workers & 1 \\
 
 Here we present more details of baseline models tested on our benchmark in Table~\ref{gve:tab:models}, including full model names, abbreviations, architectures, sizes, and training data types. Based on these properties, we analyze to discover potential performance knowledge and dependencies in our experimental part.
 
-\begin{table}[htbp]
+\begin{table}[t]
 \centering
 \caption{Model Abbreviations, Architectures, Parameter Sizes, and Training Data Types. The checkmark (\checkmark) indicates the model was trained on the corresponding data pair types.}
 \label{gve:tab:models}
@@ -755,18 +735,21 @@ GVE-7B & \checkmark & \checkmark & \checkmark \\
 
 
 
+\fi
+
+\iffalse % Integrated into Chapter 3.
 \subsection{Training Dynamics}\label{gve:app:training_dynamics}
 
 We monitor four key metrics during training: \textit{Training Loss}, \textit{Mean Score}, \textit{Max Negative Gap}, and \textit{Mean Positive Score} in Figure~\ref{gve:fig:train_3b} and Figure~\ref{gve:fig:train_7b}. To ensure robust visualization, we mitigate outlier effects, followed by $200$-step moving average smoothing. Original trajectories (subsampled every $100$ steps) are plotted alongside smoothed trends, with ±1 standard deviation bands indicating local volatility.
 
-\begin{figure}[htbp]
+\begin{figure}[t]
     \centering
     \includegraphics[width=\linewidth]{figures/gve/train_stat-qwen25vl_3b_all_0911.pdf}
     \caption{Training dynamics of \texttt{GVE-3B} across four metrics.}
     \label{gve:fig:train_3b}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[t]
     \centering
     \includegraphics[width=\linewidth]{figures/gve/train_stat-qwen25vl_7b_all_0912.pdf}
     \caption{Training dynamics of \texttt{GVE-7B} across four metrics.}
@@ -786,11 +769,14 @@ We monitor four key metrics during training: \textit{Training Loss}, \textit{Mea
 
 
 
+\fi
+
+\iffalse % Integrated into Chapter 3.
 \subsection{Experiments of Training-time Scaling: More Results of Data Scaling}\label{gve:app:data_scaling}
 
 Along with Section~\ref{gve:sec:data_scaling}, we depict more experiments for six abilities in data scaling for \texttt{GVE-3B} and \texttt{GVE-7B} in Figure~\ref{gve:fig:scaling_detail}. Shaded bands show $\pm1$ std; dashed curves are log-linear fits for visual guidance. X-axis is log-scaled to reflect scaling law dynamics.
 
-\begin{figure}[htbp]
+\begin{figure}[t]
     \centering
     \includegraphics[width=\linewidth]{figures/gve/scaling_detail.pdf}
     \caption{Performance effect from data scaling for GVE-3B and GVE-7B in detail.}
@@ -803,6 +789,9 @@ This reveals a task-dependent scaling trade-off: smaller models (GVE-3B) scale m
 
 
 
+\fi
+
+\iffalse % Integrated into Chapter 3.
 \subsection{Experiments of Test-time Scaling}\label{gve:app:scaling}
 
 We investigate the impact of scaling two test-time parameters: the number of sampled frames and the maximum tokens per frame (i.e., effective resolution). We analyze each in isolation: when scaling the frame count from $8$ to $48$, the maximum token count is fixed at $200$; conversely, when scaling the token count from $200$ to $800$, the frame count is fixed at $8$.
@@ -811,7 +800,7 @@ We investigate the impact of scaling two test-time parameters: the number of sam
 
 As shown in Figure~\ref{gve:fig:scaling_frame}, increasing the number of sampled frames generally improves performance. The most substantial gains appear in the Long-Context (LC) task (GVE-3B: +$19.6\%$, GVE-7B: +$12.8\%$), underscoring the value of denser temporal sampling for long-range reasoning. However, the Compositional (CMP) task shows a slight performance degradation, suggesting its sensitivity to potentially redundant visual cues from excessive frames. Furthermore, while GVE-7B consistently outperforms GVE-3B, the performance gap narrows as frames increase (from $0.029$ to $0.024$ on average scores across datasets), indicating that the larger model is more efficient at extracting information from sparser inputs.
 
-\begin{figure}[htbp]
+\begin{figure}[t]
     \centering
     \includegraphics[width=\linewidth]{figures/gve/scaling_frame.pdf}
     \caption{Model performance as a function of the number of sampled frames at inference time (max tokens fixed at $200$).}
@@ -822,7 +811,7 @@ As shown in Figure~\ref{gve:fig:scaling_frame}, increasing the number of sampled
 
 In contrast, increasing the token budget yields non-monotonic returns (Figure~\ref{gve:fig:scaling_resolution}). Performance for most tasks peaks around $400$ tokens and then declines. This suggests that for semantic retrieval tasks, there is an optimal point of spatial detail. Scaling beyond this introduces a massive influx of fine-grained visual features that are largely redundant for the task. This over-saturation of information can dilute the effective semantic signal within the LLM's context window, making it more challenging for the model to distill the core visual concepts into the final embedding. The CMP task's performance again deteriorates with more tokens, reinforcing its sensitivity to input redundancy.
 
-\begin{figure}[htbp]
+\begin{figure}[t]
     \centering
     \includegraphics[width=\linewidth]{figures/gve/scaling_resolution.pdf}
     \caption{Model performance versus the maximum number of tokens per frame (frame count fixed at $8$), determining the resolution of frames in resizing.}
@@ -842,6 +831,9 @@ For test-time enhancement, temporal scaling is a robust strategy, whereas naive 
 
 
 
+\fi
+
+\iffalse % Integrated into Chapter 3.
 \subsection{Human-in-the-Loop Quality Validation of UVRD}\label{gve:app:v-synflow_validation}
 
 To provide a ground-truth assessment of our synthesized data, we conducted a human expert evaluation on a random sample of $100$ instances generated from UVRD. As referenced in Section~\ref{gve:sec:data_synthesis}, the validation yielded a \textbf{$95\%$ factual accuracy rate}. The $5$ erroneous instances were categorized as follows, confirming they were minor and non-critical in nature:
@@ -858,7 +850,7 @@ This subsection provides detailed experimental data to quantitatively validate t
 \paragraph{Empirical Validation of Task Hierarchy}
 The bottom-up design of our curriculum is predicated on an assumed hierarchy of task complexity. To empirically ground this assumption, we measured the initial alignment scores of different task types before training. We computed the average cosine similarity for $100$ positive pairs per task using the GME-7B~\cite{Zhang_2025_CVPR}. The results, presented in Table~\ref{gve:tab:task_alignment_appendix}, reveal a clear monotonic decrease in similarity as task complexity increases, from 0.68 for text-to-text (T2T) down to 0.43 for text-video-composed (TV2V) retrieval. This trend provides strong quantitative evidence for the assumed task hierarchy, justifying the curriculum's prioritization of foundational tasks.
 
-\begin{table}[htbp]
+\begin{table}[t]
 \centering
 \caption{Average cosine similarity of positive pairs across task types at initialization. The scores reveal a natural task difficulty hierarchy, providing an empirical basis for our curriculum design. T:~text, I:~image, V:~video.}
 \label{gve:tab:task_alignment_appendix}
@@ -876,7 +868,7 @@ Similarity & 0.68 & 0.65 & 0.59 & 0.53 & 0.52 & 0.46 & 0.45 & 0.43 \\
 \paragraph{Impact of Temperature Scheduling}
 The curriculum's dynamic task scheduling is governed by a temperature parameter $\sigma(t)$ that increases linearly over time. To analyze its effectiveness, we compared this linear schedule against a fixed, manually tuned constant temperature ($\sigma = 0.5$) for GVE-3B. As shown in Table~\ref{gve:tab:temp_schedule_appendix}, the linear schedule achieves slightly superior final performance across datasets. This result suggests that an automated, adaptive scheduling mechanism can match or exceed a carefully tuned static hyperparameter, enhancing the robustness of the training process.
 
-\begin{table}[htbp]
+\begin{table}[t]
 \centering
 \caption{Performance comparison of temperature scheduling strategies at 3B scale.}
 \label{gve:tab:temp_schedule_appendix}
@@ -890,7 +882,7 @@ Constant Temperature ($\sigma=0.5$) & 0.569 \\
 \end{tabular}
 \end{table}
 
-\begin{table}[htbp]
+\begin{table}[t]
 \centering
 \caption{Video classification accuracy comparison across different models and datasets. For each column: highest score is \textbf{bolded}, second-highest is \underline{underlined}.}
 \label{gve:tab:video_classification}
@@ -924,3 +916,4 @@ Note that we do not train on these datasets for zero-shot evaluations, while oth
 Specifically, we evaluate video embedding models on five diverse classification benchmarks, including \textbf{Kinetics-700~(K700)}~\cite{carreira2019short}, \textbf{UCF101}~\cite{soomro2012ucf101}, \textbf{HMDB51}~\cite{kuehne2011hmdb}, \textbf{SomethingSomething-V2~(SSV2)}~\cite{goyal2017something}, and \textbf{Breakfast}~\cite{kuehne2014language}, covering fine-grained interactions, open-domain actions, and procedural activities. Each task is cast as video-to-text retrieval over the full label set, using standardized validation/test splits.
 The results are provided in Table~\ref{gve:tab:video_classification}.
 Our results show that \texttt{GVE-7B} and \texttt{InternVideo2-6B} achieve the highest mean accuracy ($0.526$), demonstrating the efficacy of unified multimodal representations. However, performance remains suboptimal on temporally complex datasets such as Breakfast (best: $0.453$) and fine-grained SSV2 (best: $0.569$), revealing a critical bottleneck in modeling dynamic physical interactions.
+\fi

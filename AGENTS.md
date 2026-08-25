@@ -2,59 +2,45 @@
 
 ## Current Phase
 
-Thesis body (chapters 1–7, appendices) is **frozen** — no further content edits. All ongoing work is in `slides/`.
+The thesis is **finalized and submitted**. The defense was held on 2026-07-29. No further prose edits, recompilation, or content changes are expected. `main.pdf` is the final submission file. Slides in `slides/` are retained as historical artifacts.
 
-## Slides
+## Slides (Archival)
 
-- `slides/` keeps four active presentation milestones:
-  - `thesis-slides-v1.pptx` with `NOTE-V1.md`
-  - `thesis-slides-v1.4.pptx` with `NOTE-V1.4.md`
-  - `thesis-slides-v2.pptx` with `NOTE-V2.md`
-  - `thesis-slides-v3.pptx` with `NOTE-V3.md`
-- V1 is the retained stable 65-slide deck. V1.4 preserves the author-reviewed
-  intermediate state. V2 preserves the 70-slide pre-compression state. V3 is
-  the current 69-slide working deck.
-- `slides/HISTORY.md` is the single consolidated version, feedback, change, and
-  QA record. Do not recreate per-version changelogs or build directories in
-  `slides/`.
-- **Version management**: always create a new version and never overwrite an
-  existing PPTX. Future revisions are not final until explicitly stated.
-- **Never delete pptx files** directly. If deletion is requested, only move to trash after notifying.
-- Start future work from V3 unless the user specifies another source.
-- Read `slides/SLIDES-GUIDE.md` before every slide revision. It is the
-  authoritative source for thesis alignment, cross-page reasoning, aesthetics,
-  known failure cases, QA, and record policy.
-- After slide-content or layout changes, render and inspect every slide. Automated
-  overflow checks do not replace full-size visual review.
-- See `slides/README.md` for the concise file index and recovery information.
+The defense was held on 2026-07-29. The following versions are retained as historical artifacts:
+
+- `thesis-slides-v1.pptx` — retained stable 65-slide defense deck
+- `thesis-slides-v1.4.pptx` — author-reviewed intermediate state
+- `thesis-slides-v2.pptx` — 70-slide pre-compression state
+- `thesis-slides-v3.pptx` — final 69-slide deck with two-page contribution synthesis
+- `slides/NOTE-V3.md` — final speaker notes
+- `slides/README.md` — version index and directory structure
 
 ## Build
 
 ```bash
 latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
-latexmk -xelatex -interaction=nonstopmode -halt-on-error supplementary.tex
-latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex   # second pass for cross-refs
 latexmk -c  # clean auxiliary files
 ```
 
 Compiler: XeLaTeX only. Template files `ustthesis.cls` / `ustthesis.sty` must not be modified.
 
-**Build order**: main must be compiled first (generates `main.aux`), then supplementary (reads `main.aux` for `\ref{}` to chapter labels), then main again (reads `supplementary.aux` for `\ref{}` to appendix labels). Both documents use `xr-hyper` for cross-document references.
+The current `main.tex` is self-contained and has no cross-document reference dependency. `latexmk` performs the required reruns for stable internal references.
 
 ## Structure
 
-- `main.tex` — main thesis (chapters 1–6, publications, bibliography; no appendices)
-- `supplementary.tex` — supplementary material (appendices A–C + own bibliography)
-- `chapters/*.tex` — one file per chapter (00-abstract through 07-publications); `00-acknowledgments-zh.tex` is a Chinese reference draft (not \input{} by main.tex)
-- `appendices/*.tex` — appendix chapters (loaded by `supplementary.tex`, not `main.tex`)
+- `main.tex` — self-contained thesis (chapters 1–6, Appendix A: Full Publication List, then bibliography)
+- `chapters/*.tex` — one file per chapter (00-abstract through 07-publications); `07-publications.tex` is loaded as Appendix A via `\appendix` before the bibliography. `00-acknowledgments.tex` is loaded via `\input{}` inside the `\acknowledgments` environment
+- `appendices/*.tex` — retained migration sources; not loaded by the current thesis build
 - `figures/{gve,mglvr,gmpgr}/` — figures for Ch3, Ch4, Ch5 respectively
 - `references/references.bib` — single consolidated bibliography
-- `STYLE.md` — prose style rules (must read before editing any `.tex`)
-- `TODO.md` — slides preparation checklist
+- `STYLE.md` — prose style rules (archival reference)
+- `TODO.md` — project completion status and known retained items
+
+This project is finalized. `TODO.md` and `README.md` serve as archival records. Do not create additional thesis review or changelog files.
 
 ## LaTeX Conventions
 
-- Floats: prefer `[t]` placement in main text; `[htbp]`/`[ht]` only in appendices.
+- Floats: use `[t]` for figures and tables. A local `[!t]` is permitted only for a near-page-height object that must remain at the top and would otherwise create a sparse preceding page. Verify placement in the rendered PDF because the specifier alone does not ensure proximity or balanced page density.
 - Wide tables: use `tabularx` or `tabular*{\linewidth}`. Never use `resizebox`, `adjustbox`, or `wraptable`.
 - Font scaling: if a table must be smaller, use `\footnotesize` or `\scriptsize` only.
 - Captions: use template default font size. Do not use `\captionof` inside a `figure` environment (use `\caption` instead).
@@ -82,8 +68,8 @@ Read `STYLE.md` before editing prose. Key rules:
 
 | Chapter | Conference | Key Artifacts |
 |---------|-----------|---------------|
-| Ch3 | MM 2026 | UVR framework, GVE model |
-| Ch4 | ECCV 2026 | MG-LVR benchmark, VEterfall |
+| Ch3 | MM 2026 (accepted) | UVR framework, GVE model |
+| Ch4 | AAAI 2027 (submitted) | MG-LVR benchmark, VEterfall |
 | Ch5 | WebConf 2026 | MUIRML metric, HiPANNS |
 
 Source papers live in `../Paper-LaTeX-Projects/` and PDFs in `../Paper-PDFs/`.

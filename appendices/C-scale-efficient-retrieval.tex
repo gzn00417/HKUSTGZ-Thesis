@@ -68,7 +68,7 @@ The neural metric has about $3$ million of learnable parameters.
 For commercial online serving, we deploy our methods for $2$ services with $5$ servers, and activate $165$ and $119$ NVIDIA A30 Tensor Core GPUs, respectively. 
 Detailed GPU equipment of servers is provided in Table~\ref{gmpgr:tab:gpu}.
 
-\begin{table}[htbp]
+\begin{table}[t]
     \centering
     \caption{Number of nodes in HNSW layers for four datasets.}
     \label{gmpgr:tab:nodes}
@@ -84,7 +84,7 @@ Detailed GPU equipment of servers is provided in Table~\ref{gmpgr:tab:gpu}.
     \end{tabular}
 \end{table}
 
-\begin{table}[htbp]
+\begin{table}[t]
     \centering
     \caption{GPU equipment of five servers for two services.}
     \label{gmpgr:tab:gpu}
@@ -107,7 +107,7 @@ Detailed GPU equipment of servers is provided in Table~\ref{gmpgr:tab:gpu}.
 
 Here we analyze the efficiency in terms of inference time and search speed on MVideo and Fresh datasets by scattering results of five methods in Figure~\ref{gmpgr:fig:appendix_efficiency}.
 
-\begin{figure}[htbp]
+\begin{figure}[t]
     \centering
     \subfloat[MVideo]{\includegraphics[width=0.48\linewidth]{figures/gmpgr/efficiency_MVideo.pdf}\label{gmpgr:fig:efficiency_mvideo}}
     \subfloat[Fresh]{\includegraphics[width=0.48\linewidth]{figures/gmpgr/efficiency_Fresh.pdf}\label{gmpgr:fig:efficiency_fresh}}
@@ -119,7 +119,7 @@ Here we analyze the efficiency in terms of inference time and search speed on MV
 
 In this subsection, we conduct a further ablation study by comparing GMP-GR with GMP-GR-P and GMP-GR-M according to the evaluated results by Rec@10 and Rec@100 in Figure~\ref{gmpgr:fig:appendix_ablation}.
 
-\begin{figure}[htbp]
+\begin{figure}[t]
     \centering
     \subfloat[Rec@10]{\includegraphics[width=0.48\linewidth]{figures/gmpgr/ablation_Rec10.pdf}\label{gmpgr:fig:ablation_rec10}}
     \subfloat[Rec@100]{\includegraphics[width=0.48\linewidth]{figures/gmpgr/ablation_Rec100.pdf}\label{gmpgr:fig:ablation_rec100}}

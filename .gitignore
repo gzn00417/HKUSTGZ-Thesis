@@ -48,3 +48,6 @@ slides/~$*.pptx
 # ---- Python build cache ----
 __pycache__/
 *.py[cod]
+
+# ---- Local QA scratch output ----
+/tmp/

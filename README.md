@@ -6,7 +6,7 @@
 
 ## 当前阶段
 
-**论文正文已提交并冻结**，不再修改 chapters 1-7 和 appendices。所有工作集中在 `slides/` 答辩幻灯片。
+**论文已定稿提交，答辩已于 2026年7月29日完成。开发与写作全部结束。** `main.pdf` 为最终提交文件。`slides/` 保留全部答辩幻灯片历史版本，`appendices/` 保留迁移来源不参与构建。
 
 ## 论文概述
 
@@ -16,46 +16,42 @@
 
 ```
 HKUSTGZ-Thesis/
-├── main.tex / supplementary.tex     # 论文编译文件（已冻结）
-├── chapters/ + appendices/          # 章节内容（已冻结）
+├── main.tex                         # 自包含的最终定稿论文
+├── chapters/                        # 论文正文（含原附录核心材料）
+├── appendices/                      # 保留的迁移来源，不参与当前构建
 ├── figures/{gve,mglvr,gmpgr}/       # 论文图片
 ├── references/references.bib        # 参考文献
 ├── AGENTS.md / STYLE.md / TODO.md   # 项目文档
-└── slides/                          # 答辩幻灯片（当前活跃）
-    ├── thesis-slides-v1.pptx        # 稳定的 65 页答辩版本
-    ├── thesis-slides-v1.4.pptx      # 保留的作者批改中间版本
-    ├── thesis-slides-v2.pptx        # 保留的 70 页压缩前版本
-    ├── thesis-slides-v3.pptx        # 当前 69 页工作版本
-    ├── NOTE-V1.md / NOTE-V1.4.md / NOTE-V2.md / NOTE-V3.md
-    ├── HISTORY.md                   # 合并后的版本、修改与 QA 记录
-    ├── SLIDES-GUIDE.md              # 内容、审美、QA 与迭代权威指南
+└── slides/                          # 答辩幻灯片（归档）
+    ├── thesis-slides-v*.pptx        # 全部历史版本（V0.1–V3）
+    ├── NOTE-V3.md                   # 最终讲稿
     ├── figures/                     # 幻灯片使用的 PNG
-    └── README.md                    # 精简版本索引与维护入口
+    └── README.md                    # 版本索引
 ```
 
 ## 编译
 
 ```bash
 latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
-latexmk -xelatex -interaction=nonstopmode -halt-on-error supplementary.tex
-latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex   # 交叉引用
 ```
+
+`main.pdf` 是完整、自包含的正式提交文件，当前为 A4、135 页。原附录 A--C 的实质内容已整合至第 3--5 章，历史迁移源保留在 `appendices/`，但不参与当前构建。
+
+2026-08-18 的终稿检查覆盖全部 135 页、编译日志、引用占位符、链接注释和页面边界。未发现引用失败、缺页、异常空白、内容裁切、重叠、乱码或其他影响提交的严重格式问题。少量编译排版提示经视觉复核后确认不影响成品。
 
 ## 论文与会议论文
 
 | 章节 | 会议 | 核心贡献 |
 |-----|------|---------|
-| Ch3 | MM 2026 | UVR 框架、GVE 模型 |
-| Ch4 | ECCV 2026 | MG-LVR 基准、VEterfall |
+| Ch3 | MM 2026（已接收） | UVR 框架、GVE 模型 |
+| Ch4 | AAAI 2027（已投稿） | MG-LVR 基准、VEterfall |
 | Ch5 | WebConf 2026 | MUIRML 度量、HiPANNS |
 
 ## 相关文件
 
 | 文件 | 说明 |
 |-----|------|
-| [AGENTS.md](AGENTS.md) | AI 助手指令，当前阶段与维护规则 |
-| [STYLE.md](STYLE.md) | 写作风格指南（参考，已冻结） |
-| [TODO.md](TODO.md) | 答辩准备清单 |
-| [slides/README.md](slides/README.md) | 幻灯片版本索引与维护入口 |
-| [slides/SLIDES-GUIDE.md](slides/SLIDES-GUIDE.md) | 幻灯片内容、审美、QA 与长期迭代规则 |
-| [slides/HISTORY.md](slides/HISTORY.md) | 合并后的版本、修改意见与 QA 记录 |
+| [AGENTS.md](AGENTS.md) | AI 助手指令与项目结构 |
+| [STYLE.md](STYLE.md) | 写作风格指南（归档参考） |
+| [TODO.md](TODO.md) | 项目完成状态与已知保留项 |
+| [slides/README.md](slides/README.md) | 幻灯片版本索引 |
