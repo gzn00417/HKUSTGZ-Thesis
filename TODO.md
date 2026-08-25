@@ -11,6 +11,7 @@
 - 格式修正完成：A4 纸张、行距、超链接黑色、目录层级、附录引用等
 - Publication List 已从 Chapter 7 改为 Appendix A
 - 答辩幻灯片 V3 为最终版本，`slides/` 保留全部历史版本
+- 编译中间文件与 `supplementary` 空壳已清理，目录保持精简归档状态
 
 ## 已知保留项（无需修改）
 

@@ -24,7 +24,7 @@ latexmk -c  # clean auxiliary files
 
 Compiler: XeLaTeX only. Template files `ustthesis.cls` / `ustthesis.sty` must not be modified.
 
-The current `main.tex` is self-contained and has no cross-document reference dependency. `latexmk` performs the required reruns for stable internal references.
+The current `main.tex` is self-contained and has no cross-document reference dependency. `latexmk` performs the required reruns for stable internal references. Auxiliary files and the legacy `supplementary` build shell have been removed; rerunning `latexmk` will regenerate them on demand.
 
 ## Structure
 
